@@ -57,7 +57,7 @@ steps:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Visual Studio Enterprise(29701442-c76d-4dc0-a897-42d5f6dd97ed)'
     appType: 'webApp'
-    WebAppName: 'WebApp'
+    WebAppName: 'CegekaAcademy'
     deployToSlotOrASE: true
     ResourceGroupName: 'cegeka-academy'
     SlotName: 'production'
