@@ -61,4 +61,4 @@ steps:
     deployToSlotOrASE: true
     ResourceGroupName: 'cegeka-academy'
     SlotName: 'production'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/CegekaAcademy.Server.zip'
