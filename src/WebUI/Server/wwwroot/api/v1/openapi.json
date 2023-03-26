@@ -857,6 +857,7 @@
           "ConfigureAccessControl",
           "ViewAccessControl",
           "Counter",
+          "Auction",
           "Forecast",
           "Todo",
           "All"
@@ -870,6 +871,7 @@
           16,
           32,
           64,
+          69,
           128,
           256,
           -1
