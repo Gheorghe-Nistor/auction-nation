@@ -13,7 +13,7 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
-        var array = await HttpClient.GetFromJsonAsync<AuctionItemDTO[]>("/auctions");
-        Model = new AuctionItemsVM(array);
+        //var array = await HttpClient.GetFromJsonAsync<AuctionItemDTO[]>("/auctions");
+       // Model = new AuctionItemsVM(array);
     }
 }
