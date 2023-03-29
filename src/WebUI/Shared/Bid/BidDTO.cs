@@ -8,9 +8,8 @@ namespace Cegeka.Auction.WebUI.Shared.Bid;
 
 public class BidDTO
 {
-    public int Id { get; set; }
-    public int ItemId { get; set; }
-    public int UserId { get; set; }
+    public Guid Id { get; set; }
+    public Guid ItemId { get; set; }
     public decimal Amount { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

@@ -11,24 +11,23 @@ namespace Cegeka.Auction.Domain.Entities;
 public class AuctionItem : BaseAuditableEntity
 {
     public int Id { get; set; }
-
     public Guid PublicId { get; set; }
-
-    [Required]
-    [MaxLength(100)]
     public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public List<string> Images { get; set; } = new List<string>();
+    public string Category { get; set; } = string.Empty;
 
-    [Required]
-    public int StartingBidAmount { get; set; } = 0;
+    public decimal StartingBidAmount { get; set; } = 0;
 
-    public int CurrentBidAmount { get; set; }
+    public decimal CurrentBidAmount { get; set; }
 
-    [Required]
-    public DateTime EndTime { get; set; } = DateTime.Now;
+    public decimal BuyItNowPrice { get; set; }
 
-    [Required]
-    [MaxLength(20)]
-    public string ShippingDetails { get; set; } = string.Empty;
+    public decimal ReservePrice { get; set; }
 
-    public ICollection<Bid> BiddingHistory { get; set; } = new List<Bid>();
+    public string DeliveryMethod { get; set; } = string.Empty;
+
+    public string Status { get; set; } = string.Empty;
+
+
 }

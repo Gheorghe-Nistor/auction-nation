@@ -12,7 +12,6 @@ public class Bid : BaseAuditableEntity
     public int Id { get; set; }
     public Guid PublicId { get; set; }
     public int ItemId { get; set; }
-    public int UserId { get; set; }
     public decimal Amount { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

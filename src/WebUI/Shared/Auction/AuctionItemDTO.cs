@@ -12,22 +12,26 @@ public class AuctionItemDTO
 {
     public Guid Id { get; set; }
 
-    [Required]
-    [MaxLength(100, ErrorMessage = "Please make the title shorter")]
     public string Title { get; set; } = string.Empty;
 
-    [Required]
-    public int StartingBidAmount { get; set; } = 0;
+    public string Description { get; set; } = string.Empty;
 
-    public int CurrentBidAmount { get; set; }
+    public List<string> Images { get; set; } = new List<string>();
 
-    [Required]
-    [DataType(DataType.Date)]
+    public string Category { get; set; } = string.Empty;
+
+    public decimal StartingBidAmount { get; set; } = 0;
+
+    public decimal CurrentBidAmount { get; set; }
+
+    public decimal BuyItNowPrice { get; set; }
+
+    public decimal ReservePrice { get; set; }
+
     public DateTime EndTime { get; set; } = DateTime.Now;
 
-    [Required]
-    [MaxLength(20, ErrorMessage = "Please shorten the shipping details")]
-    public string ShippingDetails { get; set; } = string.Empty;
+    public string DeliveryMethod { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
 
     public ICollection<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
 
@@ -36,14 +40,20 @@ public class AuctionItemDTO
 
     }
 
-    public AuctionItemDTO(Guid id, string title = "", int startingBidAmount = 0, int currentBidAmount = 0, DateTime? endTime = null, string shippingDetails = "", List<BidDTO> biddingHistory = null)
+    public AuctionItemDTO(Guid id, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? endTime = null, string deliveryMethod = "", List<BidDTO> biddingHistory = null, string status = "")
     {
         Id = id;
         Title = title;
+        Description = description;
+        Images = images;
+        Category = category;
         StartingBidAmount = startingBidAmount;
         CurrentBidAmount = currentBidAmount;
+        BuyItNowPrice = buyItNowPrice;
+        ReservePrice = reservePrice;
         EndTime = endTime ?? DateTime.Now;
-        ShippingDetails = shippingDetails;
+        DeliveryMethod = deliveryMethod;
+        Status = status;
         BiddingHistory = biddingHistory;
     }
 
