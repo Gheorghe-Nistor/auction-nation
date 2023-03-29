@@ -10,11 +10,15 @@ namespace Cegeka.Auction.WebUI.Shared.Auction;
 
 public class AuctionItemDTO
 {
-    public Guid Id { get; set; }
+    public Guid PublicId { get; set; }
 
     [Required]
     [MaxLength(100, ErrorMessage = "Please make the title shorter")]
     public string Title { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(1000)]
+    public string Description { get; set; } = String.Empty;
 
     [Required]
     public int StartingBidAmount { get; set; } = 0;
@@ -29,22 +33,22 @@ public class AuctionItemDTO
     [MaxLength(20, ErrorMessage = "Please shorten the shipping details")]
     public string ShippingDetails { get; set; } = string.Empty;
 
-    public ICollection<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
+    public ICollection<BidDTO>? BiddingHistory { get; set; } = new List<BidDTO>();
+    public string Status { get; set; } = "active";
 
-    public AuctionItemDTO()
+    public AuctionItemDTO() { }
+
+    public AuctionItemDTO(Guid publicId, string title = "", string description = "", int startingBidAmount = 0, int currentBidAmount = 0, DateTime? endTime = null, string shippingDetails = "", List<BidDTO>? biddingHistory = null, string status = "active")
     {
-
-    }
-
-    public AuctionItemDTO(Guid id, string title = "", int startingBidAmount = 0, int currentBidAmount = 0, DateTime? endTime = null, string shippingDetails = "", List<BidDTO> biddingHistory = null)
-    {
-        Id = id;
+        PublicId = publicId;
         Title = title;
+        Description = description;
         StartingBidAmount = startingBidAmount;
         CurrentBidAmount = currentBidAmount;
-        EndTime = endTime ?? DateTime.Now;
+        EndTime = endTime ?? DateTime.Now.AddDays(30);
         ShippingDetails = shippingDetails;
         BiddingHistory = biddingHistory;
+        Status = status;
     }
 
 }

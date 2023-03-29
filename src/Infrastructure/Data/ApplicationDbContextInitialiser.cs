@@ -54,7 +54,8 @@ public class ApplicationDbContextInitialiser
     public async Task SeedAsync()
     {
         await SeedIdentityAsync();
-        await SeedDataAsync();
+        await SeedTodosAsync();
+        await SeedAuctionsAsync();
     }
 
     private async Task SeedIdentityAsync()
@@ -111,7 +112,7 @@ public class ApplicationDbContextInitialiser
         await _context.SaveChangesAsync();
     }
 
-    private async Task SeedDataAsync()
+    private async Task SeedTodosAsync()
     {
         if (await _context.TodoLists.AnyAsync())
         {
@@ -131,6 +132,32 @@ public class ApplicationDbContextInitialiser
         };
 
         _context.TodoLists.Add(list);
+        await _context.SaveChangesAsync();
+    }
+    private async Task SeedAuctionsAsync()
+    {
+        if (await _context.AuctionItems.AnyAsync())
+        {
+            return;
+        }
+
+        List<AuctionItem> auctions = new List<AuctionItem>()
+        {
+            new AuctionItem {
+                PublicId = new Guid("68d0cbb6-09a6-4c05-a50a-c26d0c0e35b2"),
+                Title = "Military Watch from WWW II", 
+                Description =  "Housed in a positively diminutive (by today's standards, anyway) 30-32mm case, the A-11 was manufactured by famed American watch companies Elgin, Waltham and Bulova according to a standard from the U.S. military.", 
+                StartingBidAmount = 5000
+            },
+            new AuctionItem {
+                PublicId = new Guid("8e6b68e6-9151-4d0b-a8ec-9473a4630c9f"),
+                Title = "WWII ERA WEBLEY MK IV REVOLVER.", 
+                Description = "Blued finish. 6 shot fluted cylinder. Fixed, blade front fixed rear notch sights. Frame marked \"War Finish\" designating British acceptance during WWII.",
+                StartingBidAmount = 10000
+            }
+        };
+
+        _context.AuctionItems.AddRange(auctions);
         await _context.SaveChangesAsync();
     }
 }
