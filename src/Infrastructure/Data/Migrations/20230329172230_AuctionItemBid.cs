@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cegeka.Auction.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAuctionItemBid : Migration
+    public partial class AuctionItemBid : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,11 +21,13 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Images = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     StartingBidAmount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    CurrentBidAmount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    BuyItNowPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    ReservePrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    CurrentBidAmount = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    BuyItNowPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    ReservePrice = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
                     DeliveryMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -45,39 +47,39 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PublicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AuctionItemId = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastModifiedUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
-               constraints: table =>
-               {
-                   table.PrimaryKey("PK_Bids", x => x.Id);
-                   table.ForeignKey(
-                       name: "FK_Bids_AuctionItems_ItemId",
-                       column: x => x.ItemId,
-                       principalTable: "AuctionItems",
-                       principalColumn: "Id",
-                       onDelete: ReferentialAction.Cascade);
-               });
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bids", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bids_AuctionItems_AuctionItemId",
+                        column: x => x.AuctionItemId,
+                        principalTable: "AuctionItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bids_ItemId",
+                name: "IX_Bids_AuctionItemId",
                 table: "Bids",
-                column: "ItemId");
+                column: "AuctionItemId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuctionItems");
+                name: "Bids");
 
             migrationBuilder.DropTable(
-                name: "Bids");
+                name: "AuctionItems");
         }
     }
 }

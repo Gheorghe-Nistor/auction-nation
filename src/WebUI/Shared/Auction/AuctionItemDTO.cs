@@ -28,19 +28,20 @@ public class AuctionItemDTO
 
     public decimal ReservePrice { get; set; }
 
-    public DateTime EndTime { get; set; } = DateTime.Now;
+    public DateTime StartDate { get; set; } = DateTime.Now;
+    public DateTime EndDate { get; set; } 
 
     public string DeliveryMethod { get; set; } = string.Empty;
     public string Status { get; set; } = string.Empty;
 
-    public ICollection<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
+    public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
 
     public AuctionItemDTO()
     {
 
     }
 
-    public AuctionItemDTO(Guid id, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? endTime = null, string deliveryMethod = "", List<BidDTO> biddingHistory = null, string status = "")
+    public AuctionItemDTO(Guid id, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, string deliveryMethod = "", List<BidDTO> biddingHistory = null, string status = "")
     {
         Id = id;
         Title = title;
@@ -51,7 +52,7 @@ public class AuctionItemDTO
         CurrentBidAmount = currentBidAmount;
         BuyItNowPrice = buyItNowPrice;
         ReservePrice = reservePrice;
-        EndTime = endTime ?? DateTime.Now;
+        EndDate = endDate ?? DateTime.Now;
         DeliveryMethod = deliveryMethod;
         Status = status;
         BiddingHistory = biddingHistory;

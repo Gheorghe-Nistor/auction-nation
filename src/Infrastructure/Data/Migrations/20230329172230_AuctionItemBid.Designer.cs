@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cegeka.Auction.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230329154829_Add_AuctionItem_Bid")]
-    partial class AddAuctionItemBid
+    [Migration("20230329172230_AuctionItemBid")]
+    partial class AuctionItemBid
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("BuyItNowPrice")
+                    b.Property<decimal?>("BuyItNowPrice")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Category")
@@ -47,7 +47,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("CurrentBidAmount")
+                    b.Property<decimal?>("CurrentBidAmount")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("DeliveryMethod")
@@ -58,6 +58,9 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Images")
                         .IsRequired()
@@ -72,8 +75,11 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("ReservePrice")
+                    b.Property<decimal?>("ReservePrice")
                         .HasColumnType("decimal(10,2)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("StartingBidAmount")
                         .HasColumnType("decimal(10,2)");
@@ -103,6 +109,9 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<int>("AuctionItemId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -111,9 +120,6 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -125,6 +131,8 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuctionItemId");
 
                     b.ToTable("Bids");
                 });
@@ -558,6 +566,17 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Cegeka.Auction.Domain.Entities.Bid", b =>
+                {
+                    b.HasOne("Cegeka.Auction.Domain.Entities.AuctionItem", "AuctionItem")
+                        .WithMany("BiddingHistory")
+                        .HasForeignKey("AuctionItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AuctionItem");
+                });
+
             modelBuilder.Entity("Cegeka.Auction.Domain.Entities.TodoItem", b =>
                 {
                     b.HasOne("Cegeka.Auction.Domain.Entities.TodoList", "List")
@@ -618,6 +637,11 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Cegeka.Auction.Domain.Entities.AuctionItem", b =>
+                {
+                    b.Navigation("BiddingHistory");
                 });
 
             modelBuilder.Entity("Cegeka.Auction.Domain.Entities.TodoList", b =>
