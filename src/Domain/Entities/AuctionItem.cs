@@ -1,4 +1,5 @@
 ﻿using Cegeka.Auction.Domain.Common;
+using Cegeka.Auction.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,9 +28,9 @@ public class AuctionItem : BaseAuditableEntity
 
     public decimal? ReservePrice { get; set; }
 
-    public string DeliveryMethod { get; set; } = string.Empty;
+    public DeliveryMethod DeliveryMethod { get; set; }
 
-    public string Status { get; set; } = string.Empty;
+    public Status Status { get; set; } 
 
     public List<Bid> BiddingHistory { get; set; } = new List<Bid>();
 

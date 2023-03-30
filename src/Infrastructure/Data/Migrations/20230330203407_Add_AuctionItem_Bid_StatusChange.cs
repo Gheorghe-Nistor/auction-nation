@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cegeka.Auction.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AuctionItemBid : Migration
+    public partial class AddAuctionItemBidStatusChange : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,8 +28,8 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     CurrentBidAmount = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
                     BuyItNowPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
                     ReservePrice = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
-                    DeliveryMethod = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryMethod = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),

@@ -24,8 +24,8 @@ public class Mapping
             ReservePrice = entity.ReservePrice,
             StartDate= entity.StartDate,
             EndDate = entity.EndDate,
-            DeliveryMethod = entity.DeliveryMethod,
-            Status = entity.Status,
+            //DeliveryMethod = entity.DeliveryMethod,
+            //Status = entity.Status,
             //BiddingHistory = entity.BiddingHistory,           // TODO: make conversion viable
         };
     }

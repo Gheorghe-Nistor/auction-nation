@@ -47,9 +47,8 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<decimal?>("CurrentBidAmount")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<string>("DeliveryMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DeliveryMethod")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -81,9 +80,8 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<decimal>("StartingBidAmount")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
