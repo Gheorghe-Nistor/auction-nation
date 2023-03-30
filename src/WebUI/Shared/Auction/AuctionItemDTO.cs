@@ -1,10 +1,10 @@
-﻿using Cegeka.Auction.WebUI.Shared.Bid;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cegeka.Auction.WebUI.Shared.Bid;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction;
 
@@ -22,11 +22,11 @@ public class AuctionItemDTO
 
     public decimal StartingBidAmount { get; set; } = 0;
 
-    public decimal CurrentBidAmount { get; set; }
+    public decimal? CurrentBidAmount { get; set; }
 
-    public decimal BuyItNowPrice { get; set; }
+    public decimal? BuyItNowPrice { get; set; }
 
-    public decimal ReservePrice { get; set; }
+    public decimal? ReservePrice { get; set; }
 
     public DateTime StartDate { get; set; } = DateTime.Now;
     public DateTime EndDate { get; set; } 

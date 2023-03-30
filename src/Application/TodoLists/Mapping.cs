@@ -11,7 +11,5 @@ public class Mapping : Profile
     {
         CreateMap<TodoList, TodoListDto>();
         CreateMap<TodoItem, TodoItemDto>();
-        CreateMap<AuctionItem, AuctionItemDTO>();
-        CreateMap<Bid, BidDTO>();
     }
 }

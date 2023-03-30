@@ -31,7 +31,7 @@ public class AuctionItem : BaseAuditableEntity
 
     public string Status { get; set; } = string.Empty;
 
-    public List<Bid> BiddingHistory { get; set; } = null!;
+    public List<Bid> BiddingHistory { get; set; } = new List<Bid>();
 
 
 }
