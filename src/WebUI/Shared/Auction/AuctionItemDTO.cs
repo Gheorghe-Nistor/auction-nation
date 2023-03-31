@@ -21,9 +21,9 @@ public class AuctionItemDTO
     public string Description { get; set; } = String.Empty;
 
     [Required]
-    public int StartingBidAmount { get; set; } = 0;
+    public decimal StartingBidAmount { get; set; } = 0;
 
-    public int CurrentBidAmount { get; set; }
+    public decimal CurrentBidAmount { get; set; }
 
     [Required]
     [DataType(DataType.Date)]
@@ -38,7 +38,7 @@ public class AuctionItemDTO
 
     public AuctionItemDTO() { }
 
-    public AuctionItemDTO(Guid publicId, string title = "", string description = "", int startingBidAmount = 0, int currentBidAmount = 0, DateTime? endTime = null, string shippingDetails = "", List<BidDTO>? biddingHistory = null, string status = "active")
+    public AuctionItemDTO(Guid publicId, string title = "", string description = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, DateTime? endTime = null, string shippingDetails = "", List<BidDTO>? biddingHistory = null, string status = "active")
     {
         PublicId = publicId;
         Title = title;

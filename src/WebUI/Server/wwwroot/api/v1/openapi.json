@@ -12,6 +12,55 @@
           "AuctionItems"
         ],
         "operationId": "AuctionItems_GetAuctionItems",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Category",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "MinAmount",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "decimal",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "MaxAmount",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "decimal",
+              "nullable": true
+            },
+            "x-position": 5
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -662,7 +711,7 @@
           "shippingDetails"
         ],
         "properties": {
-          "id": {
+          "publicId": {
             "type": "string",
             "format": "guid"
           },
@@ -677,12 +726,12 @@
             "minLength": 1
           },
           "startingBidAmount": {
-            "type": "integer",
-            "format": "int32"
+            "type": "number",
+            "format": "decimal"
           },
           "currentBidAmount": {
-            "type": "integer",
-            "format": "int32"
+            "type": "number",
+            "format": "decimal"
           },
           "endTime": {
             "type": "string",
@@ -696,6 +745,7 @@
           },
           "biddingHistory": {
             "type": "array",
+            "nullable": true,
             "items": {
               "$ref": "#/components/schemas/BidDTO"
             }

@@ -28,11 +28,11 @@ namespace Cegeka.Auction.WebUI.Client
     public partial interface IAuctionItemsClient
     {
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync();
+        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(string search, string category, string status, decimal? minAmount, decimal? maxAmount);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(string search, string category, string status, decimal? minAmount, decimal? maxAmount, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -64,17 +64,38 @@ namespace Cegeka.Auction.WebUI.Client
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync()
+        public virtual System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(string search, string category, string status, decimal? minAmount, decimal? maxAmount)
         {
-            return GetAuctionItemsAsync(System.Threading.CancellationToken.None);
+            return GetAuctionItemsAsync(search, category, status, minAmount, maxAmount, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(string search, string category, string status, decimal? minAmount, decimal? maxAmount, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/AuctionItems");
+            urlBuilder_.Append("api/AuctionItems?");
+            if (search != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("Search") + "=").Append(System.Uri.EscapeDataString(ConvertToString(search, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (category != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("Category") + "=").Append(System.Uri.EscapeDataString(ConvertToString(category, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (status != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("Status") + "=").Append(System.Uri.EscapeDataString(ConvertToString(status, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (minAmount != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("MinAmount") + "=").Append(System.Uri.EscapeDataString(ConvertToString(minAmount, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (maxAmount != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("MaxAmount") + "=").Append(System.Uri.EscapeDataString(ConvertToString(maxAmount, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
 
             var client_ = _httpClient;
             var disposeClient_ = false;

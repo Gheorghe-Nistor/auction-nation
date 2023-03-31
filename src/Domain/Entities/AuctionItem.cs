@@ -23,9 +23,9 @@ public class AuctionItem : BaseAuditableEntity
     public string Description { get; set; } = String.Empty;
 
     [Required]
-    public int StartingBidAmount { get; set; } = 0;
+    public decimal StartingBidAmount { get; set; }
 
-    public int CurrentBidAmount { get; set; }
+    public decimal? CurrentBidAmount { get; set; }
 
     public DateTime EndTime { get; set; } = DateTime.Now.AddDays(30);
 

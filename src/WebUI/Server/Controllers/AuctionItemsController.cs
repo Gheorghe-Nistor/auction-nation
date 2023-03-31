@@ -10,8 +10,8 @@ public class AuctionItemsController : ApiControllerBase
 {
     // GET: api/AuctionItems
     [HttpGet]
-    public async Task<ActionResult<AuctionItemsVM>> GetAuctionItems()
+    public async Task<ActionResult<AuctionItemsVM>> GetAuctionItems([FromQuery] AuctionFilterDTO filter)
     {
-        return await Mediator.Send(new GetAuctionItemsQuery());
+        return await Mediator.Send(new GetAuctionItemsQuery(filter));
     }
 }
