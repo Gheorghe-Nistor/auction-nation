@@ -6,6 +6,7 @@ public class Mapping : Profile
 {
     public Mapping()
     {
-        CreateMap<Bid, BidDTO>();
+        CreateMap<Bid, BidDTO>()
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PublicId));
     }
 }

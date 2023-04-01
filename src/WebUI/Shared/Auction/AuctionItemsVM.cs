@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 namespace Cegeka.Auction.WebUI.Shared.Auction;
 public class AuctionItemsVM
 {
-    public IList<AuctionItemDTO> Auctions { get; set; } = new List<AuctionItemDTO>();
+    // TODO: add PriorityLevels list
+
+    public List<AuctionItemDTO> Auctions { get; set; } = new List<AuctionItemDTO>();
 
     public AuctionItemsVM() { }
 
-    public AuctionItemsVM(IList<AuctionItemDTO> auctions)
+    public AuctionItemsVM(List<AuctionItemDTO> auctions)
     {
         Auctions = auctions;
     }

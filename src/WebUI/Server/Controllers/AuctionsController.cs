@@ -1,4 +1,5 @@
 ﻿using Cegeka.Auction.Application.AuctionItems;
+using Cegeka.Auction.Application.AuctionItems.Queries;
 using Cegeka.Auction.Application.Common.Services.Data;
 using Cegeka.Auction.Application.Users.Queries;
 using Cegeka.Auction.Domain.Entities;
@@ -13,22 +14,34 @@ using Microsoft.EntityFrameworkCore;
 namespace Cegeka.Auction.WebUI.Server.Controllers;
 
 // TODO: de mostenit ApiControllerBase - vezi TodoItemsController
-[Route("api/[controller]")]
-public class AuctionsController : Controller
-{
-    private readonly IApplicationDbContext _context;
-    public AuctionsController(IApplicationDbContext context)
-    {
-        _context = context;
-    }
+//[Route("api/[controller]")]
+//public class AuctionsController : Controller
+//{
+//    private readonly IApplicationDbContext _context;
+//    public AuctionsController(IApplicationDbContext context)
+//    {
+//        _context = context;
+//    }
 
-    // TODO: authorization
+//    // TODO: authorization
+//    // GET: api/auctions
+//    //[HttpGet]
+//    //public Task<AuctionItemDTO[]> GetAuctionItems()
+//    //{
+//    //    return _context.AuctionItems.Select(item => Mapping.DTOFromEntity(item)).ToArrayAsync();
+//    //}
+
+
+//}
+
+
+[Route("api/[controller]")]
+public class AuctionsController : ApiControllerBase
+{
     // GET: api/auctions
     [HttpGet]
-    public Task<AuctionItemDTO[]> GetAuctionItems()
+    public async Task<ActionResult<AuctionItemsVM>> GetAuctions()
     {
-        return _context.AuctionItems.Select(item => Mapping.DTOFromEntity(item)).ToArrayAsync();
+        return await Mediator.Send(new GetAuctionItemsQuery());
     }
-
-
 }
