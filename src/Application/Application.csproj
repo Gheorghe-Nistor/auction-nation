@@ -9,12 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AuctionItems\Commands\**" />
-    <EmbeddedResource Remove="AuctionItems\Commands\**" />
-    <None Remove="AuctionItems\Commands\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.4.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />

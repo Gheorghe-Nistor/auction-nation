@@ -16,7 +16,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<AuctionItem> builder)
         {
             builder.Property(t => t.Title)
-                .HasMaxLength(200)
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(t => t.Description)
@@ -24,6 +24,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Configurations
                 .IsRequired();
 
             builder.Property(t => t.Category)
+                .IsRequired()
                 .HasMaxLength(50);
 
             builder.Property(t => t.Images)
