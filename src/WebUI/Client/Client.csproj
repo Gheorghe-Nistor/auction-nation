@@ -24,4 +24,9 @@
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Auction\AllAuctions\" />
+    <Folder Include="Pages\Auction\MyBids\" />
+  </ItemGroup>
+
 </Project>

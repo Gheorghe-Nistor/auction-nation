@@ -3,7 +3,7 @@ using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http.Json;
 
-namespace Cegeka.Auction.WebUI.Client.Pages.Auction;
+namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
 public partial class Index
 {
