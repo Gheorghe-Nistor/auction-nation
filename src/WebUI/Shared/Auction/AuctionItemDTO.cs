@@ -50,16 +50,17 @@ public class AuctionItemDTO
 
     public AuctionItemDTO(int id, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default)
     {
-        Id = id;
+        PublicId = publicId;
         Title = title;
         Description = description;
         Images = images;
         Category = category;
+        Description = description;
         StartingBidAmount = startingBidAmount;
         CurrentBidAmount = currentBidAmount;
         BuyItNowPrice = buyItNowPrice;
         ReservePrice = reservePrice;
-        EndDate = endDate ?? DateTime.Now;
+        EndDate = endDate ?? DateTime.Now.AddDays(30);
         DeliveryMethod = deliveryMethod;
         BiddingHistory = biddingHistory;
         Status = status;

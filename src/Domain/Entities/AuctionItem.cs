@@ -12,13 +12,11 @@ public class AuctionItem : BaseAuditableEntity
 
     [Required]
     [MaxLength(100)]
-    public string Title { get; set; }
+    public string Title { get; set; } = String.Empty;
 
     [Required]
-    [MaxLength(500)]
-    public string Description { get; set; }
-
-    [Required]
+    [MaxLength(1000)]
+    public string Description { get; set; } = String.Empty;
     [MinLength(1)]
     public List<string> Images { get; set; } = new List<string>();
 
@@ -34,10 +32,14 @@ public class AuctionItem : BaseAuditableEntity
     [Required]
     public decimal StartingBidAmount { get; set; }
 
+    public decimal? CurrentBidAmount { get; set; }
+
+    public decimal StartingBidAmount { get; set; }
+
     public decimal? CurrentBidAmount { get; set; } = 0;
 
     [GreaterThanDecimal(nameof(StartingBidAmount))]
-    public decimal? BuyItNowPrice { get; set; }
+    public decimal? BuyItNow.AddDays(30)Price { get; set; }
 
     [GreaterThanDecimal(nameof(StartingBidAmount))]
     public decimal? ReservePrice { get; set; }
