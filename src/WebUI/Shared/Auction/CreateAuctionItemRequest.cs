@@ -52,7 +52,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
                 .GreaterThan(v => v.StartingBidAmount).WithMessage("Please increase the price.");
 
             RuleFor(v => v.ReservePrice)
-                .GreaterThan(v => v.StartingBidAmount).WithMessage("Please increase the price.");
+                .GreaterThan(v => v.StartingBidAmount).WithMessage("Please increase the price."); 
 
             RuleFor(v => v.DeliveryMethod)
                 .NotEmpty().WithMessage("This field is required.");
