@@ -4,6 +4,7 @@ using Cegeka.Auction.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cegeka.Auction.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230329113849_AuctionItemAndBid")]
+    partial class AuctionItemAndBid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,8 +39,8 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("CurrentBidAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("CurrentBidAmount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -61,8 +64,8 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("StartingBidAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("StartingBidAmount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()

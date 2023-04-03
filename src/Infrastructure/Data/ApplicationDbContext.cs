@@ -29,6 +29,10 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser, A
 
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
 
+    public DbSet<AuctionItem> AuctionItems => Set<AuctionItem>();
+
+    public DbSet<Bid> Bids => Set<Bid>();
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 

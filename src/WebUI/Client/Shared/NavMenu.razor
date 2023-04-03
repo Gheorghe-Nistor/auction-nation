@@ -14,6 +14,13 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+		<FlexibleAuthorizeView Permissions="@Permissions.Auction">
+			<div class="nav-item px-3">
+				<NavLink class="nav-link" href="auctions">
+					<span class="oi oi-script" aria-hidden="true"></span> Auctions
+				</NavLink>
+			</div>
+		</FlexibleAuthorizeView>
         <FlexibleAuthorizeView Permissions="@Permissions.Counter">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="counter">

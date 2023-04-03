@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cegeka.Auction.Application.Common.Services.Data;
 using Cegeka.Auction.Domain.Entities;
+using Cegeka.Auction.WebUI.Shared.TodoItems;
 using Cegeka.Auction.WebUI.Shared.TodoLists;
 using System.Runtime.Serialization;
 

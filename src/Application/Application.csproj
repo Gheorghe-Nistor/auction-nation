@@ -23,4 +23,8 @@
     <ProjectReference Include="..\WebUI\Shared\Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="AuctionItems\Commands\" />
+  </ItemGroup>
+
 </Project>
