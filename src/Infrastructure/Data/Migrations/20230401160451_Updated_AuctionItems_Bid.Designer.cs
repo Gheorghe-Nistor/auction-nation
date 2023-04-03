@@ -4,6 +4,7 @@ using Cegeka.Auction.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cegeka.Auction.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230401160451_Updated_AuctionItems_Bid")]
+    partial class UpdatedAuctionItemsBid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,6 +70,9 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("LastModifiedUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PublicId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("ReservePrice")
                         .HasColumnType("decimal(10,2)");

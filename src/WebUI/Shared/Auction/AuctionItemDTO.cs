@@ -1,54 +1,68 @@
 ﻿using Cegeka.Auction.WebUI.Shared.Bid;
-using System;
-using System.Collections.Generic;
+using Cegeka.Auction.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Cegeka.Auction.Domain.CompareAttributes;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction;
 
 public class AuctionItemDTO
 {
-    public Guid PublicId { get; set; }
+    public int Id { get; set; }
 
-    [Required]
-    [MaxLength(100, ErrorMessage = "Please make the title shorter")]
-    public string Title { get; set; } = string.Empty;
+    [Required(ErrorMessage = "This field is required.")]
+    [MaxLength(100, ErrorMessage = "Please make the title shorter.")]
+    public string Title { get; set; }
 
-    [Required]
-    [MaxLength(1000)]
-    public string Description { get; set; } = String.Empty;
+    [Required(ErrorMessage = "This field is required.")]
+    [MaxLength(500, ErrorMessage = "Please make the description shorter.")]
+    public string Description { get; set; }
 
-    [Required]
-    public decimal StartingBidAmount { get; set; } = 0;
+    [Required(ErrorMessage = "The images list cannot be empty.")]
+    [MinLength(1, ErrorMessage = "Please add at least one picture.")]
+    public List<string> Images { get; set; } = new List<string>();
 
-    public decimal CurrentBidAmount { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.Now;
 
-    [Required]
-    [DataType(DataType.Date)]
-    public DateTime EndTime { get; set; } = DateTime.Now;
+    [GreaterThanOrEqualToDate(nameof(StartDate), ErrorMessage = "Please choose a date in the future.")]
+    public DateTime EndDate { get; set; } = DateTime.Now;
 
-    [Required]
-    [MaxLength(20, ErrorMessage = "Please shorten the shipping details")]
-    public string ShippingDetails { get; set; } = string.Empty;
+    [Required(ErrorMessage = "This field is required.")]
+    [MaxLength(50, ErrorMessage = "Please write a shorter category name.")]
+    public string Category { get; set; }
 
-    public ICollection<BidDTO>? BiddingHistory { get; set; } = new List<BidDTO>();
-    public string Status { get; set; } = "active";
+    [Required(ErrorMessage = "This field is required.")]
+    public decimal StartingBidAmount { get; set; }
 
-    public AuctionItemDTO() { }
+    public decimal? CurrentBidAmount { get; set; } = 0;
 
-    public AuctionItemDTO(Guid publicId, string title = "", string description = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, DateTime? endTime = null, string shippingDetails = "", List<BidDTO>? biddingHistory = null, string status = "active")
+    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
+    public decimal? BuyItNowPrice { get; set; }
+
+    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
+    public decimal? ReservePrice { get; set; }
+
+    [Required(ErrorMessage = "This field is required.")]
+    public DeliveryMethod DeliveryMethod { get; set; }
+
+    public Status Status { get; set; }
+
+    public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
+
+    public AuctionItemDTO(int id, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default)
     {
         PublicId = publicId;
         Title = title;
         Description = description;
+        Images = images;
+        Category = category;
+        Description = description;
         StartingBidAmount = startingBidAmount;
         CurrentBidAmount = currentBidAmount;
-        EndTime = endTime ?? DateTime.Now.AddDays(30);
-        ShippingDetails = shippingDetails;
+        BuyItNowPrice = buyItNowPrice;
+        ReservePrice = reservePrice;
+        EndDate = endDate ?? DateTime.Now.AddDays(30);
+        DeliveryMethod = deliveryMethod;
         BiddingHistory = biddingHistory;
         Status = status;
     }
-
 }

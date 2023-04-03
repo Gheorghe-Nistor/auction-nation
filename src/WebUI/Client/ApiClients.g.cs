@@ -25,24 +25,24 @@ namespace Cegeka.Auction.WebUI.Client
     using System = global::System;
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial interface IAuctionItemsClient
+    public partial interface IAuctionsClient
     {
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(string search, string category, string status, decimal? minAmount, decimal? maxAmount);
+        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync();
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(string search, string category, string status, decimal? minAmount, decimal? maxAmount, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(System.Threading.CancellationToken cancellationToken);
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.18.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class AuctionItemsClient : IAuctionItemsClient
+    public partial class AuctionsClient : IAuctionsClient
     {
         private System.Net.Http.HttpClient _httpClient;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public AuctionItemsClient(System.Net.Http.HttpClient httpClient)
+        public AuctionsClient(System.Net.Http.HttpClient httpClient)
         {
             _httpClient = httpClient;
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
@@ -64,38 +64,17 @@ namespace Cegeka.Auction.WebUI.Client
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(string search, string category, string status, decimal? minAmount, decimal? maxAmount)
+        public virtual System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync()
         {
-            return GetAuctionItemsAsync(search, category, status, minAmount, maxAmount, System.Threading.CancellationToken.None);
+            return GetAuctionsAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionItemsAsync(string search, string category, string status, decimal? minAmount, decimal? maxAmount, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/AuctionItems?");
-            if (search != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("Search") + "=").Append(System.Uri.EscapeDataString(ConvertToString(search, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (category != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("Category") + "=").Append(System.Uri.EscapeDataString(ConvertToString(category, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (status != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("Status") + "=").Append(System.Uri.EscapeDataString(ConvertToString(status, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (minAmount != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("MinAmount") + "=").Append(System.Uri.EscapeDataString(ConvertToString(minAmount, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (maxAmount != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("MaxAmount") + "=").Append(System.Uri.EscapeDataString(ConvertToString(maxAmount, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/Auctions");
 
             var client_ = _httpClient;
             var disposeClient_ = false;

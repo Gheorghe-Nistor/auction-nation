@@ -1,18 +1,14 @@
 ﻿using Cegeka.Auction.Domain.Common;
-using System;
-using System.Collections.Generic;
+using Cegeka.Auction.Domain.CompareAttributes;
+using Cegeka.Auction.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cegeka.Auction.Domain.Entities;
 
 public class AuctionItem : BaseAuditableEntity
 {
     public int Id { get; set; }
-
-    public Guid PublicId { get; set; }
+    //public Guid PublicId { get; set; }
 
     [Required]
     [MaxLength(100)]
@@ -21,19 +17,37 @@ public class AuctionItem : BaseAuditableEntity
     [Required]
     [MaxLength(1000)]
     public string Description { get; set; } = String.Empty;
+    [MinLength(1)]
+    public List<string> Images { get; set; } = new List<string>();
+
+    public DateTime StartDate { get; set; } = DateTime.Now;
+
+    [GreaterThanOrEqualToDate(nameof(StartDate))]
+    public DateTime EndDate { get; set; } = DateTime.Now;
+
+    [Required]
+    [MaxLength(50)]
+    public string Category { get; set; }
 
     [Required]
     public decimal StartingBidAmount { get; set; }
 
     public decimal? CurrentBidAmount { get; set; }
 
-    public DateTime EndTime { get; set; } = DateTime.Now.AddDays(30);
+    public decimal StartingBidAmount { get; set; }
+
+    public decimal? CurrentBidAmount { get; set; } = 0;
+
+    [GreaterThanDecimal(nameof(StartingBidAmount))]
+    public decimal? BuyItNow.AddDays(30)Price { get; set; }
+
+    [GreaterThanDecimal(nameof(StartingBidAmount))]
+    public decimal? ReservePrice { get; set; }
 
     [Required]
-    [MaxLength(100)]
-    public string ShippingDetails { get; set; } = String.Empty;
+    public DeliveryMethod DeliveryMethod { get; set; }
 
-    public ICollection<Bid> BiddingHistory { get; set; } = new List<Bid>();
+    public Status Status { get; set; }
 
-    public string Status { get; set; } = "active";
+    public List<Bid> BiddingHistory { get; set; } = new List<Bid>();
 }
