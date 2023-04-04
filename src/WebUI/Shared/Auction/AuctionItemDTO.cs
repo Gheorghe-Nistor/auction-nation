@@ -21,10 +21,12 @@ public class AuctionItemDTO
     [MinLength(1, ErrorMessage = "Please add at least one picture.")]
     public List<string> Images { get; set; } = new List<string>();
 
-    public DateTime StartDate { get; set; } = DateTime.Now;
+    [Required(ErrorMessage = "This field is required.")]
+    public DateTime StartDate { get; set; }
 
+    [Required(ErrorMessage = "This field is required.")]
     [GreaterThanOrEqualToDate(nameof(StartDate), ErrorMessage = "Please choose a date in the future.")]
-    public DateTime EndDate { get; set; } = DateTime.Now;
+    public DateTime EndDate { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
     [MaxLength(50, ErrorMessage = "Please write a shorter category name.")]
@@ -33,13 +35,15 @@ public class AuctionItemDTO
     [Required(ErrorMessage = "This field is required.")]
     public decimal StartingBidAmount { get; set; }
 
-    public decimal? CurrentBidAmount { get; set; } = 0;
+    public decimal CurrentBidAmount { get; set; } = 0;
 
+    [Required]
     [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
-    public decimal? BuyItNowPrice { get; set; }
+    public decimal BuyItNowPrice { get; set; }
 
+    [Required]
     [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
-    public decimal? ReservePrice { get; set; }
+    public decimal ReservePrice { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
     public DeliveryMethod DeliveryMethod { get; set; }
@@ -59,6 +63,7 @@ public class AuctionItemDTO
         CurrentBidAmount = currentBidAmount;
         BuyItNowPrice = buyItNowPrice;
         ReservePrice = reservePrice;
+        StartDate = (DateTime)startDate;
         EndDate = endDate ?? DateTime.Now;
         DeliveryMethod = deliveryMethod;
         BiddingHistory = biddingHistory;

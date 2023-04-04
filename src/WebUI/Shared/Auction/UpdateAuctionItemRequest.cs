@@ -24,13 +24,13 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public decimal StartingBidAmount { get; set; } = 0;
 
-        public decimal? CurrentBidAmount { get; set; }
+        public decimal CurrentBidAmount { get; set; }
 
-        public decimal? BuyItNowPrice { get; set; }
+        public decimal BuyItNowPrice { get; set; }
 
-        public decimal? ReservePrice { get; set; }
+        public decimal ReservePrice { get; set; }
 
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
         public int DeliveryMethod { get; set; }

@@ -22,10 +22,12 @@ public class AuctionItem : BaseAuditableEntity
     [MinLength(1)]
     public List<string> Images { get; set; } = new List<string>();
 
-    public DateTime StartDate { get; set; } = DateTime.Now;
+    [Required]
+    public DateTime StartDate { get; set; }
 
+    [Required]
     [GreaterThanOrEqualToDate(nameof(StartDate))]
-    public DateTime EndDate { get; set; } = DateTime.Now;
+    public DateTime EndDate { get; set; }
 
     [Required]
     [MaxLength(50)]
@@ -34,13 +36,15 @@ public class AuctionItem : BaseAuditableEntity
     [Required]
     public decimal StartingBidAmount { get; set; }
 
-    public decimal? CurrentBidAmount { get; set; } = 0;
+    public decimal CurrentBidAmount { get; set; } = 0;
 
+    [Required]
     [GreaterThanDecimal(nameof(StartingBidAmount))]
-    public decimal? BuyItNowPrice { get; set; }
+    public decimal BuyItNowPrice { get; set; }
 
+    [Required]
     [GreaterThanDecimal(nameof(StartingBidAmount))]
-    public decimal? ReservePrice { get; set; }
+    public decimal ReservePrice { get; set; }
 
     [Required]
     public DeliveryMethod DeliveryMethod { get; set; }
