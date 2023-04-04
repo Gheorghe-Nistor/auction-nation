@@ -17,8 +17,6 @@ public class AuctionItemDTO
     [MaxLength(500, ErrorMessage = "Please make the description shorter.")]
     public string Description { get; set; }
 
-    [Required(ErrorMessage = "The images list cannot be empty.")]
-    [MinLength(1, ErrorMessage = "Please add at least one picture.")]
     public List<string> Images { get; set; } = new List<string>();
 
     [Required(ErrorMessage = "This field is required.")]

@@ -72,9 +72,6 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
             RuleFor(v => v.EndDate)
                 .GreaterThanOrEqualTo(v => v.StartDate);
-
-            RuleFor(v => v.Images)
-                .NotEmpty().WithMessage("Please add at least one picture.");
         }
     }    
 }

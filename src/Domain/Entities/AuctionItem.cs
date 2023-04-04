@@ -18,8 +18,6 @@ public class AuctionItem : BaseAuditableEntity
     [MaxLength(500)]
     public string Description { get; set; }
 
-    [Required]
-    [MinLength(1)]
     public List<string> Images { get; set; } = new List<string>();
 
     [Required]

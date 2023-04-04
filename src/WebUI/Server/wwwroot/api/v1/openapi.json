@@ -690,7 +690,6 @@
         "required": [
           "title",
           "description",
-          "images",
           "startDate",
           "endDate",
           "category",
@@ -716,7 +715,6 @@
           },
           "images": {
             "type": "array",
-            "minItems": 1,
             "items": {
               "type": "string"
             }

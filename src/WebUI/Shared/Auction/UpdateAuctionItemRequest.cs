@@ -62,9 +62,6 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
             RuleFor(v => v.EndDate)
                 .GreaterThanOrEqualTo(v => v.StartDate).WithMessage("Please choose a date in the future.");
-
-            RuleFor(v => v.Images)
-                .NotEmpty();
         }
     }
 }
