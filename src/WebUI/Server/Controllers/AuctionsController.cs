@@ -15,12 +15,11 @@ public class AuctionsController : ApiControllerBase
         return await Mediator.Send(new GetAuctionItemsQuery());
     }
 
-    // TODO add /new path
-    // POST: api/auctions
-    [HttpPost]
-    public async Task<ActionResult<int>> AddAuction(
-        CreateAuctionItemRequest request)
+    // POST: api/auctions/new
+    [HttpPost("new")]
+    public async Task<ActionResult<int>> AddAuction(AuctionItemDTO newAuctionItem)
     {
+        CreateAuctionItemRequest request = new CreateAuctionItemRequest(newAuctionItem);
         return await Mediator.Send(new CreateAuctionItemCommand(request));
     }
 }

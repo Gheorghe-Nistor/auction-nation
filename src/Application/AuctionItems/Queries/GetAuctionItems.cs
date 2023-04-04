@@ -1,11 +1,4 @@
-﻿using Cegeka.Auction.Domain.Enums;
-using Cegeka.Auction.WebUI.Shared.Auction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Cegeka.Auction.WebUI.Shared.Auction;
 
 namespace Cegeka.Auction.Application.AuctionItems.Queries;
 

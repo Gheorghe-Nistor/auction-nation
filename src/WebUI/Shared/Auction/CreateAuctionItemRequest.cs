@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Cegeka.Auction.Domain.Enums;
+using FluentValidation;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction
 {
@@ -19,8 +20,25 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public decimal ReservePrice { get; set; }
 
-        public int DeliveryMethod { get; set; }
+        public DeliveryMethod DeliveryMethod { get; set; }
 
+        public Status Status { get; set; }
+
+        public CreateAuctionItemRequest(AuctionItemDTO newAuctionItem)
+        {
+            Title = newAuctionItem.Title;
+            Description = newAuctionItem.Description;
+            Images = newAuctionItem.Images;
+            StartDate = newAuctionItem.StartDate;
+            EndDate = newAuctionItem.EndDate;
+            Category = newAuctionItem.Category;
+            StartingBidAmount= newAuctionItem.StartingBidAmount;
+            CurrentBidAmount = newAuctionItem.CurrentBidAmount;
+            BuyItNowPrice = newAuctionItem.BuyItNowPrice;
+            ReservePrice = newAuctionItem.ReservePrice;
+            DeliveryMethod = newAuctionItem.DeliveryMethod;
+            Status = newAuctionItem.Status;
+        }
     }
 
     public class CreateAuctionItemRequestValidator

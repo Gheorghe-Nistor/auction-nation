@@ -9,10 +9,10 @@
 
 @if (Model == null) return;
 
-@*<a href="@($"auctions/{item.Id.ToString()}")" class="btn btn-primary table-btn" data-toggle="tooltip" data-placement="bottom" title="Add">
-	<i class="oi oi-book">Add new</i>
-</a>*@
-
+<a href="@($"auctions/new")" class="btn btn-success table-btn" data-toggle="tooltip" data-placement="bottom" title="Add">
+	<i class="oi oi-book"></i> Add new
+</a>
+ 
 <table class="table table-striped table-hover w-75">
 	<thead>
 		<tr>
@@ -42,11 +42,11 @@
 				</td>
 				<td>
 					<a href="@($"auctions/{item.Id.ToString()}")" class="btn btn-primary table-btn" data-toggle="tooltip" data-placement="bottom" title="Edit">
-                        <i class="fas fa-edit">Edit</i>
+						Edit
                     </a>
-                   @* <a href="#" class="btn btn-danger table-btn" @onclick="@(() => DeleteTodo(item))" data-toggle="tooltip" data-placement="bottom" title="Delete">
-                        <i class="fas fa-trash">Delete</i>
-                    </a>*@
+                    <a href="#" class="btn btn-danger table-btn" @*@onclick="@(() => DeleteTodo(item))"*@ data-toggle="tooltip" data-placement="bottom" title="Delete">
+                        Delete
+                    </a>
 				</td>
 			</tr>
 		}

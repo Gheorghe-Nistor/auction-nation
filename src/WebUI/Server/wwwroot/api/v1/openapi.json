@@ -24,18 +24,20 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/Auctions/new": {
       "post": {
         "tags": [
           "Auctions"
         ],
         "operationId": "Auctions_AddAuction",
         "requestBody": {
-          "x-name": "request",
+          "x-name": "newAuctionItem",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateAuctionItemRequest"
+                "$ref": "#/components/schemas/AuctionItemDTO"
               }
             }
           },
@@ -817,55 +819,6 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
-          }
-        }
-      },
-      "CreateAuctionItemRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "category": {
-            "type": "string"
-          },
-          "startingBidAmount": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "currentBidAmount": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "buyItNowPrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "reservePrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "deliveryMethod": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
