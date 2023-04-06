@@ -1,4 +1,5 @@
-﻿using Cegeka.Auction.WebUI.Shared.Bid;
+﻿using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Shared.Bid;
 using FluentValidation;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction
@@ -29,7 +30,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public int DeliveryMethod { get; set; }
         public int Status { get; set; }
 
-        public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
+        public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();      
     }
     public class UpdateAuctionItemRequestValidator
     : AbstractValidator<UpdateAuctionItemRequest>
@@ -58,7 +59,11 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
                 .GreaterThan(v => v.StartingBidAmount).WithMessage("Please increase the price."); ;
 
             RuleFor(v => v.DeliveryMethod)
+                .Must(v => Enum.IsDefined(typeof(DeliveryMethod),v)).WithMessage("Invalid delivery method specified.")
                 .NotEmpty().WithMessage("This field is required.");
+
+            RuleFor(v => v.Status)
+                .Must(v => Enum.IsDefined(typeof(Status), v)).WithMessage("Invalid status specified.");
 
             RuleFor(v => v.EndDate)
                 .GreaterThanOrEqualTo(v => v.StartDate).WithMessage("Please choose a date in the future.");

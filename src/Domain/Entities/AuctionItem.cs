@@ -47,6 +47,7 @@ public class AuctionItem : BaseAuditableEntity
     [Required]
     public DeliveryMethod DeliveryMethod { get; set; }
 
+    [Required]
     public Status Status { get; set; }
 
     public List<Bid> BiddingHistory { get; set; } = new List<Bid>();

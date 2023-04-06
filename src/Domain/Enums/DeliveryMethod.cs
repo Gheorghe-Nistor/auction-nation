@@ -1,7 +1,7 @@
 ﻿namespace Cegeka.Auction.Domain.Enums;
 
-public enum DeliveryMethod
+public enum DeliveryMethod: int
 {
-    DeliveryByCourier,
-    PersonalPickUp
+    DeliveryByCourier = 0,
+    PersonalPickUp = 1
 }

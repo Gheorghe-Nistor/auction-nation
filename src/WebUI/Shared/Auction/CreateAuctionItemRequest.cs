@@ -20,9 +20,9 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public decimal ReservePrice { get; set; }
 
-        public DeliveryMethod DeliveryMethod { get; set; }
+        public int DeliveryMethod { get; set; }
 
-        public Status Status { get; set; }
+        public int Status { get; set; }
 
         public CreateAuctionItemRequest(AuctionItemDTO newAuctionItem)
         {
@@ -68,9 +68,17 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
                 .GreaterThan(v => v.StartingBidAmount).WithMessage("Please increase the price."); 
 
             RuleFor(v => v.DeliveryMethod)
+                .Must(v => Enum.IsDefined(typeof(DeliveryMethod),v))
                 .NotEmpty().WithMessage("This field is required.");
 
+            RuleFor(v => v.Status)
+             .Must(v => Enum.IsDefined(typeof(Status), v));
+
+            RuleFor(v => v.StartDate)
+                .NotEmpty();
+            
             RuleFor(v => v.EndDate)
+                .NotEmpty()
                 .GreaterThanOrEqualTo(v => v.StartDate);
         }
     }    

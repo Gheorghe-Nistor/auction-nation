@@ -10,5 +10,7 @@ public interface IApplicationDbContext
 
     DbSet<AuctionItem> AuctionItems { get; }
 
+    DbSet<Bid> Bids { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

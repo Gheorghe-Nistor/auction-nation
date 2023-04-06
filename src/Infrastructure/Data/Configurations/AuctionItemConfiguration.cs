@@ -45,15 +45,23 @@ namespace Cegeka.Auction.Infrastructure.Data.Configurations
                 .HasColumnType("decimal(10,2)");
 
             builder.Property(t => t.BuyItNowPrice)
+                .IsRequired() 
                 .HasColumnType("decimal(10,2)");
 
             builder.Property(t => t.ReservePrice)
+                .IsRequired()
                 .HasColumnType("decimal(10,2)");
 
             builder.Property(t => t.DeliveryMethod)
                 .IsRequired();
 
             builder.Property(t => t.Status)
+                .IsRequired();
+
+            builder.Property(t => t.StartDate)
+                .IsRequired();
+
+            builder.Property(t => t.EndDate)    
                 .IsRequired();
         }
     }
