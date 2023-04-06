@@ -12,6 +12,82 @@
           "Auctions"
         ],
         "operationId": "Auctions_GetAuctions",
+        "parameters": [
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Category",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "MinPrice",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "decimal",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "MaxPrice",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "decimal",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Status"
+            },
+            "x-position": 5
+          },
+          {
+            "name": "DeliveryMethod",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/DeliveryMethod"
+            },
+            "x-position": 6
+          },
+          {
+            "name": "MinDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 7
+          },
+          {
+            "name": "MaxDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 8
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -768,18 +844,21 @@
         "type": "integer",
         "description": "",
         "x-enumNames": [
+          "None",
           "DeliveryByCourier",
           "PersonalPickUp"
         ],
         "enum": [
           0,
-          1
+          1,
+          2
         ]
       },
       "Status": {
         "type": "integer",
         "description": "",
         "x-enumNames": [
+          "None",
           "New",
           "Submitted",
           "Approved",
@@ -791,7 +870,8 @@
           1,
           2,
           3,
-          4
+          4,
+          5
         ]
       },
       "BidDTO": {

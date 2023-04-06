@@ -10,9 +10,9 @@ public class AuctionsController : ApiControllerBase
 {
     // GET: api/auctions
     [HttpGet]
-    public async Task<ActionResult<AuctionItemsVM>> GetAuctions()
+    public async Task<ActionResult<AuctionItemsVM>> GetAuctions([FromQuery] AuctionQueryParams? queryParams = null)
     {
-        return await Mediator.Send(new GetAuctionItemsQuery());
+        return await Mediator.Send(new GetAuctionItemsQuery(queryParams));
     }
 
     // POST: api/auctions/new

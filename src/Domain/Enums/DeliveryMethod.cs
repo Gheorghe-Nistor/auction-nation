@@ -2,6 +2,7 @@
 
 public enum DeliveryMethod
 {
+    None,
     DeliveryByCourier,
     PersonalPickUp
 }

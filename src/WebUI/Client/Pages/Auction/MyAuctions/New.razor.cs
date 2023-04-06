@@ -13,15 +13,17 @@ public partial class New
 
     public AuctionItemDetailsVM? Model { get; set; }
 
+
     protected override async Task OnInitializedAsync()
     {
-        Model = new AuctionItemDetailsVM();
+       
+       Model = new AuctionItemDetailsVM();
     }
 
     public async Task AddAuction()
     {
-        await AuctionsClient.AddAuctionAsync(Model.Auction);
+       await AuctionsClient.AddAuctionAsync(Model.Auction);
 
-        Navigation.NavigateTo("/auctions");
+         Navigation.NavigateTo("/auctions");
     }
 }
