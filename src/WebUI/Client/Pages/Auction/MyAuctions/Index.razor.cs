@@ -14,6 +14,7 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await AuctionsClient.GetAuctionsAsync(); 
+       // TODO: De rezolvat eroarea de aici.
+       // Model = await AuctionsClient.GetAuctionsAsync(); 
     }
 }

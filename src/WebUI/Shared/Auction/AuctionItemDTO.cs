@@ -8,6 +8,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction;
 public class AuctionItemDTO
 {
     public int Id { get; set; }
+    public Guid PublicId { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
     [MaxLength(100, ErrorMessage = "Please make the title shorter.")]
@@ -54,9 +55,10 @@ public class AuctionItemDTO
     {
     }
 
-    public AuctionItemDTO(int id, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default)
+    public AuctionItemDTO(int id, Guid publicId, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default)
     {
         Id = id;
+        PublicId = publicId;
         Title = title;
         Description = description;
         Images = images;

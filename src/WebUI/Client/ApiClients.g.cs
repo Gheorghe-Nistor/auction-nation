@@ -28,11 +28,11 @@ namespace Cegeka.Auction.WebUI.Client
     public partial interface IAuctionsClient
     {
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, Status? status, DeliveryMethod? deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate);
+        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, string status, string deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, Status? status, DeliveryMethod? deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, string status, string deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<int> AddAuctionAsync(AuctionItemDTO newAuctionItem);
@@ -71,14 +71,14 @@ namespace Cegeka.Auction.WebUI.Client
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, Status? status, DeliveryMethod? deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate)
+        public virtual System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, string status, string deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate)
         {
             return GetAuctionsAsync(search, category, minPrice, maxPrice, status, deliveryMethod, minDate, maxDate, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, Status? status, DeliveryMethod? deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, string status, string deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Auctions?");

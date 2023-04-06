@@ -8,7 +8,7 @@ namespace Cegeka.Auction.Domain.Entities;
 public class AuctionItem : BaseAuditableEntity
 {
     public int Id { get; set; }
-    //public Guid PublicId { get; set; }
+    public Guid PublicId { get; set; }
 
     [Required]
     [MaxLength(100)]
