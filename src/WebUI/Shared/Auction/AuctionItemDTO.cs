@@ -45,7 +45,7 @@ public class AuctionItemDTO
 
     [Required(ErrorMessage = "This field is required.")]
     [EnumDataType(typeof(DeliveryMethod))]
-    public int DeliveryMethod { get; set; }
+    public DeliveryMethod DeliveryMethod { get; set; }
 
     public int Status { get; set; }
 
@@ -55,7 +55,7 @@ public class AuctionItemDTO
     {
     }
 
-    public AuctionItemDTO(int id, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, int deliveryMethod = default, List<BidDTO> biddingHistory = null, int status = default)
+    public AuctionItemDTO(int id, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, int status = default)
     {
         Id = id;
         Title = title;

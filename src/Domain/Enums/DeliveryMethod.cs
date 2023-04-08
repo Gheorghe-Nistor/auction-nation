@@ -2,6 +2,6 @@
 
 public enum DeliveryMethod: int
 {
-    DeliveryByCourier = 0,
-    PersonalPickUp = 1
+    DeliveryByCourier = 1,
+    PersonalPickUp = 2
 }

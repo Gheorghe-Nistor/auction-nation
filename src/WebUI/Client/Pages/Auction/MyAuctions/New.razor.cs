@@ -1,4 +1,5 @@
-﻿using Cegeka.Auction.WebUI.Shared.Auction;
+﻿using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
@@ -13,9 +14,13 @@ public partial class New
 
     public AuctionItemDetailsVM? Model { get; set; }
 
+    public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
+
     protected override async Task OnInitializedAsync()
     {
-        Model = new AuctionItemDetailsVM();
+        Model = new AuctionItemDetailsVM(); 
+        Model.Auction.StartDate = DateTime.Now;
+        Model.Auction.EndDate = DateTime.Now;
     }
 
     public async Task AddAuction()

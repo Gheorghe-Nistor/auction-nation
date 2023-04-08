@@ -1,4 +1,7 @@
-﻿@page "/auctions/new"
+﻿@using System;
+@using System.Text.RegularExpressions;
+
+@page "/auctions/new"
 @attribute [Authorize(Permissions.Auction)]
 
 <PageTitle>New Auction</PageTitle>
@@ -9,76 +12,79 @@
 
 <section>
 	<EditForm Model="@Model.Auction" OnValidSubmit="@AddAuction">
+
+		<DataAnnotationsValidator />
+
+		<!-- Title -->
 		<div class="form-group row">
 			<label for="title" class="col-sm-3">Title</label>
 			<InputText id="title" class="form-control col-sm-8" @bind-Value="@Model.Auction.Title" />
-			<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Model.Auction.Title)" />
+			<ValidationMessage class="validation-error" For="@(() => Model.Auction.Title)" />
 		</div>
 
+		<!-- Description-->
 		<div class="form-group row">
 			<label for="description" class="col-sm-3">Description</label>
 			<InputTextArea id="description" class="form-control col-sm-8" rows="5" @bind-Value="@Model.Auction.Description" />
-			<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Model.Auction.Description)" />
+			<ValidationMessage class="validation-error" For="@(() => Model.Auction.Description)" />
 		</div>
 
-		<div class="form-row">
-			<div class="form-group col-md-6">
+		<!-- Opening and closing date -->
+		<div class="row">
+			<div class="form-group col-sm-5">
 				<label for="start-date" class="col-sm-3">Opening date</label>
-				<input type="datetime-local" id="start-date" class="form-control col-sm-6" @bind="@Model.Auction.StartDate" />
-				<ValidationMessage class="offset-sm-6 col-sm-6" For="@(() => Model.Auction.StartDate)" />
+				<InputDate id="start-date" class="form-control col-sm-6" @bind-Value="@Model.Auction.StartDate" />
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.StartDate)" />
 			</div>
-			<div class="form-group col-md-6">
+			<div class="form-group col-sm-5	">
 				<label for="end-date" class="col-sm-3">Closing date</label>
-				<input type="datetime-local" id="end-date" class="form-control col-sm-6" @bind="@Model.Auction.EndDate" />
-				<ValidationMessage class="offset-sm-6 col-sm-6" For="@(() => Model.Auction.EndDate)" />
+				<InputDate id="end-date" class="form-control col-sm-6" @bind-Value="@Model.Auction.EndDate" />
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.EndDate)" />
 			</div>
 		</div>
 
+		<!-- Category -->
 		<div class="form-group row">
-			<label for="category" class="col-sm-3">Category</label>
+			<label for="category" class="col-sm-4">Category</label>
 			<InputText id="category" class="form-control col-sm-8" @bind-Value="@Model.Auction.Category" />
-			<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Model.Auction.Category)" />
+			<ValidationMessage class="validation-error" For="@(() => Model.Auction.Category)" />
 		</div>
 
-		<div class="form-row">
-			<div class="form-group col-md-4">
-				<label for="starting-bid-amount" class="col-sm-3">Starting bid amount</label>
-				<input type="number" step="0.1" id="starting-bid-amount" class="form-control col-sm-4" @bind="@Model.Auction.StartingBidAmount" />
-				<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Model.Auction.StartingBidAmount)" />
+		<!-- Bids and prices -->
+		<div class="row">
+			<div class="form-group col-sm-3">
+				<label for="starting-bid-amount">Starting bid</label>
+				<InputNumber step="0.1" id="starting-bid-amount" class="form-control col-sm-3" @bind-Value="@Model.Auction.StartingBidAmount" />
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.StartingBidAmount)" />
 			</div>
 
-			<div class="form-group col-md-4">
-				<label for="buy-it-now-price" class="col-sm-3">Buy it now price</label>
-				<input type="number" step="0.1" id="buy-it-now-price" class="form-control col-sm-4" @bind="@Model.Auction.BuyItNowPrice" />
-				<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Model.Auction.BuyItNowPrice)" />
+			<div class="form-group col-sm-3">
+				<label for="buy-it-now-price">Buy it now price</label>
+				<InputNumber step="0.1" id="buy-it-now-price" class="form-control col-sm-3" @bind-Value="@Model.Auction.BuyItNowPrice" />
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.BuyItNowPrice)" />
 			</div>
 			
-			<div class="form-group col-md-4">
-				<label for="reserve-price" class="col-sm-3">Reserve price</label>
-				<input type="number" step="0.1" id="reserve-price" class="form-control col-sm-4" @bind="@Model.Auction.ReservePrice" />
-				<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Model.Auction.ReservePrice)" />
+			<div class="form-group col-sm-3">
+				<label for="reserve-price">Reserve price</label>
+				<InputNumber step="0.1" id="reserve-price" class="form-control col-sm-3" @bind-Value="@Model.Auction.ReservePrice" />
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.ReservePrice)" />
 			</div>
 		</div>
 		
-		 @*TODO fix enum*@
-		<div class="form-group row">
-			<label for="delivery-method" class="col-sm-3">Delivery method</label>
-			<select id="delivery-method" class="form-control col-sm-8" @bind="@Model.Auction.DeliveryMethod">
-				<option selected>Delivery by courier</option>
-				<option>Personal pick-up</option>
-			</select>
-			<ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Model.Auction.DeliveryMethod)" />
+		<!-- Delivery -->
+		<div class="form-group col-sm-4">
+			<label for="delivery-method" class="col-sm-4">Delivery method</label>
+			<InputSelect @bind-Value="@Model.Auction.DeliveryMethod" required>
+				@foreach (var method in Methods)
+				{
+					<option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
+				}
+			</InputSelect>
+			<ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
 		</div>
 
-		<div class="form-group row">
-			<label for="image" class="col-sm-2 col-form-label">Images</label>
-			<div class="col-sm-10">
-				<InputFile class="form-control-file" id="image" name="image[]" multiple />
-			</div>
-		</div>
-
-		<button type="submit" class="btn btn-success">Save</button>
-
+		<!-- SUBMIT -->
+		<button type="submit" class="btn btn-success" id="save">Save</button>
 	</EditForm>
 </section>
 

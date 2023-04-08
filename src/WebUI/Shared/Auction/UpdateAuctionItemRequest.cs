@@ -27,7 +27,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public int DeliveryMethod { get; set; }
+        public DeliveryMethod DeliveryMethod { get; set; }
         public int Status { get; set; }
 
         public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();      

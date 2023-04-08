@@ -841,8 +841,7 @@
             "format": "decimal"
           },
           "deliveryMethod": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/DeliveryMethod"
           },
           "status": {
             "type": "integer",
@@ -855,6 +854,18 @@
             }
           }
         }
+      },
+      "DeliveryMethod": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "DeliveryByCourier",
+          "PersonalPickUp"
+        ],
+        "enum": [
+          1,
+          2
+        ]
       },
       "BidDTO": {
         "type": "object",
@@ -959,8 +970,7 @@
             "format": "date-time"
           },
           "deliveryMethod": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/DeliveryMethod"
           },
           "status": {
             "type": "integer",

@@ -20,7 +20,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public decimal ReservePrice { get; set; }
 
-        public int DeliveryMethod { get; set; }
+        public DeliveryMethod DeliveryMethod { get; set; }
 
         public int Status { get; set; }
 

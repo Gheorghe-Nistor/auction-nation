@@ -50,4 +50,3 @@ public class CreateAuctionItemCommandHandler
         return entity.Id;
     }
 }
-
