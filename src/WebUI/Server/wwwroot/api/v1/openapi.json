@@ -26,40 +26,37 @@
         }
       }
     },
-    "/api/Auctions/new": {
-      "post": {
+    "/api/Auctions/{id}": {
+      "get": {
         "tags": [
           "Auctions"
         ],
-        "operationId": "Auctions_AddAuction",
-        "requestBody": {
-          "x-name": "newAuctionItem",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuctionItemDTO"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
+        "operationId": "Auctions_GetAuction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/AuctionItemDetailsVM"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/Auctions/{id}": {
+      },
       "put": {
         "tags": [
           "Auctions"
@@ -142,6 +139,39 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auctions/new": {
+      "post": {
+        "tags": [
+          "Auctions"
+        ],
+        "operationId": "Auctions_AddAuction",
+        "requestBody": {
+          "x-name": "newAuctionItem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuctionItemDTO"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
@@ -890,6 +920,15 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "AuctionItemDetailsVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "auction": {
+            "$ref": "#/components/schemas/AuctionItemDTO"
           }
         }
       },

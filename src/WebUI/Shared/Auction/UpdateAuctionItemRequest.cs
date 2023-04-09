@@ -30,7 +30,23 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public DeliveryMethod DeliveryMethod { get; set; }
         public int Status { get; set; }
 
-        public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();      
+        public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
+
+        public UpdateAuctionItemRequest(AuctionItemDTO newAuctionItem)
+        {
+            Title = newAuctionItem.Title;
+            Description = newAuctionItem.Description;
+            Images = newAuctionItem.Images;
+            StartDate = newAuctionItem.StartDate;
+            EndDate = newAuctionItem.EndDate;
+            Category = newAuctionItem.Category;
+            StartingBidAmount = newAuctionItem.StartingBidAmount;
+            CurrentBidAmount = newAuctionItem.CurrentBidAmount;
+            BuyItNowPrice = newAuctionItem.BuyItNowPrice;
+            ReservePrice = newAuctionItem.ReservePrice;
+            DeliveryMethod = newAuctionItem.DeliveryMethod;
+            Status = newAuctionItem.Status;
+        }
     }
     public class UpdateAuctionItemRequestValidator
     : AbstractValidator<UpdateAuctionItemRequest>

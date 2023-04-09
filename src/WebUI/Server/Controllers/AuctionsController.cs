@@ -1,8 +1,6 @@
 ﻿using Cegeka.Auction.Application.AuctionItems.Commands;
 using Cegeka.Auction.Application.AuctionItems.Queries;
-using Cegeka.Auction.Application.TodoItems.Commands;
 using Cegeka.Auction.WebUI.Shared.Auction;
-using Cegeka.Auction.WebUI.Shared.TodoItems;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cegeka.Auction.WebUI.Server.Controllers;
@@ -15,6 +13,13 @@ public class AuctionsController : ApiControllerBase
     public async Task<ActionResult<AuctionItemsVM>> GetAuctions()
     {
         return await Mediator.Send(new GetAuctionItemsQuery());
+    }
+
+    // GET: api/auctions/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<AuctionItemDetailsVM>> GetAuction(string id)
+    {
+        return await Mediator.Send(new GetAuctionItemQuery(id));
     }
 
     // POST: api/auctions/new
