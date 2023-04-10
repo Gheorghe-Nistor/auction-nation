@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Cegeka.Auction.Application.AuctionItems.Commands;
+﻿using Cegeka.Auction.Application.AuctionItems.Commands;
 using Cegeka.Auction.Application.AuctionItems.Queries;
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
@@ -32,12 +31,45 @@ public class AuctionsController : ApiControllerBase
         return await Mediator.Send(new GetAuctionItemsQuery(queryParams));
     }
 
+    // GET: api/auctions/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<AuctionItemDetailsVM>> GetAuction(string id)
+    {
+        return await Mediator.Send(new GetAuctionItemQuery(id));
+    }
+
     // POST: api/auctions/new
     [HttpPost("new")]
     public async Task<ActionResult<int>> AddAuction(AuctionItemDTO newAuctionItem)
     {
         CreateAuctionItemRequest request = new CreateAuctionItemRequest(newAuctionItem);
         return await Mediator.Send(new CreateAuctionItemCommand(request));
+    }
+
+    // PUT: api/auctions/5
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> PutAuctionItem(int id,
+        UpdateAuctionItemRequest request)
+    {
+        if (id != request.Id) return BadRequest();
+
+        await Mediator.Send(new UpdateAuctionItemCommand(request));
+
+        return NoContent();
+    }
+
+    // DELETE: api/auctions/5
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> DeleteAuctionItem(int id)
+    {
+        await Mediator.Send(new DeleteAuctionItemCommand(id));
+
+        return NoContent();
     }
 
     private decimal? GetDecimalFromQueryString(string key)

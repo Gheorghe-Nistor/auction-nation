@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
-public partial class New
+public partial class Edit
 {
+    [Parameter]
+    public string auctionId { get; set; } = null!;
+
     [Inject]
     public IAuctionsClient AuctionsClient { get; set; } = null!;
 
@@ -16,16 +19,15 @@ public partial class New
 
     public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        Model = new AuctionItemDetailsVM(); 
-        Model.Auction.StartDate = DateTime.Now;
-        Model.Auction.EndDate = DateTime.Now;
+        Model = await AuctionsClient.GetAuctionAsync(auctionId);
     }
 
-    public async Task AddAuction()
+    public async Task UpdateAuction()
     {
-        await AuctionsClient.AddAuctionAsync(Model.Auction);
+        await AuctionsClient.PutAuctionItemAsync(Model.Auction.Id,
+            new UpdateAuctionItemRequest(Model.Auction));
 
         Navigation.NavigateTo("/auctions");
     }

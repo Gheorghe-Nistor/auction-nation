@@ -45,9 +45,10 @@ public class AuctionItemDTO
     public decimal ReservePrice { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
+    [EnumDataType(typeof(DeliveryMethod))]
     public DeliveryMethod DeliveryMethod { get; set; }
 
-    public Status Status { get; set; }
+    public int Status { get; set; }
 
     public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
 

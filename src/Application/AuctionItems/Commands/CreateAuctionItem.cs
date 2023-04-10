@@ -39,7 +39,8 @@ public class CreateAuctionItemCommandHandler
             BuyItNowPrice = request.Item.BuyItNowPrice,
             ReservePrice = request.Item.ReservePrice,
             DeliveryMethod = (DeliveryMethod)request.Item.DeliveryMethod,
-            Status = Status.New
+            Status = Status.New,
+            BiddingHistory = new List<Bid>()
         };
 
         _context.AuctionItems.Add(entity);
@@ -49,4 +50,3 @@ public class CreateAuctionItemCommandHandler
         return entity.Id;
     }
 }
-
