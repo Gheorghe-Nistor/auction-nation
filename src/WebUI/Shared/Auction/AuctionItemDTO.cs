@@ -68,10 +68,10 @@ public class AuctionItemDTO
         CurrentBidAmount = currentBidAmount;
         BuyItNowPrice = buyItNowPrice;
         ReservePrice = reservePrice;
-        StartDate = (DateTime)startDate;
+        StartDate = (DateTime) startDate;
         EndDate = endDate ?? DateTime.Now;
         DeliveryMethod = deliveryMethod;
         BiddingHistory = biddingHistory;
-        Status = status;
+        Status = (int) status;
     }
 }

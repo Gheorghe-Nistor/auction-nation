@@ -2,10 +2,11 @@
 {
     public enum Status: int
     {
-        New = 0,
-        Submitted = 1,
-        Approved = 2,
-        Cancelled = 3,
-        Finished = 4
+        Unknown = 0,
+        New = 1,
+        Submitted = 2,
+        Approved = 3,
+        Cancelled = 4,
+        Finished = 5
     }
 }
