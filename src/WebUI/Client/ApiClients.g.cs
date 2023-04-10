@@ -28,11 +28,11 @@ namespace Cegeka.Auction.WebUI.Client
     public partial interface IAuctionsClient
     {
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, string status, string deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate);
+        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(AuctionQueryParams queryParams);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, string status, string deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(AuctionQueryParams queryParams, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<int> AddAuctionAsync(AuctionItemDTO newAuctionItem);
@@ -71,50 +71,17 @@ namespace Cegeka.Auction.WebUI.Client
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, string status, string deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate)
+        public virtual System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(AuctionQueryParams queryParams)
         {
-            return GetAuctionsAsync(search, category, minPrice, maxPrice, status, deliveryMethod, minDate, maxDate, System.Threading.CancellationToken.None);
+            return GetAuctionsAsync(queryParams, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(string search, string category, decimal? minPrice, decimal? maxPrice, string status, string deliveryMethod, System.DateTimeOffset? minDate, System.DateTimeOffset? maxDate, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<AuctionItemsVM> GetAuctionsAsync(AuctionQueryParams queryParams, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Auctions?");
-            if (search != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("Search") + "=").Append(System.Uri.EscapeDataString(ConvertToString(search, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (category != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("Category") + "=").Append(System.Uri.EscapeDataString(ConvertToString(category, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (minPrice != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("MinPrice") + "=").Append(System.Uri.EscapeDataString(ConvertToString(minPrice, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (maxPrice != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("MaxPrice") + "=").Append(System.Uri.EscapeDataString(ConvertToString(maxPrice, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (status != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("Status") + "=").Append(System.Uri.EscapeDataString(ConvertToString(status, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (deliveryMethod != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("DeliveryMethod") + "=").Append(System.Uri.EscapeDataString(ConvertToString(deliveryMethod, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (minDate != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("MinDate") + "=").Append(System.Uri.EscapeDataString(minDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (maxDate != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("MaxDate") + "=").Append(System.Uri.EscapeDataString(maxDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/Auctions");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -122,6 +89,10 @@ namespace Cegeka.Auction.WebUI.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(queryParams, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 

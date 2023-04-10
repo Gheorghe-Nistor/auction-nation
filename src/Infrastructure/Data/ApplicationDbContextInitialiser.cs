@@ -57,7 +57,7 @@ public class ApplicationDbContextInitialiser
     {
         await SeedIdentityAsync();
         await SeedTodosAsync();
-        await SeedAuctionsAsync();
+        //await SeedAuctionsAsync();
     }
 
     private async Task SeedIdentityAsync()

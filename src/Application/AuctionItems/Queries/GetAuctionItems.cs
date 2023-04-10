@@ -32,8 +32,8 @@ public class GetAuctionItemsQueryHandler
         DateTime? minDate = queryParams?.MinDate;
         DateTime? maxDate = queryParams?.MaxDate;
 
-        Status status = Enum.TryParse(queryParams.Status, out Status statusParsedSuccessfully) ? statusParsedSuccessfully : Status.None;
-        DeliveryMethod deliveryMethod = Enum.TryParse(queryParams.DeliveryMethod, out DeliveryMethod deliveryMethodParsedSuccessfully) ? deliveryMethodParsedSuccessfully : DeliveryMethod.None;
+        Status status = ParseEnum(queryParams.Status, Status.None);
+        DeliveryMethod deliveryMethod = ParseEnum(queryParams.DeliveryMethod, DeliveryMethod.None);
 
         return new AuctionItemsVM
         {
@@ -49,5 +49,13 @@ public class GetAuctionItemsQueryHandler
                 .ProjectTo<AuctionItemDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
         };
+    }
+    private T ParseEnum<T>(string value, T defaultValue) where T : struct, Enum
+    {
+        if (Enum.TryParse<T>(value, true, out var result))
+        {
+            return result;
+        }
+        return defaultValue;
     }
 }
