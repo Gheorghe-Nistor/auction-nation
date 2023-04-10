@@ -75,11 +75,11 @@
           }
         ],
         "requestBody": {
-          "x-name": "request",
+          "x-name": "updatedAuctionItem",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateAuctionItemRequest"
+                "$ref": "#/components/schemas/AuctionItemDTO"
               }
             }
           },
@@ -958,68 +958,6 @@
           "instance": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "UpdateAuctionItemRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "category": {
-            "type": "string"
-          },
-          "startingBidAmount": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "currentBidAmount": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "buyItNowPrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "reservePrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "deliveryMethod": {
-            "$ref": "#/components/schemas/DeliveryMethod"
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "biddingHistory": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BidDTO"
-            }
           }
         }
       },

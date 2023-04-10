@@ -42,11 +42,11 @@ namespace Cegeka.Auction.WebUI.Client
         System.Threading.Tasks.Task<AuctionItemDetailsVM> GetAuctionAsync(string id, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task PutAuctionItemAsync(int id, UpdateAuctionItemRequest request);
+        System.Threading.Tasks.Task PutAuctionItemAsync(int id, AuctionItemDTO updatedAuctionItem);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task PutAuctionItemAsync(int id, UpdateAuctionItemRequest request, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task PutAuctionItemAsync(int id, AuctionItemDTO updatedAuctionItem, System.Threading.CancellationToken cancellationToken);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task DeleteAuctionItemAsync(int id);
@@ -237,20 +237,20 @@ namespace Cegeka.Auction.WebUI.Client
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task PutAuctionItemAsync(int id, UpdateAuctionItemRequest request)
+        public virtual System.Threading.Tasks.Task PutAuctionItemAsync(int id, AuctionItemDTO updatedAuctionItem)
         {
-            return PutAuctionItemAsync(id, request, System.Threading.CancellationToken.None);
+            return PutAuctionItemAsync(id, updatedAuctionItem, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task PutAuctionItemAsync(int id, UpdateAuctionItemRequest request, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task PutAuctionItemAsync(int id, AuctionItemDTO updatedAuctionItem, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
 
-            if (request == null)
-                throw new System.ArgumentNullException("request");
+            if (updatedAuctionItem == null)
+                throw new System.ArgumentNullException("updatedAuctionItem");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append("api/Auctions/{id}");
@@ -262,7 +262,7 @@ namespace Cegeka.Auction.WebUI.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(request, _settings.Value);
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(updatedAuctionItem, _settings.Value);
                     var content_ = new System.Net.Http.StringContent(json_);
                     content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                     request_.Content = content_;

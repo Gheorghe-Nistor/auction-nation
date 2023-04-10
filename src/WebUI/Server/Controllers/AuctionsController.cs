@@ -35,11 +35,11 @@ public class AuctionsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
-    public async Task<IActionResult> PutAuctionItem(int id,
-        UpdateAuctionItemRequest request)
+    public async Task<IActionResult> PutAuctionItem(int id, AuctionItemDTO updatedAuctionItem)
     {
-        if (id != request.Id) return BadRequest();
+        if (id != updatedAuctionItem.Id) return BadRequest();
 
+        UpdateAuctionItemRequest request = new UpdateAuctionItemRequest(updatedAuctionItem);
         await Mediator.Send(new UpdateAuctionItemCommand(request));
 
         return NoContent();

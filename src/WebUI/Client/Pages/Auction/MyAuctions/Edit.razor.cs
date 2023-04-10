@@ -26,8 +26,7 @@ public partial class Edit
 
     public async Task UpdateAuction()
     {
-        await AuctionsClient.PutAuctionItemAsync(Model.Auction.Id,
-            new UpdateAuctionItemRequest(Model.Auction));
+        await AuctionsClient.PutAuctionItemAsync(Model.Auction.Id, Model.Auction);
 
         Navigation.NavigateTo("/auctions");
     }

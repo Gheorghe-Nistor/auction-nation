@@ -36,20 +36,21 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public UpdateAuctionItemRequest() { }
 
-        public UpdateAuctionItemRequest(AuctionItemDTO newAuctionItem)
+        public UpdateAuctionItemRequest(AuctionItemDTO updatedAuctionItem)
         {
-            Title = newAuctionItem.Title;
-            Description = newAuctionItem.Description;
-            Images = newAuctionItem.Images;
-            StartDate = newAuctionItem.StartDate;
-            EndDate = newAuctionItem.EndDate;
-            Category = newAuctionItem.Category;
-            StartingBidAmount = newAuctionItem.StartingBidAmount;
-            CurrentBidAmount = newAuctionItem.CurrentBidAmount;
-            BuyItNowPrice = newAuctionItem.BuyItNowPrice;
-            ReservePrice = newAuctionItem.ReservePrice;
-            DeliveryMethod = newAuctionItem.DeliveryMethod;
-            Status = newAuctionItem.Status;
+            Id = updatedAuctionItem.Id;
+            Title = updatedAuctionItem.Title;
+            Description = updatedAuctionItem.Description;
+            Images = updatedAuctionItem.Images;
+            StartDate = updatedAuctionItem.StartDate;
+            EndDate = updatedAuctionItem.EndDate;
+            Category = updatedAuctionItem.Category;
+            StartingBidAmount = updatedAuctionItem.StartingBidAmount;
+            CurrentBidAmount = updatedAuctionItem.CurrentBidAmount;
+            BuyItNowPrice = updatedAuctionItem.BuyItNowPrice;
+            ReservePrice = updatedAuctionItem.ReservePrice;
+            DeliveryMethod = updatedAuctionItem.DeliveryMethod;
+            Status = updatedAuctionItem.Status;
         }
     }
     public class UpdateAuctionItemRequestValidator

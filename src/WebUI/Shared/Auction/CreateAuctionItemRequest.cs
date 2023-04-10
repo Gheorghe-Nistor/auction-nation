@@ -5,6 +5,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 {
     public class CreateAuctionItemRequest
     {
+        public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public List<string> Images { get; set; } = new List<string>();
@@ -26,6 +27,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public CreateAuctionItemRequest(AuctionItemDTO newAuctionItem)
         {
+            Id = newAuctionItem.Id;
             Title = newAuctionItem.Title;
             Description = newAuctionItem.Description;
             Images = newAuctionItem.Images;
