@@ -44,7 +44,7 @@
 					<a href="@($"auctions/{item.Id.ToString()}")" class="btn btn-primary table-btn" data-toggle="tooltip" data-placement="bottom" title="Edit">
 						Edit
                     </a>
-                    <a href="#" class="btn btn-danger table-btn" @*@onclick="@(() => DeleteTodo(item))"*@ data-toggle="tooltip" data-placement="bottom" title="Delete">
+					<a href="#" class="btn btn-danger table-btn" @onclick="@(() => DeleteItem(item))" data-toggle="tooltip" data-placement="bottom" title="Delete">
                         Delete
                     </a>
 				</td>
@@ -52,3 +52,5 @@
 		}
 	</tbody>
 </table>
+
+@*<ConfirmationDialog @ref="@ConfirmationDeleteDialog" ></ConfirmationDialog>*@

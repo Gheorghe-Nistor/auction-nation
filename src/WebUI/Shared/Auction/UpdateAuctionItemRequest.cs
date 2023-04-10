@@ -1,6 +1,7 @@
 ﻿using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Bid;
 using FluentValidation;
+using System.Text.Json.Serialization;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction
 {
@@ -30,7 +31,10 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public DeliveryMethod DeliveryMethod { get; set; }
         public int Status { get; set; }
 
+        //[JsonIgnore]
         public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
+
+        public UpdateAuctionItemRequest() { }
 
         public UpdateAuctionItemRequest(AuctionItemDTO newAuctionItem)
         {
