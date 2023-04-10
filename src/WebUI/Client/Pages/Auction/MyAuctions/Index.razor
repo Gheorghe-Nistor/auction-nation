@@ -53,4 +53,7 @@
 	</tbody>
 </table>
 
-@*<ConfirmationDialog @ref="@ConfirmationDeleteDialog" ></ConfirmationDialog>*@
+<ConfirmationDialog Title="Confirmation dialog"
+					Content="Are you sure you want to delete this item?"
+					CloseEventCallback="@OnConfirmationDeleteDialogClosed"
+					@ref="@ConfirmationDeleteDialog"></ConfirmationDialog>
