@@ -12,6 +12,7 @@ public class AuctionQueryParams
     public string? Search { get; set; }
 
     public string? Category { get; set; }
+
     public string? Status { get; set; }
 
     public string? DeliveryMethod { get; set; }
@@ -24,9 +25,7 @@ public class AuctionQueryParams
 
     public DateTime? MaxDate { get; set; }
 
-    public AuctionQueryParams() : this(null, null, null, null, null, null, null, null)
-    {
-    }
+    public AuctionQueryParams() : this(null, null, null, null, null, null, null, null) {}
 
     public AuctionQueryParams(string? search, string? category, string? status, string? deliveryMethod, decimal? minPrice, decimal? maxPrice, DateTime? minDate, DateTime? maxDate)
     {

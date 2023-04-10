@@ -12,17 +12,6 @@
           "Auctions"
         ],
         "operationId": "Auctions_GetAuctions",
-        "requestBody": {
-          "x-name": "queryParams",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuctionQueryParams"
-              }
-            }
-          },
-          "x-position": 1
-        },
         "responses": {
           "200": {
             "description": "",
@@ -937,48 +926,6 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
-          }
-        }
-      },
-      "AuctionQueryParams": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "search": {
-            "type": "string",
-            "nullable": true
-          },
-          "category": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "string",
-            "nullable": true
-          },
-          "deliveryMethod": {
-            "type": "string",
-            "nullable": true
-          },
-          "minPrice": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "maxPrice": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "minDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "maxDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           }
         }
       },

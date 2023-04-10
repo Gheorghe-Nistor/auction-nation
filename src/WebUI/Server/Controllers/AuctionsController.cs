@@ -11,22 +11,26 @@ public class AuctionsController : ApiControllerBase
 {
     // GET: api/auctions
     [HttpGet]
-    public async Task<ActionResult<AuctionItemsVM>> GetAuctions(AuctionQueryParams? queryParams = null)
+    public async Task<ActionResult<AuctionItemsVM>> GetAuctions()
     {
-        // This action method does not use the [FromQuery] attribute because the generated code
-        // would make the parameters required, whereas we want to make them optional with default values.
+        // This action method does not use the [FromQuery] attribute because the generated code would make the parameters required
 
-        queryParams = queryParams ?? new AuctionQueryParams()
+        AuctionQueryParams queryParams = new AuctionQueryParams();
+
+        if (Request.Query != null && Request.Body.CanRead)
         {
-            Search = Request.Query["search"].FirstOrDefault(),
-            Category = Request.Query["category"].FirstOrDefault(),
-            Status = Request.Query["status"].FirstOrDefault(),
-            DeliveryMethod = Request.Query["deliveryMethod"].FirstOrDefault(),
-            MinPrice = GetDecimalFromQueryString("min-price"),
-            MaxPrice = GetDecimalFromQueryString("max-price"),
-            MinDate = GetDateTimeFromQueryString("min-date"),
-            MaxDate = GetDateTimeFromQueryString("max-date")
-        };
+            queryParams = new AuctionQueryParams()
+            {
+                Search = Request.Query["search"].FirstOrDefault(),
+                Category = Request.Query["category"].FirstOrDefault(),
+                Status = Request.Query["status"].FirstOrDefault(),
+                DeliveryMethod = Request.Query["deliveryMethod"].FirstOrDefault(),
+                MinPrice = GetDecimalFromQueryString("min-price"),
+                MaxPrice = GetDecimalFromQueryString("max-price"),
+                MinDate = GetDateTimeFromQueryString("min-date"),
+                MaxDate = GetDateTimeFromQueryString("max-date")
+            };
+        }
 
         return await Mediator.Send(new GetAuctionItemsQuery(queryParams));
     }
