@@ -26,7 +26,7 @@
         }
       }
     },
-    "/api/Auctions/{id}": {
+    "/api/Auctions/{id}/view": {
       "get": {
         "tags": [
           "Auctions"
@@ -56,7 +56,42 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/Auctions/new": {
+      "post": {
+        "tags": [
+          "Auctions"
+        ],
+        "operationId": "Auctions_AddAuction",
+        "requestBody": {
+          "x-name": "newAuctionItem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuctionItemDTO"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auctions/{id}": {
       "put": {
         "tags": [
           "Auctions"
@@ -139,39 +174,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auctions/new": {
-      "post": {
-        "tags": [
-          "Auctions"
-        ],
-        "operationId": "Auctions_AddAuction",
-        "requestBody": {
-          "x-name": "newAuctionItem",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuctionItemDTO"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
                 }
               }
             }

@@ -27,7 +27,7 @@
 		@foreach (var item in Model.Auctions)
 		{
 			<tr>
-				<td>@item.Title</td>
+                <td><a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom">@item.Title</a></td>
 				<td>@item.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
 				<td>@item.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
 				<td>

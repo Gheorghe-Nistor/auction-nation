@@ -15,8 +15,8 @@ public class AuctionsController : ApiControllerBase
         return await Mediator.Send(new GetAuctionItemsQuery());
     }
 
-    // GET: api/auctions/5
-    [HttpGet("{id}")]
+    // GET: api/auctions/3/view
+    [HttpGet("{id}/view")]
     public async Task<ActionResult<AuctionItemDetailsVM>> GetAuction(string id)
     {
         return await Mediator.Send(new GetAuctionItemQuery(id));
