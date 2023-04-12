@@ -13,7 +13,7 @@ public partial class ConfirmationDialog
     [Parameter]
     public EventCallback<bool> CloseEventCallback { get; set; }
 
-    protected bool ShowModal { get; set; }
+    protected bool ShowModal { get; set; } = false;
 
     public void Close()
     {
@@ -23,6 +23,7 @@ public partial class ConfirmationDialog
     public void Show()
     {
         ShowModal = true;
+        this.StateHasChanged();
     }
 
     public void OnCancelClicked()

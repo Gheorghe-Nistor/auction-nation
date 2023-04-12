@@ -1,7 +1,5 @@
-﻿using Cegeka.Auction.WebUI.Shared.AccessControl;
-using Cegeka.Auction.WebUI.Shared.Auction;
+﻿using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http.Json;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
@@ -10,11 +8,14 @@ public partial class Index
     [Inject]
     public IAuctionsClient AuctionsClient { get; set; } = null!;
 
+    [Inject]
+    public NavigationManager Navigation { get; set; } = null!;
+
     public AuctionItemsVM? Model { get; set; }
 
-    public AuctionItemDTO _toDelete;
-
     public ConfirmationDialog ConfirmationDeleteDialog { get; set; }
+
+    private AuctionItemDTO _toDelete;
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,9 +30,13 @@ public partial class Index
 
     protected async void OnConfirmationDeleteDialogClosed(bool arg)
     {
-        if (arg)
+        if (arg == false)
         {
-            await AuctionsClient.DeleteAuctionItemAsync(_toDelete.Id);
+            return;
         }
+        
+        await AuctionsClient.DeleteAuctionItemAsync(_toDelete.Id);
+        this.StateHasChanged();
+        Navigation.NavigateTo("/auctions", forceLoad: true);
     }
 }
