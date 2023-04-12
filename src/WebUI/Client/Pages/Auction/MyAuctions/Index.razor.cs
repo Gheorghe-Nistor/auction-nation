@@ -8,6 +8,9 @@ public partial class Index
     [Inject]
     public IAuctionsClient AuctionsClient { get; set; } = null!;
 
+    [Inject]
+    public NavigationManager Navigation { get; set; } = null!;
+
     public AuctionItemsVM? Model { get; set; }
 
     public ConfirmationDialog ConfirmationDeleteDialog { get; set; }
@@ -34,5 +37,6 @@ public partial class Index
         
         await AuctionsClient.DeleteAuctionItemAsync(_toDelete.Id);
         this.StateHasChanged();
+        Navigation.NavigateTo("/auctions", forceLoad: true);
     }
 }
