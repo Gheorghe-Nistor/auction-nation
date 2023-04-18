@@ -6,14 +6,42 @@
 
 <PageTitle>View Auction </PageTitle>
 
-@if (Model == null) return;
+@if (Model == null)
+{
+    return;
+}
 
 <h1 class="mb-4">@Model.Auction.Title</h1>
 
-<div class="row">
-    <div class="col-md-8">
+<div class="row" style="margin-left: -10px;">
+    <div class="col-md-8" style="margin-left: 10px;">
+        <div class="col-md-4 mb-4">
+            <img src="@Model.Auction.Images.FirstOrDefault()" class="img-fluid" alt="Auction Item Image" />
+        </div>
+
         <h3>Description</h3>
-        <p>@Model.Auction.Description</p>
+        @if (Model.Auction.Description.Split(" ").Length <= 170)
+        {
+            <p>@Model.Auction.Description</p>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12">
+                    <p style="text-indent: 30px;">
+                        @foreach (var word in Model.Auction.Description.Split(" "))
+                        {
+                            <span>@word </span>
+                            if (word.EndsWith(".") || word.EndsWith(",") || word.EndsWith("?"))
+                            {
+                                <br />
+                            }
+                        }
+                    </p>
+                </div>
+            </div>
+        }
+
         <h3>Details</h3>
         <table class="table">
             <tbody>
@@ -47,12 +75,14 @@
                 </tr>
                 <tr>
                     <td><strong>Delivery Method:</strong></td>
-					<td>@Regex.Replace(Model.Auction.DeliveryMethod.ToString(), "(\\B[A-Z])", " $1")</td>
+                    <td>@Model.Auction.DeliveryMethod</td>
                 </tr>
             </tbody>
         </table>
+
         <h3>Time Left</h3>
         <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
+
         <h3>Bidding History</h3>
         <ul>
             @foreach (var bid in Model.Auction.BiddingHistory)
