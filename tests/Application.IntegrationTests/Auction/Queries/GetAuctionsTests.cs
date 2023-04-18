@@ -1,9 +1,11 @@
 ﻿using Cegeka.Auction.Application.AuctionItems.Queries;
+using Cegeka.Auction.Application.Listings.Queries;
 using Cegeka.Auction.Application.TodoLists.Queries;
 using Cegeka.Auction.Domain.Entities;
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.Domain.ValueObjects;
 using Cegeka.Auction.WebUI.Shared.Auction;
+using Cegeka.Auction.WebUI.Shared.Listings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -111,7 +113,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams { Search = "ABC123" });
+        var query = new GetListingsQuery(new ListingsQueryParams { Search = "ABC123" });
         var result = await SendAsync(query);
 
         // assert
@@ -126,7 +128,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery();
+        var query = new GetListingsQuery();
         var result = await SendAsync(query);
 
         // assert
@@ -141,7 +143,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams{ Search = "WWII"});
+        var query = new GetListingsQuery(new ListingsQueryParams{ Search = "WWII"});
         var result = await SendAsync(query);
 
         // assert
@@ -158,7 +160,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams { Search = "craftsmanship" });
+        var query = new GetListingsQuery(new ListingsQueryParams { Search = "craftsmanship" });
         var result = await SendAsync(query);
 
         // assert
@@ -175,7 +177,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams { Status = "New" });
+        var query = new GetListingsQuery(new ListingsQueryParams { Status = "New" });
         var result = await SendAsync(query);
 
         // assert
@@ -192,7 +194,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams { DeliveryMethod = "PersonalPickUp" });
+        var query = new GetListingsQuery(new ListingsQueryParams { DeliveryMethod = "PersonalPickUp" });
         var result = await SendAsync(query);
 
         // assert
@@ -210,7 +212,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams { Category = "Vehicle" });
+        var query = new GetListingsQuery(new ListingsQueryParams { Category = "Vehicle" });
         var result = await SendAsync(query);
 
         // assert
@@ -226,7 +228,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams { MinPrice = 1000, MaxPrice = 5000 });
+        var query = new GetListingsQuery(new ListingsQueryParams { MinPrice = 1000, MaxPrice = 5000 });
         var result = await SendAsync(query);
 
         // assert
@@ -244,7 +246,7 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams { MinDate = new DateTime(2023, 5, 20), MaxDate = new DateTime(2023, 6, 1) });
+        var query = new GetListingsQuery(new ListingsQueryParams { MinDate = new DateTime(2023, 5, 20), MaxDate = new DateTime(2023, 6, 1) });
         var result = await SendAsync(query);
 
         // assert
@@ -263,7 +265,8 @@ public class GetAuctionsTests : BaseTestFixture
         await FeedData();
 
         // act 
-        var query = new GetAuctionItemsQuery(new AuctionQueryParams { 
+        var query = new GetListingsQuery(new ListingsQueryParams
+        { 
             Search = "Ford",
             Category = "Vehicle",
             Status = "Submitted",

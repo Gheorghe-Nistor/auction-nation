@@ -5,24 +5,30 @@
 
 @if (Model == null) return;
 
-<br/>
-<br/>
+<br />
+<br />
 
 <EditForm Model="@Model.QueryParams">
+    <div class="d-flex justify-content-center mb-3">
+        <div class="col-md-6">
+            <InputText class="form-control" @bind-Value="@Model.QueryParams.Search" placeholder="Search by auction title or description" />
+        </div>
+    </div>
     <div class="d-flex justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="input-group">
-                <InputText class="form-control" @bind-Value="@Model.QueryParams.Search" placeholder="Search by auction title or description" />
+                <InputNumber TValue="decimal?" class="form-control" style="margin-right: 1rem" @bind-Value="@Model.QueryParams.MinPrice" placeholder="Min-Price" />
+                <InputNumber TValue="decimal?" class="form-control" @bind-Value="@Model.QueryParams.MaxPrice" placeholder="Max-Price" />
+                <InputText class="form-control mx-3" @bind-Value="@Model.QueryParams.Category" placeholder="Category" />
                 <button class="btn btn-primary" type="submit" @onclick="GetListings"> <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search</button>
             </div>
         </div>
     </div>
 </EditForm>
 
-<br/>
-<br/>
-<br/>
-
+<br />
+<br />
+<br />
 
 <div class="row">
     @foreach (var item in Model.Auctions)
@@ -43,7 +49,11 @@
                     </p>
                     <p class="card-text">
                         <span class="oi oi-clock" aria-hidden="true"></span>
-                        Start Date: @item.StartDate.ToString("dd MMMM yyyy")
+                        Date: @item.StartDate.ToString("dd MMMM yyyy") - @item.EndDate.ToString("dd MMMM yyyy")
+                    </p>
+                    <p class="card-text">
+                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        Starting bid ammount: @item.StartingBidAmount
                     </p>
                     <p class="card-text">
                         <span class="oi oi-dollar" aria-hidden="true"></span>

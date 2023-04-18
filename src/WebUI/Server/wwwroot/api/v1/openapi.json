@@ -180,22 +180,23 @@
       }
     },
     "/api/Listings": {
-      "get": {
+      "post": {
         "tags": [
           "Listings"
         ],
-        "operationId": "Listings_GetListings",
-        "parameters": [
-          {
-            "name": "search",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
+        "operationId": "Listings_PostListings",
+        "requestBody": {
+          "x-name": "queryParams",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListingsQueryParams"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "200": {
             "description": "",

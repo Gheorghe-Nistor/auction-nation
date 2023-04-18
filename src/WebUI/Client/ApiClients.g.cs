@@ -588,11 +588,11 @@ namespace Cegeka.Auction.WebUI.Client
     public partial interface IListingsClient
     {
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ListingsVM> GetListingsAsync(string search);
+        System.Threading.Tasks.Task<ListingsVM> PostListingsAsync(ListingsQueryParams queryParams);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<ListingsVM> GetListingsAsync(string search, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<ListingsVM> PostListingsAsync(ListingsQueryParams queryParams, System.Threading.CancellationToken cancellationToken);
 
     }
 
@@ -624,22 +624,20 @@ namespace Cegeka.Auction.WebUI.Client
         partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<ListingsVM> GetListingsAsync(string search)
+        public virtual System.Threading.Tasks.Task<ListingsVM> PostListingsAsync(ListingsQueryParams queryParams)
         {
-            return GetListingsAsync(search, System.Threading.CancellationToken.None);
+            return PostListingsAsync(queryParams, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<ListingsVM> GetListingsAsync(string search, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<ListingsVM> PostListingsAsync(ListingsQueryParams queryParams, System.Threading.CancellationToken cancellationToken)
         {
+            if (queryParams == null)
+                throw new System.ArgumentNullException("queryParams");
+
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append("api/Listings?");
-            if (search != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("search") + "=").Append(System.Uri.EscapeDataString(ConvertToString(search, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append("api/Listings");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -647,7 +645,11 @@ namespace Cegeka.Auction.WebUI.Client
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    var json_ = Newtonsoft.Json.JsonConvert.SerializeObject(queryParams, _settings.Value);
+                    var content_ = new System.Net.Http.StringContent(json_);
+                    content_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+                    request_.Content = content_;
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
                     PrepareRequest(client_, request_, urlBuilder_);

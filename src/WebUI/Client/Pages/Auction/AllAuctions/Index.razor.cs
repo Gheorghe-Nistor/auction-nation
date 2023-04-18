@@ -17,12 +17,12 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await ListingsClient.GetListingsAsync(default);
+        Model = await ListingsClient.PostListingsAsync(new ListingsQueryParams());
     }
 
     public async Task GetListings()
     {
-        Model = await ListingsClient.GetListingsAsync(Model.QueryParams.Search);
+        Model = await ListingsClient.PostListingsAsync(Model.QueryParams);
 
         StateHasChanged();
     }
