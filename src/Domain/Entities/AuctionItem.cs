@@ -1,6 +1,7 @@
 ﻿using Cegeka.Auction.Domain.Common;
 using Cegeka.Auction.Domain.CompareAttributes;
 using Cegeka.Auction.Domain.Enums;
+using Microsoft.AspNetCore.Components.Forms;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cegeka.Auction.Domain.Entities;

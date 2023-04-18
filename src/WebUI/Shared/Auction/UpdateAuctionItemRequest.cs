@@ -1,6 +1,7 @@
 ﻿using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Bid;
 using FluentValidation;
+using Microsoft.AspNetCore.Components.Forms;
 using System.Text.Json.Serialization;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction

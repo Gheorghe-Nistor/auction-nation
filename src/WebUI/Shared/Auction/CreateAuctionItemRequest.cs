@@ -1,5 +1,6 @@
 ﻿using Cegeka.Auction.Domain.Enums;
 using FluentValidation;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction
 {
