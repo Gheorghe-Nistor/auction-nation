@@ -179,6 +179,37 @@
         }
       }
     },
+    "/api/Listings": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "operationId": "Listings_GetListings",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingsVM"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TodoItems": {
       "post": {
         "tags": [
@@ -1026,6 +1057,59 @@
             "items": {
               "$ref": "#/components/schemas/BidDTO"
             }
+          }
+        }
+      },
+      "ListingsVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "auctions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuctionItemDTO"
+            }
+          },
+          "queryParams": {
+            "$ref": "#/components/schemas/ListingsQueryParams"
+          }
+        }
+      },
+      "ListingsQueryParams": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "search": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "deliveryMethod": {
+            "type": "string"
+          },
+          "minPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "maxPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "minDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "maxDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },

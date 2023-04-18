@@ -13,26 +13,7 @@ public class AuctionsController : ApiControllerBase
     [HttpGet]
     public async Task<ActionResult<AuctionItemsVM>> GetAuctions()
     {
-        // This action method does not use the [FromQuery] attribute because the generated code would make the parameters required
-
-        AuctionQueryParams queryParams = new AuctionQueryParams();
-
-        if (Request.Query != null && Request.Body.CanRead)
-        {
-            queryParams = new AuctionQueryParams()
-            {
-                Search = Request.Query["search"].FirstOrDefault(),
-                Category = Request.Query["category"].FirstOrDefault(),
-                Status = Request.Query["status"].FirstOrDefault(),
-                DeliveryMethod = Request.Query["deliveryMethod"].FirstOrDefault(),
-                MinPrice = GetDecimalFromQueryString("min-price"),
-                MaxPrice = GetDecimalFromQueryString("max-price"),
-                MinDate = GetDateTimeFromQueryString("min-date"),
-                MaxDate = GetDateTimeFromQueryString("max-date")
-            };
-        }
-
-        return await Mediator.Send(new GetAuctionItemsQuery(queryParams));
+        return await Mediator.Send(new GetAuctionItemsQuery());
     }
 
     // GET: api/auctions/5
@@ -74,17 +55,5 @@ public class AuctionsController : ApiControllerBase
         await Mediator.Send(new DeleteAuctionItemCommand(id));
 
         return NoContent();
-    }
-
-    private decimal? GetDecimalFromQueryString(string key)
-    {
-        decimal result;
-        return decimal.TryParse(Request.Query[key].FirstOrDefault(), out result) ? result : null;
-    }
-
-    private DateTime? GetDateTimeFromQueryString(string key)
-    {
-        DateTime result;
-        return DateTime.TryParse(Request.Query[key].FirstOrDefault(), out result) ? result : null;
     }
 }
