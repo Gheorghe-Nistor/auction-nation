@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Cegeka.Auction.WebUI.Shared.AccessControl;
 using Cegeka.Auction.WebUI.Shared.Authorization;
+using Cegeka.Auction.WebUI.Client.Pages.Auction;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Admin.Roles;
 

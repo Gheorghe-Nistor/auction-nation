@@ -2,6 +2,7 @@
 using Cegeka.Auction.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using Cegeka.Auction.Domain.CompareAttributes;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction;
 

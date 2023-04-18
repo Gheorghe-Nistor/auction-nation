@@ -29,8 +29,8 @@ namespace Cegeka.Auction.Infrastructure.Data.Configurations
 
             builder.Property(t => t.Images)
                 .HasConversion(
-                    images => string.Join(',', images),
-                    str => str.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                    images => string.Join("/////", images),
+                    str => str.Split("/////", StringSplitOptions.RemoveEmptyEntries).ToList(),
                     new ValueComparer<List<string>>(
                         (c1, c2) => c1.SequenceEqual(c2),
                         c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),

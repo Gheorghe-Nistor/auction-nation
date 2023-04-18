@@ -26,7 +26,7 @@
         }
       }
     },
-    "/api/Auctions/{id}": {
+    "/api/Auctions/{id}/view": {
       "get": {
         "tags": [
           "Auctions"
@@ -56,7 +56,42 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/Auctions/new": {
+      "post": {
+        "tags": [
+          "Auctions"
+        ],
+        "operationId": "Auctions_AddAuction",
+        "requestBody": {
+          "x-name": "newAuctionItem",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuctionItemDTO"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auctions/{id}": {
       "put": {
         "tags": [
           "Auctions"
@@ -75,11 +110,11 @@
           }
         ],
         "requestBody": {
-          "x-name": "request",
+          "x-name": "updatedAuctionItem",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateAuctionItemRequest"
+                "$ref": "#/components/schemas/AuctionItemDTO"
               }
             }
           },
@@ -139,71 +174,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Auctions/new": {
-      "post": {
-        "tags": [
-          "Auctions"
-        ],
-        "operationId": "Auctions_AddAuction",
-        "requestBody": {
-          "x-name": "newAuctionItem",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuctionItemDTO"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Listings": {
-      "post": {
-        "tags": [
-          "Listings"
-        ],
-        "operationId": "Listings_PostListings",
-        "requestBody": {
-          "x-name": "queryParams",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ListingsQueryParams"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListingsVM"
                 }
               }
             }
@@ -855,10 +825,6 @@
             "type": "integer",
             "format": "int32"
           },
-          "publicId": {
-            "type": "string",
-            "format": "guid"
-          },
           "title": {
             "type": "string",
             "maxLength": 100,
@@ -925,12 +891,10 @@
         "type": "integer",
         "description": "",
         "x-enumNames": [
-          "None",
           "DeliveryByCourier",
           "PersonalPickUp"
         ],
         "enum": [
-          0,
           1,
           2
         ]
@@ -995,121 +959,6 @@
           },
           "instance": {
             "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateAuctionItemRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "category": {
-            "type": "string"
-          },
-          "startingBidAmount": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "currentBidAmount": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "buyItNowPrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "reservePrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "deliveryMethod": {
-            "$ref": "#/components/schemas/DeliveryMethod"
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "biddingHistory": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BidDTO"
-            }
-          }
-        }
-      },
-      "ListingsVM": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "auctions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AuctionItemDTO"
-            }
-          },
-          "queryParams": {
-            "$ref": "#/components/schemas/ListingsQueryParams"
-          }
-        }
-      },
-      "ListingsQueryParams": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "search": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "deliveryMethod": {
-            "type": "string"
-          },
-          "minPrice": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "maxPrice": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "minDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "maxDate": {
-            "type": "string",
-            "format": "date-time",
             "nullable": true
           }
         }

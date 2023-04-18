@@ -16,17 +16,21 @@
 		<DataAnnotationsValidator />
 
 		<!-- Title -->
-		<div class="form-group row">
-			<label for="title" class="col-sm-3">Title</label>
-			<InputText id="title" class="form-control col-sm-8" @bind-Value="@Model.Auction.Title" />
-			<ValidationMessage class="validation-error" For="@(() => Model.Auction.Title)" />
+		<div class="row">
+			<div class="form-group">
+				<label for="title" class="col-sm-3">Title</label>
+				<InputText id="title" class="form-control col-sm-8" @bind-Value="@Model.Auction.Title" />
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.Title)" />
+			</div>
 		</div>
 
 		<!-- Description-->
-		<div class="form-group row">
-			<label for="description" class="col-sm-3">Description</label>
-			<InputTextArea id="description" class="form-control col-sm-8" rows="5" @bind-Value="@Model.Auction.Description" />
-			<ValidationMessage class="validation-error" For="@(() => Model.Auction.Description)" />
+		<div class="row">
+			<div class="form-group row">
+				<label for="description" class="col-sm-3">Description</label>
+				<InputTextArea id="description" class="form-control col-sm-8" rows="5" @bind-Value="@Model.Auction.Description" />
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.Description)" />
+			</div>
 		</div>
 
 		<!-- Opening and closing date -->
@@ -44,10 +48,12 @@
 		</div>
 
 		<!-- Category -->
-		<div class="form-group row">
-			<label for="category" class="col-sm-4">Category</label>
-			<InputText id="category" class="form-control col-sm-8" @bind-Value="@Model.Auction.Category" />
-			<ValidationMessage class="validation-error" For="@(() => Model.Auction.Category)" />
+		<div class="row">
+			<div class="form-group">
+				<label for="category" class="col-sm-4">Category</label>
+				<InputText id="category" class="form-control col-sm-8" @bind-Value="@Model.Auction.Category" />
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.Category)" />
+			</div>
 		</div>
 
 		<!-- Bids and prices -->
@@ -72,22 +78,28 @@
 		</div>
 		
 		<!-- Delivery -->
-		<div class="form-group col-sm-4">
-			<label for="delivery-method" class="col-sm-4">Delivery method</label>
-			<InputSelect @bind-Value="@Model.Auction.DeliveryMethod" required>
-				@foreach (var method in Methods)
-				{
-					<option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
-				}
-			</InputSelect>
-			<ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
+		<div class="row">
+			<div class="form-group col-sm-4">
+				<label for="delivery-method" class="col-sm-4">Delivery method</label>
+				<InputSelect @bind-Value="@Model.Auction.DeliveryMethod" required>
+					@foreach (var method in Methods)
+					{
+						<option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
+					}
+				</InputSelect>
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
+			</div>
 		</div>
 
 		<!-- SUBMIT -->
-		<button type="submit" class="btn btn-success" id="save">Save</button>
+		<div class="row">
+			<div class="col-sm-2">
+				<button type="submit" class="btn btn-success" id="save">Save</button>
+			</div>
+		</div>
 	</EditForm>
 </section>
 
-<div>
+<div class="row">
 	<a href="/auctions">Take me back</a>
 </div>

@@ -5,8 +5,6 @@
 
 <h3>Auctions you started</h3>
 
-@*<p>Here's a list of the auctions you started.</p>*@
-
 @if (Model == null) return;
 
 <a href="@($"auctions/new")" class="btn btn-success table-btn" data-toggle="tooltip" data-placement="bottom" title="Add">
@@ -19,7 +17,7 @@
 			<th>Title</th>
 			<th>Opening time</th>
 			<th>Closing time</th>
-			<th>Current Bid</th>
+			<th>Current Bid</th>	
 			<th>Actions</th>
 		</tr>
 	</thead>
@@ -27,10 +25,10 @@
 		@foreach (var item in Model.Auctions)
 		{
 			<tr>
-				<td>@item.Title</td>
+                <td><a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom">@item.Title</a></td>
 				<td>@item.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
 				<td>@item.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
-				<td>
+				<td style="text-align: center;">
 					@if (@item.CurrentBidAmount == 0)
 					{
 						<i>-</i>
@@ -44,7 +42,7 @@
 					<a href="@($"auctions/{item.Id.ToString()}")" class="btn btn-primary table-btn" data-toggle="tooltip" data-placement="bottom" title="Edit">
 						Edit
                     </a>
-                    <a href="#" class="btn btn-danger table-btn" @*@onclick="@(() => DeleteTodo(item))"*@ data-toggle="tooltip" data-placement="bottom" title="Delete">
+					<a href="@($"auctions")" class="btn btn-danger table-btn" @onclick="@(() => DeleteItem(item))" data-toggle="tooltip" data-placement="bottom" title="Delete">
                         Delete
                     </a>
 				</td>
@@ -52,3 +50,7 @@
 		}
 	</tbody>
 </table>
+
+<ConfirmationDialog Title="Confirm delete"
+					CloseEventCallback="@OnConfirmationDeleteDialogClosed"
+					@ref="@ConfirmationDeleteDialog"></ConfirmationDialog>

@@ -38,7 +38,7 @@ public class CreateAuctionItemCommandHandler
             EndDate = request.Item.EndDate,
             BuyItNowPrice = request.Item.BuyItNowPrice,
             ReservePrice = request.Item.ReservePrice,
-            DeliveryMethod = (DeliveryMethod)request.Item.DeliveryMethod,
+            DeliveryMethod = request.Item.DeliveryMethod,
             Status = Status.New,
             BiddingHistory = new List<Bid>()
         };
