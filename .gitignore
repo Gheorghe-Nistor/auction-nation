@@ -448,3 +448,6 @@ $RECYCLE.BIN/
 ## Visual Studio Code
 ##
 .vscode/*
+/src/WebUI/Server/config.nswag
+/src/WebUI/Server/Server.csproj
+/src/WebUI/Client/ApiClients.g.cs
