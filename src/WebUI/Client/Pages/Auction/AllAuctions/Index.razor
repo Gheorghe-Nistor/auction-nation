@@ -30,6 +30,12 @@
 <br />
 <br />
 
+@if(Model.Auctions.Count == 0){
+    <h5 class="text-center">Currently, there are no auctions available. Please check back soon!</h5>
+    return;
+}
+
+
 <div class="row">
     @foreach (var item in Model.Auctions)
     {
@@ -62,7 +68,7 @@
                      </p>
                     <hr />
                      <div class="d-flex justify-content-center">
-                        <a href="#" class="btn btn-dark">Show</a>
+                        <a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom" class="btn btn-dark">Show</a>
                      </div>
                 </div>
             </div>
