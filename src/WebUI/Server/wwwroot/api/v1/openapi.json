@@ -181,6 +181,38 @@
         }
       }
     },
+    "/api/Listings": {
+      "post": {
+        "tags": [
+          "Listings"
+        ],
+        "operationId": "Listings_PostListings",
+        "requestBody": {
+          "x-name": "queryParams",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListingsQueryParams"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingsVM"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TodoItems": {
       "post": {
         "tags": [
@@ -825,6 +857,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "publicId": {
+            "type": "string",
+            "format": "guid"
+          },
           "title": {
             "type": "string",
             "maxLength": 100,
@@ -891,10 +927,12 @@
         "type": "integer",
         "description": "",
         "x-enumNames": [
+          "None",
           "DeliveryByCourier",
           "PersonalPickUp"
         ],
         "enum": [
+          0,
           1,
           2
         ]
@@ -959,6 +997,59 @@
           },
           "instance": {
             "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ListingsVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "auctions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuctionItemDTO"
+            }
+          },
+          "queryParams": {
+            "$ref": "#/components/schemas/ListingsQueryParams"
+          }
+        }
+      },
+      "ListingsQueryParams": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "search": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "deliveryMethod": {
+            "type": "string"
+          },
+          "minPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "maxPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "minDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "maxDate": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           }
         }
