@@ -7,28 +7,37 @@
 
 @if (Model == null) return;
 
-<a href="@($"auctions/new")" class="btn btn-success table-btn" data-toggle="tooltip" data-placement="bottom" title="Add">
-	<i class="oi oi-book"></i> Add new
-</a>
- 
+<div class="row">
+	<div class="col-sm-2">
+		<a href="@($"auctions/new")" class="btn btn-success table-btn" data-toggle="tooltip" data-placement="bottom" title="Add">
+			<i class="oi oi-book"></i> Add new
+		</a>
+	</div>
+</div>
+
 <table class="table table-striped table-hover w-75">
 	<thead>
-		<tr>
+		<tr style="text-align: center;">
 			<th>Title</th>
+			<th>Category</th>
 			<th>Opening time</th>
 			<th>Closing time</th>
+			<th>Starting Bid</th>
 			<th>Current Bid</th>	
+			<th>Auction status</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var item in Model.Auctions)
 		{
-			<tr>
+			<tr style="text-align: center;">
                 <td><a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom">@item.Title</a></td>
+				<td>@item.Category</td>
 				<td>@item.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
 				<td>@item.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
-				<td style="text-align: center;">
+				<td>@item.StartingBidAmount</td>
+				<td>
 					@if (@item.CurrentBidAmount == 0)
 					{
 						<i>-</i>
@@ -36,6 +45,16 @@
 					else
 					{
 						@item.CurrentBidAmount.ToString();
+					}
+				</td>
+				<td>
+					@if (@item.EndDate > DateTime.Now)
+					{
+						<p style="color: green">ACTIVE</p>
+					}
+					else
+					{
+						<p style="color: red">CLOSED</p>
 					}
 				</td>
 				<td>
@@ -49,7 +68,7 @@
 			</tr>
 		}
 	</tbody>
-</table>
+</table>	
 
 <ConfirmationDialog Title="Confirm delete"
 					CloseEventCallback="@OnConfirmationDeleteDialogClosed"
