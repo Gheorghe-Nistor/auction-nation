@@ -17,7 +17,10 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await ListingsClient.PostListingsAsync(new ListingsQueryParams());
+        Model = await ListingsClient.PostListingsAsync(new ListingsQueryParams { 
+            Status = "InProgress",
+            MinDate = DateTime.Now
+        });
     }
 
     public async Task GetListings()

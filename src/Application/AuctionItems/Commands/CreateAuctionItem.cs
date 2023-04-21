@@ -43,6 +43,9 @@ public class CreateAuctionItemCommandHandler
             BiddingHistory = new List<Bid>()
         };
 
+        // TO DO
+        entity.Status = Status.InProgress;
+
         _context.AuctionItems.Add(entity);
 
         await _context.SaveChangesAsync(cancellationToken);

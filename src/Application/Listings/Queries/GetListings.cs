@@ -54,6 +54,7 @@ public class GetListingsQueryHandler
                 .Where(a => maxDate == null || a.StartDate <= a.EndDate || a.EndDate <= maxDate)
                 .Where(a => status == Status.Unknown || a.Status == status)
                 .Where(a => deliveryMethod == DeliveryMethod.None || a.DeliveryMethod == deliveryMethod)
+                .OrderBy(a => a.StartDate)
                 .ProjectTo<AuctionItemDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
         };

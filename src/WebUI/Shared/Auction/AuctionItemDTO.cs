@@ -3,10 +3,11 @@ using Cegeka.Auction.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using Cegeka.Auction.Domain.CompareAttributes;
 using Microsoft.AspNetCore.Components.Forms;
+using Cegeka.Auction.Domain.Common;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction;
 
-public class AuctionItemDTO
+public class AuctionItemDTO : BaseAuditableEntity
 {
     public int Id { get; set; }
     public Guid PublicId { get; set; }
