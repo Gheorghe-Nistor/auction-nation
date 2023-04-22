@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cegeka.Auction.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230421211059_ApplicationUserInitial")]
+    [Migration("20230422085006_ApplicationUserInitial")]
     partial class ApplicationUserInitial
     {
         /// <inheritdoc />

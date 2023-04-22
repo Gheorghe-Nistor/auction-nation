@@ -30,7 +30,7 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public string Username { get; set; }
+        //public string Username { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -56,6 +56,9 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            
+            [Display(Name = "Username")]
+            public string Username { get; set; }
 
             [Display(Name = "Language")]
             public string Language { get; set; }
@@ -74,10 +77,9 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
 
-            Username = userName;
-
             Input = new InputModel
             {
+                Username = user.UserName,
                 Language = user.Language,
                 Currency = user.Currency,
                 TimeZone = user.TimeZone,
@@ -111,9 +113,9 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            if (Username != user.UserName) 
+            if (Input.Username != user.UserName) 
             { 
-                user.UserName = Username;
+                user.UserName = Input.Username;
             }
 
             if (Input.Language != user.Language)
