@@ -6,10 +6,13 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.Infrastructure.Identity;
+using Cegeka.Auction.WebUI.Shared.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
 {
@@ -61,30 +64,81 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
             public string Username { get; set; }
 
             [Display(Name = "Language")]
-            public string Language { get; set; }
+            public int? LanguageId { get; set; }
 
             [Display(Name = "Currency")]
-            public string Currency { get; set; }
+            public int? CurrencyId { get; set; }
 
             [Display(Name = "TimeZone")]
-            public string TimeZone { get; set; }
+            public int? TimeZoneId { get; set; }
 
             [Display(Name = "DisplaySetting")]
-            public string DisplaySetting { get; set; }
+            public int? DisplaySettingId { get; set; }
+
+            public static IEnumerable<SelectListItem> Languages { get; set; }
+
+            public static IEnumerable<SelectListItem> Currencies { get; set; }
+
+            public static IEnumerable<SelectListItem> TimeZones { get; set; }
+
+            public static IEnumerable<SelectListItem> DisplaySettings { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
 
+            var availableLanguages = Enum.GetValues(typeof(Languages))
+                                                .Cast<Languages>()
+                                                .Select(p => new LookupDto
+                                                {
+                                                    Id = (int) p,
+                                                    Title = p.ToString()
+                                                })
+                                                .ToList();
+
+            var availableCurrencies = Enum.GetValues(typeof(Currencies))
+                                                .Cast<Currencies>()
+                                                .Select(p => new LookupDto
+                                                {
+                                                    Id = (int)p,
+                                                    Title = p.ToString()
+                                                })
+                                                .ToList();
+
+            var availableTimeZones = Enum.GetValues(typeof(TimeZones))
+                                                .Cast<TimeZones>()
+                                                .Select(p => new LookupDto
+                                                {
+                                                    Id = (int)p,
+                                                    Title = p.ToString()
+                                                })
+                                                .ToList();
+
+            var availableDisplaySettings = Enum.GetValues(typeof(DisplaySettings))
+                                                .Cast<DisplaySettings>()
+                                                .Select(p => new LookupDto
+                                                {
+                                                    Id = (int)p,
+                                                    Title = p.ToString()
+                                                })
+                                                .ToList();
+
+            InputModel.Languages = availableLanguages.Select(x => new SelectListItem() { Text = x.Title , Value = x.Id.ToString() }).ToList();
+            InputModel.Currencies = availableCurrencies.Select(x => new SelectListItem() { Text = x.Title, Value = x.Id.ToString() }).ToList();
+            InputModel.TimeZones = availableTimeZones.Select(x => new SelectListItem() { Text = x.Title, Value = x.Id.ToString() }).ToList();
+            InputModel.DisplaySettings = availableDisplaySettings.Select(x => new SelectListItem() { Text = x.Title, Value = x.Id.ToString() }).ToList();
+
             Input = new InputModel
             {
                 Username = user.UserName,
-                Language = user.Language,
-                Currency = user.Currency,
-                TimeZone = user.TimeZone,
-                DisplaySetting = user.DisplaySetting
+                LanguageId = user.LanguageId ?? -1,
+                CurrencyId = user.CurrencyId ?? -1,
+                TimeZoneId = user.TimeZoneId ?? -1,
+                DisplaySettingId = user.DisplaySettingId ?? -1,
+                
             };
+
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -118,24 +172,24 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
                 user.UserName = Input.Username;
             }
 
-            if (Input.Language != user.Language)
+            if (Input.LanguageId != user.LanguageId)
             {
-                user.Language = Input.Language;
+                user.LanguageId = Input.LanguageId;
             }
 
-            if (Input.Currency != user.Currency)
+            if (Input.CurrencyId != user.CurrencyId)
             {
-                user.Currency = Input.Currency;
+                user.CurrencyId = Input.CurrencyId;
             }
 
-            if (Input.TimeZone != user.TimeZone)
+            if (Input.TimeZoneId != user.TimeZoneId)
             {
-                user.TimeZone = Input.TimeZone;
+                user.TimeZoneId = Input.TimeZoneId;
             }
 
-            if (Input.DisplaySetting != user.DisplaySetting)
+            if (Input.DisplaySettingId != user.DisplaySettingId)
             {
-                user.DisplaySetting = Input.DisplaySetting;
+                user.DisplaySettingId = Input.DisplaySettingId;
             }
 
             await _userManager.UpdateAsync(user);
