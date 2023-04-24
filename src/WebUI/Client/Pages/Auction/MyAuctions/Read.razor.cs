@@ -1,5 +1,7 @@
 ﻿using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Client.Pages.Auction.Bids;
 using Cegeka.Auction.WebUI.Shared.Auction;
+using Cegeka.Auction.WebUI.Shared.Bid;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
@@ -19,12 +21,28 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
         [Inject]
         public IAuctionsClient AuctionsClient { get; set; } = null!;
-        
+
         public AuctionItemDetailsVM? Model { get; set; }
 
         public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
 
         public bool BuyItNowAvailable { get; set; } = false;
+
+        private BidDialog _bidDialog { get; set; }
+
+        protected async Task PlaceBidForItem()
+        {
+            _bidDialog.Show();
+        }
+
+        protected async void DialogAddForPlaceBid(bool arg)
+        {
+            if (arg)
+            {
+                BidDTO bid = new BidDTO() { Amount = _bidDialog.Amount };
+                Console.WriteLine(bid.Amount);
+            }
+        }
 
         protected override async Task OnInitializedAsync()
         {

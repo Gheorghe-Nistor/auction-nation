@@ -1,5 +1,6 @@
 ﻿@using System;
 @using System.Text.RegularExpressions;
+@using Cegeka.Auction.WebUI.Client.Pages.Auction.Bids;
 
 @page "/auctions/{auctionId}/view"
 @attribute [Authorize(Permissions.Auction)]
@@ -92,6 +93,8 @@
             </div>
         </button>
 
+        <button class="btn btn-primary ml-2" @onclick="@PlaceBidForItem">Place Bid</button>
+
         <h3>Bidding History</h3>
         <ul>
             @foreach (var bid in Model.Auction.BiddingHistory)
@@ -107,7 +110,8 @@
 </div>
 
 
-
+<BidDialog @ref="_bidDialog" Title="Bid" Content="Place a bid for this item: "
+           PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>
 
 
 
