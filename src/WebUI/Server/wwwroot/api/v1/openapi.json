@@ -909,7 +909,12 @@
             "format": "decimal"
           },
           "deliveryMethod": {
-            "$ref": "#/components/schemas/DeliveryMethod"
+            "minimum": 1.0,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DeliveryMethod"
+              }
+            ]
           },
           "status": {
             "type": "integer",

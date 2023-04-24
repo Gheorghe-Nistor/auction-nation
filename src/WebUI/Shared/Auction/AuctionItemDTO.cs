@@ -37,15 +37,16 @@ public class AuctionItemDTO
 
     public decimal CurrentBidAmount { get; set; } = 0;
 
-    [Required]
-    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
+    [Required(ErrorMessage = "This field is required.")]
+    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
     public decimal BuyItNowPrice { get; set; }
 
-    [Required]
-    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
+    [Required(ErrorMessage = "This field is required.")]
+    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
     public decimal ReservePrice { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
+    [Range(1, double.PositiveInfinity, ErrorMessage = "Please pick a valid delivery method.")]
     [EnumDataType(typeof(DeliveryMethod))]
     public DeliveryMethod DeliveryMethod { get; set; }
 
