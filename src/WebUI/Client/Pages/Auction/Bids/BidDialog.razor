@@ -14,6 +14,10 @@
 
                     <label for="textInput">@Content</label>
                     <input type="text" class="form-control" @bind-value="@_bid" @oninput="@ValidateDecimal"/>
+                    @if (_isBid)
+                    {
+                        <p style="color:red">The bid must be a number.</p>
+                    }
 
                     <a class="btn btn-outline-primary" @onclick="@OnOkClicked">OK</a>
                     <a class="btn btn-outline-primary" @onclick="@OnCancelClicked">Cancel</a>
