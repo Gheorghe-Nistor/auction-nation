@@ -102,7 +102,7 @@
         <ul>
             @foreach (var bid in Model.Auction.BiddingHistory)
             {
-                <li>@bid.UserId - @bid.Amount</li>
+                <li>@bid.CreatedBy - @bid.Amount</li>
             }
         </ul>
     </div>
@@ -113,8 +113,8 @@
 </div>
 
 
-<BidDialog @ref="_bidDialog" Title="Bid" Content="Place a bid for this item: "
-           PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>
+<BidDialog Title="Bid" Content="The bid that you place must to be bigger than the starting bid: "
+           @ref="_bidDialog" PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>
 
 
 

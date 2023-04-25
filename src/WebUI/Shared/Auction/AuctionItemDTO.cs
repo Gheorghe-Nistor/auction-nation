@@ -12,6 +12,8 @@ public class AuctionItemDTO
     public int Id { get; set; }
     public Guid PublicId { get; set; }
 
+    public string? CreatedBy { get; set; }
+
     [Required(ErrorMessage = "This field is required.")]
     [MaxLength(100, ErrorMessage = "Please make the title shorter.")]
     public string Title { get; set; }

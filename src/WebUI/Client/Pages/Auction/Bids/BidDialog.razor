@@ -13,8 +13,8 @@
                 <div class="modal-body">
 
                     <label for="textInput">@Content</label>
-                    <input type="text" class="form-control" @bind-value="@_bid" @oninput="@ValidateDecimal"/>
-                    @if (_isBid)
+                    <input type="text" class="form-control" @bind-value="@Bid" @oninput="@ValidateDecimal"/>
+                    @if (isBid)
                     {
                         <p style="color:red">The bid must be a number.</p>
                     }

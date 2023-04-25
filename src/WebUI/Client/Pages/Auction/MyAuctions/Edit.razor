@@ -42,7 +42,7 @@
 			</div>
 			<div class="form-group col-sm-5">
 				<label for="end-date" class="col-sm-3">Closing date</label>
-				<InputDate id="end-date" class="form-control col-sm-6" @bind-Value="@Model.Auction.EndDate" readonly/>
+				<InputDate id="end-date" class="form-control col-sm-6" @bind-Value="@Model.Auction.EndDate"/>
 				<ValidationMessage class="validation-error" For="@(() => Model.Auction.EndDate)" />
 			</div>
 		</div>

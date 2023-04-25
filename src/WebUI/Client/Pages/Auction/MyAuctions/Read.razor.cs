@@ -18,11 +18,14 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         [Inject]
         private IUsersClient UsersClient { get; set; } = null!;
 
-        [Inject] 
+        [Inject]
         private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
 
         [Inject]
         public IAuctionsClient AuctionsClient { get; set; } = null!;
+
+        [Inject]
+        public IBidClient BidClient { get; set; }
 
         public AuctionItemDetailsVM? Model { get; set; }
 
@@ -39,10 +42,22 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
         protected async void DialogAddForPlaceBid(bool arg)
         {
-            if (arg)
+            if (_bidDialog.Amount > Model.Auction.StartingBidAmount)
             {
-                BidDTO bid = new BidDTO() { Amount = _bidDialog.Amount };
-                Console.WriteLine(bid.Amount);
+                if (arg)
+                {
+                    BidDTO bid = new BidDTO()
+                    {
+                        Amount = _bidDialog.Amount,
+                        ItemId = Model.Auction.Id
+                    };
+                    await BidClient.AddAuctionAsync(bid);
+
+                    Model.Auction.CurrentBidAmount = bid.Amount;
+                    Model.Auction.BiddingHistory.Add(bid);
+                    await AuctionsClient.PutAuctionItemAsync(Model.Auction.Id, Model.Auction);
+                    this.StateHasChanged();
+                }
             }
         }
 
@@ -78,5 +93,5 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         }
 
     }
-   
+
 }

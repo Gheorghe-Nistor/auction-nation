@@ -33,8 +33,8 @@ namespace Cegeka.Auction.Application.Bids.Commands
         {
             var entity = new Bid
             {
-                Amount = request.Item.Amount,
-                CreatedAt = DateTime.UtcNow
+                ItemId = request.Item.ItemId,
+                Amount = request.Item.Amount
             };
 
             _context.Bids.Add(entity);

@@ -13,9 +13,9 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.Bids
         [Parameter]
         public EventCallback<bool> PlaceBidEventCallback { get; set; }
 
-        private string _bid { get; set; }
+        public string Bid { get; set; }
 
-        private bool _isBid = false;
+        public bool isBid = false;
 
         public decimal Amount { get; set; } = 0;
 
@@ -42,8 +42,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.Bids
             {
                 await PlaceBidEventCallback.InvokeAsync(true);
                 Close();
-                _bid = "";
-                _isBid = false;
+                Bid = "";
+                isBid = false;
             }
         }
 
@@ -51,15 +51,15 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.Bids
         {
             if (decimal.TryParse(args.Value.ToString(), out decimal result))
             {
-                _bid = result.ToString();
+                Bid = result.ToString();
                 Amount = result;
-                _isBid = false;
+                isBid = false;
             }
             else
             {
                 Amount = 0;
-                _isBid = true;
-                _bid = "";
+                isBid = true;
+                Bid = "";
             }
         }
     }
