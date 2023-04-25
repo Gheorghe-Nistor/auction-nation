@@ -21,6 +21,8 @@ public interface IIdentityService
 
     Task<UserDto> GetUserAsync(string id);
 
+    Task<string> GetUserIdByNameAsync(string userName);
+
     Task UpdateUserAsync(UserDto updatedUser);
 
     Task CreateRoleAsync(RoleDto newRole);

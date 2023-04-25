@@ -80,10 +80,13 @@
                 </tr>
             </tbody>
         </table>
-
-        <h3>Time Left</h3>
-        <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
-
+        
+        @if(TimeLeft.Days >= 0) 
+        {
+            <h3>Time Left</h3>
+            <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
+        }
+     
         <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)">
             <div class="row">
                 <div class="col-sm-12">Buy it now</div>

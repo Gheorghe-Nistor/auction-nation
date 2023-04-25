@@ -7,7 +7,7 @@ using Cegeka.Auction.Domain.Common;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction;
 
-public class AuctionItemDTO : BaseAuditableEntity
+public class AuctionItemDTO
 {
     public int Id { get; set; }
     public Guid PublicId { get; set; }
