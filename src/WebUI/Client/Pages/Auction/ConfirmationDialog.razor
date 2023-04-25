@@ -1,0 +1,23 @@
+﻿@if (ShowModal)
+{
+	<div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="titleLabel">@Title</h4>
+					<button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete this item?</p>
+					<p>This process cannot be undone.</p>
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-danger" @onclick="@OnOkClicked">Delete</a>
+					<a class="btn btn-secondary" @onclick="@OnCancelClicked">Cancel</a>
+				</div>
+			</div>
+		</div>
+	</div>
+}

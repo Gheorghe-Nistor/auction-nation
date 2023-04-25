@@ -1,14 +1,10 @@
-﻿using Cegeka.Auction.WebUI.Shared.Auction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Shared.Auction;
+using Cegeka.Auction.WebUI.Shared.Listings;
 
 namespace Cegeka.Auction.Application.AuctionItems.Queries;
 
-
-public record GetAuctionItemsQuery(AuctionFilterDTO Filter) : IRequest<AuctionItemsVM>;
+public record GetAuctionItemsQuery(ListingsQueryParams? QueryParams = null) : IRequest<AuctionItemsVM>;
 
 public class GetAuctionItemsQueryHandler
        : IRequestHandler<GetAuctionItemsQuery, AuctionItemsVM>
@@ -27,23 +23,41 @@ public class GetAuctionItemsQueryHandler
         GetAuctionItemsQuery request,
         CancellationToken cancellationToken)
     {
-        string? search = request.Filter.Search?.Trim();
-        string? category = request.Filter.Search?.Trim();
-        string? status = request.Filter.Status?.Trim();
+        ListingsQueryParams queryParams = request.QueryParams ?? new ListingsQueryParams();
 
-        decimal? minAmount = request.Filter.MinAmount;
-        decimal? maxAmount = request.Filter.MaxAmount;
+        string? search = queryParams?.Search;
+        string? category = queryParams?.Category;
+        decimal? minPrice = queryParams?.MinPrice;
+        decimal? maxPrice = queryParams?.MaxPrice;
+        
+        DateTime? minDate = queryParams?.MinDate;
+        DateTime? maxDate = queryParams?.MaxDate;
+
+        Status status = ParseEnum(queryParams.Status, Status.Unknown);
+        DeliveryMethod deliveryMethod = ParseEnum(queryParams.DeliveryMethod, DeliveryMethod.None);
 
         return new AuctionItemsVM
         {
             Auctions = await _context.AuctionItems
                 .Where(a => string.IsNullOrEmpty(search) || a.Title.Contains(search) || a.Description.Contains(search))
-                // Category not implemented .Where(a => string.IsNullOrEmpty(category) || a.Category.CategoryName.Equals(category))
-                .Where(a => string.IsNullOrEmpty(status) || a.Status.Equals(status))
-                .Where(a => minAmount == null || (a.CurrentBidAmount != null ? a.CurrentBidAmount >= minAmount : a.StartingBidAmount >= minAmount))
-                .Where(a => maxAmount == null || (a.CurrentBidAmount != null ? a.CurrentBidAmount <= maxAmount : a.StartingBidAmount <= maxAmount))
+                .Where(a => string.IsNullOrEmpty(category) || a.Category.Equals(category))
+                .Where(a => minPrice == null || (a.CurrentBidAmount != 0 ? a.CurrentBidAmount >= minPrice : a.StartingBidAmount >= minPrice))
+                .Where(a => maxPrice == null || (a.CurrentBidAmount != 0 ? a.CurrentBidAmount <= maxPrice : a.StartingBidAmount <= maxPrice))
+                .Where(a => minDate == null || minDate <= a.StartDate || minDate <= a.EndDate)
+                .Where(a => maxDate == null || a.StartDate <= a.EndDate || a.EndDate <= maxDate)
+                .Where(a => status == Status.Unknown || a.Status == status)
+                .Where(a => deliveryMethod == DeliveryMethod.None || a.DeliveryMethod == deliveryMethod)
                 .ProjectTo<AuctionItemDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
         };
+    }
+
+    private T ParseEnum<T>(string value, T defaultValue) where T : struct, Enum
+    {
+        if (Enum.TryParse<T>(value, true, out var result))
+        {
+            return result;
+        }
+        return defaultValue;
     }
 }

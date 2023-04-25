@@ -1,39 +1,55 @@
 ﻿using Cegeka.Auction.Domain.Common;
-using System;
-using System.Collections.Generic;
+using Cegeka.Auction.Domain.CompareAttributes;
+using Cegeka.Auction.Domain.Enums;
+using Microsoft.AspNetCore.Components.Forms;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cegeka.Auction.Domain.Entities;
 
 public class AuctionItem : BaseAuditableEntity
 {
     public int Id { get; set; }
-
     public Guid PublicId { get; set; }
 
     [Required]
     [MaxLength(100)]
-    public string Title { get; set; } = String.Empty;
+    public string Title { get; set; }
 
     [Required]
-    [MaxLength(1000)]
-    public string Description { get; set; } = String.Empty;
+    [MaxLength(500)]
+    public string Description { get; set; }
+
+    public List<string> Images { get; set; } = new List<string>();
+
+    [Required]
+    public DateTime StartDate { get; set; }
+
+    [Required]
+    [GreaterThanOrEqualToDate(nameof(StartDate))]
+    public DateTime EndDate { get; set; }
+
+    [Required]
+    [MaxLength(50)]
+    public string Category { get; set; }
 
     [Required]
     public decimal StartingBidAmount { get; set; }
 
-    public decimal? CurrentBidAmount { get; set; }
-
-    public DateTime EndTime { get; set; } = DateTime.Now.AddDays(30);
+    public decimal CurrentBidAmount { get; set; } = 0;
 
     [Required]
-    [MaxLength(100)]
-    public string ShippingDetails { get; set; } = String.Empty;
+    [GreaterThanDecimal(nameof(StartingBidAmount))]
+    public decimal BuyItNowPrice { get; set; }
 
-    public ICollection<Bid> BiddingHistory { get; set; } = new List<Bid>();
+    [Required]
+    [GreaterThanDecimal(nameof(StartingBidAmount))]
+    public decimal ReservePrice { get; set; }
 
-    public string Status { get; set; } = "active";
+    [Required]
+    public DeliveryMethod DeliveryMethod { get; set; }
+
+    [Required]
+    public Status Status { get; set; }
+
+    public List<Bid> BiddingHistory { get; set; } = new List<Bid>();
 }
