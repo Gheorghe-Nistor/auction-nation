@@ -1,9 +1,6 @@
 ﻿using Blazored.Toast.Services;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.ComponentModel;
-using System.Reflection;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
