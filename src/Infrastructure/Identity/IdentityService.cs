@@ -121,6 +121,18 @@ public class IdentityService : IIdentityService
         return result;
     }
 
+    public async Task<string> GetUserIdByNameAsync(string userName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        return user.Id;
+    }
+
     public async Task UpdateUserAsync(UserDto updatedUser)
     {
         var user = await _userManager.FindByIdAsync(updatedUser.Id);
