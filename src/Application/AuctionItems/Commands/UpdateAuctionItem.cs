@@ -1,6 +1,7 @@
 ﻿using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.Domain.Events;
 using Cegeka.Auction.WebUI.Shared.Auction;
+using Cegeka.Auction.WebUI.Shared.Bid;
 using Cegeka.Auction.WebUI.Shared.TodoItems;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,17 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
             entity.ReservePrice = request.Item.ReservePrice;
             entity.DeliveryMethod = (DeliveryMethod)request.Item.DeliveryMethod;
             entity.Status = (Status)request.Item.Status;
-
+            entity.StartDate = request.Item.StartDate;
+            entity.EndDate = request.Item.EndDate;
+            foreach(var x in request.Item.BiddingHistory)
+            {
+                var y = new Bid()
+                {
+                    Amount = x.Amount,
+                    ItemId = x.ItemId
+                };
+                entity.BiddingHistory.Add(y);
+            }
 
 
             await _context.SaveChangesAsync(cancellationToken);
