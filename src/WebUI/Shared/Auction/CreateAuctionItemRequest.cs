@@ -12,7 +12,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public List<string> Images { get; set; } = new List<string>();
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string Category { get; set; } = string.Empty;
+        public Category Category { get; set; }
 
         public decimal StartingBidAmount { get; set; } = 0;
 
@@ -57,8 +57,8 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
                 .MaximumLength(500).WithMessage("Please make the description shorter.")
                 .NotEmpty().WithMessage("This field is required.");
 
-            RuleFor(v => v.Category) 
-                .MaximumLength(50).WithMessage("Please make the category shorter.")
+            RuleFor(v => v.Category)
+                .Must(v => Enum.IsDefined(typeof(Category), v))
                 .NotEmpty().WithMessage("This field is required.");
 
             RuleFor(v => v.StartingBidAmount)

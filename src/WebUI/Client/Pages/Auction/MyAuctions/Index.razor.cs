@@ -42,7 +42,7 @@ public partial class Index
 
             case "Category":
                 currentSortDirection = Sorter.ByCategory;
-                property = a => a.Category;
+                property = a => a.Category.ToString();
                 break;
 
             case "Start Date":

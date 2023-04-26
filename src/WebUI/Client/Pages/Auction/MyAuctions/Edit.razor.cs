@@ -24,6 +24,8 @@ public partial class Edit
 
     public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
 
+    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
+
     public List<IBrowserFile> loadedFiles = new();
 
     public int maxAllowedFiles = 10;

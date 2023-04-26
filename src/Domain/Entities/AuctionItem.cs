@@ -29,8 +29,7 @@ public class AuctionItem : BaseAuditableEntity
     public DateTime EndDate { get; set; }
 
     [Required]
-    [MaxLength(50)]
-    public string Category { get; set; }
+    public Category Category { get; set; }
 
     [Required]
     public decimal StartingBidAmount { get; set; }
