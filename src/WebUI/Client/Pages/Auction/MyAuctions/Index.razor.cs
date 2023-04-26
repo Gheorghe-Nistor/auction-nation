@@ -96,7 +96,7 @@ public partial class Index
     protected async Task ShowWarnings(AuctionItemDTO item, string auctionType)
     {
         TimeSpan diff = item.EndDate - DateTime.Now;
-        string message = "";
+        string message;
 
         if (diff.TotalHours < 24)
         {

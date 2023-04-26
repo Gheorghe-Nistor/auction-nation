@@ -1,9 +1,8 @@
-﻿using Cegeka.Auction.Domain.Enums;
+﻿using Blazored.Toast.Services;
+using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System.Net.Http.Headers;
-using System.Text;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
@@ -17,6 +16,9 @@ public partial class Edit
 
     [Inject]
     public NavigationManager Navigation { get; set; } = null!;
+
+    [Inject]
+    public IToastService toastService { get; set; }
 
     public AuctionItemDetailsVM? Model { get; set; }
 
@@ -64,9 +66,22 @@ public partial class Edit
         isLoading = false;
     }
 
+    protected async Task ShowWarnings(AuctionItemDTO item, string auctionType)
+    {
+        string message;
+        TimeSpan diff = item.EndDate - DateTime.Now;
+
+        if (auctionType == "edit")
+        {
+            message = "The auction has been successfully updated!";
+            toastService.ShowSuccess(message);
+        }
+    }
+
     public async Task UpdateAuction()
     {
         await AuctionsClient.PutAuctionItemAsync(Model.Auction.Id, Model.Auction);
+        await ShowWarnings(Model.Auction, "edit");
 
         Navigation.NavigateTo("/auctions");
     }
