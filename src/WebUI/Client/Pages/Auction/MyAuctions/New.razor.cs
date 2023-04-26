@@ -96,9 +96,18 @@ public partial class New
             }
         }
 
-        await AuctionsClient.AddAuctionAsync(Model.Auction);
+        try
+        {
+            await AuctionsClient.AddAuctionAsync(Model.Auction);
 
-        Navigation.NavigateTo("/auctions");
+            Navigation.NavigateTo("/auctions");
+        }
+        catch (ApiException ex) 
+        {
+            ValidationMessage = "Please upload at least one image";
+        }
+
+       
     }
 
     public async Task RemoveImage(int index)

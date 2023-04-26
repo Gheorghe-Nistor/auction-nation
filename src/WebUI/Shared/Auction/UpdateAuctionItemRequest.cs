@@ -14,7 +14,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public string Description { get; set; } = string.Empty;
 
-        public List<string> Images { get; set; } = new List<string>();
+        public List<string> Images { get; set; } 
 
         public string Category { get; set; } = string.Empty;
 
@@ -65,6 +65,9 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
             RuleFor(v => v.Description)
                 .MaximumLength(500)
+                .NotEmpty().WithMessage("This field is required."); ;
+
+            RuleFor(v => v.Images)
                 .NotEmpty().WithMessage("This field is required."); ;
 
             RuleFor(v => v.Category)

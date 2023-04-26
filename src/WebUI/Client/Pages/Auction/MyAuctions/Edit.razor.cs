@@ -99,6 +99,11 @@ public partial class Edit
                 }
             }
         }
+        if(!Model.Auction.Images.Any())
+        {
+            ValidationMessage = "At least one image is required to update the auction.";
+            return;
+        }
 
         await AuctionsClient.PutAuctionItemAsync(Model.Auction.Id, Model.Auction);
 

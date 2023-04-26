@@ -28,6 +28,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Configurations
                 .HasMaxLength(50);
 
             builder.Property(t => t.Images)
+                .IsRequired()
                 .HasConversion(
                     images => string.Join("/////", images),
                     str => str.Split("/////", StringSplitOptions.RemoveEmptyEntries).ToList(),

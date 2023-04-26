@@ -76,30 +76,32 @@
 				<ValidationMessage class="validation-error" For="@(() => Model.Auction.ReservePrice)" />
 			</div>
 		</div>
-		
-		<!-- Delivery -->
-		<div class="row">
-			<div class="form-group col-sm-4">
-				<label for="delivery-method" class="col-sm-4">Delivery method</label>
-				<InputSelect @bind-Value="@Model.Auction.DeliveryMethod" required>
-					@foreach (var method in Methods)
-					{
-						<option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
-					}
-				</InputSelect>
-				<ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
-			</div>
-		</div>
+
+        <!-- Delivery -->
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="delivery-method" class="col-sm-4">Delivery method</label>
+                <InputSelect @bind-Value="@Model.Auction.DeliveryMethod" required>
+                    @foreach (var method in Methods)
+                    {
+                        <option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
+                    }
+                </InputSelect>
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
+            </div>
+        </div>
         
         <!-- Images-->
         <div class="row">
             <div class="form-group col-sm-4">
                 <label for="loaded-files" class="col-sm-4">Load up to 10 images</label>
                 <InputFile multiple id="loaded-files" OnChange="LoadFiles" />
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.Images)" />
                 @if (!string.IsNullOrEmpty(ValidationMessage))
                 {
                     <div class="text-danger">@ValidationMessage</div>
                 }
+      
             </div>
 
             <div>
