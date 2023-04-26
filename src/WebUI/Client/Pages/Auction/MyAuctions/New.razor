@@ -96,6 +96,10 @@
             <div class="form-group col-sm-4">
                 <label for="loaded-files" class="col-sm-4">Load up to 10 images</label>
                 <InputFile multiple id="loaded-files" OnChange="LoadFiles" />
+                @if (!string.IsNullOrEmpty(ValidationMessage))
+                {
+                    <div class="text-danger">@ValidationMessage</div>
+                }
             </div>
 
             <div>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
@@ -28,6 +29,8 @@ public partial class Edit
     public int maxAllowedFiles = 10;
 
     public bool isLoading;
+    public string ValidationMessage { get; set; } = string.Empty;
+
 
     protected override async Task OnParametersSetAsync()
     {
@@ -37,9 +40,25 @@ public partial class Edit
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
         isLoading = true;
+        ValidationMessage = string.Empty;
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
+            // Validate file type
+            if (!Regex.IsMatch(file.ContentType, @"^image\/(jpeg|png)$"))
+            {
+                // Invalid file type
+                ValidationMessage = $"File {file.Name} is not of an allowed type.";
+                return;
+            }
+
+            // Validate image file size
+            if (file.Size > 5 * 1024 * 1024) // 5 MB
+            {
+                ValidationMessage = $"File {file.Name} exceeds the maximum size of 5 MB.";
+                return;
+            }
+
             try
             {
                 // add image to auction item
