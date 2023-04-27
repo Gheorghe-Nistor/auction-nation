@@ -24,7 +24,9 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         public AuctionItemDetailsVM? Model { get; set; }
 
         public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
-        public string CurrentUserId { get; set; } = String.Empty;
+        public string? CurrentUserId { get; set; } = null;
+        public string? AuctioneerUsername { get; set; } = null;
+        public string? WinningBidderUsername { get; set; } = null;
         public bool BuyItNowAvailable { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
@@ -39,10 +41,16 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
                 CurrentUserId = await UsersClient.GetUserIdByUserNameAsync(user.Identity.Name);
             }
 
-            if (DateTime.Now < Model.Auction.StartDate && CurrentUserId != Model.Auction.CreatedBy)
+            if (DateTime.Now < Model.Auction.StartDate && CurrentUserId != Model.Auction.CreatedBy && Model.Auction.WinningBidder == null)
             {
                 BuyItNowAvailable = true;
             }
+
+            var winningBidderUser = await UsersClient.GetUserAsync(Model.Auction.WinningBidder);
+            WinningBidderUsername = winningBidderUser.User.UserName;
+
+            var auctioneerUser = await UsersClient.GetUserAsync(Model.Auction.CreatedBy);
+            AuctioneerUsername = auctioneerUser.User.UserName;
 
             var endDate = Model.Auction.EndDate;
             var timer = new System.Timers.Timer(1000);
@@ -56,6 +64,13 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
                 StateHasChanged();
             };
             timer.Start();
+        }
+
+        public async Task BuyAuction()
+        {
+            await AuctionsClient.BuyAuctionItemAsync(Model.Auction.Id, CurrentUserId);
+
+            StateHasChanged();
         }
 
     }

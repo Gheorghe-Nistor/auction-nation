@@ -43,57 +43,110 @@
         }
 
         <h3>Details</h3>
-        <table class="table">
+        <table class="table" style="width: 50%;">
             <tbody>
                 <tr>
-                    <td><strong>Category:</strong></td>
+                    <td>
+                        <span class="oi oi-person" aria-hidden="true"></span>
+                        <strong>Auctioneer</strong>
+                    </td>
+                    <td>
+                        @AuctioneerUsername
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="oi oi-tag" aria-hidden="true"></span>
+                        <strong>Category:</strong>
+                    </td>
                     <td>@Model.Auction.Category</td>
                 </tr>
                 <tr>
-                    <td><strong>Starting Bid Amount:</strong></td>
+                    <td>
+                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        <strong>Starting Bid Amount:</strong>
+                    </td>
                     <td>@Model.Auction.StartingBidAmount</td>
                 </tr>
                 <tr>
-                    <td><strong>Current Bid Amount:</strong></td>
+                    <td>
+                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        <strong>Current Bid Amount:</strong>
+                    </td>
                     <td>@Model.Auction.CurrentBidAmount</td>
                 </tr>
                 <tr>
-                    <td><strong>Buy It Now Price:</strong></td>
+                    <td>
+                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        <strong>Buy It Now Price:</strong>
+                    </td>
                     <td>@Model.Auction.BuyItNowPrice</td>
                 </tr>
                 <tr>
-                    <td><strong>Reserve Price:</strong></td>
+                    <td>
+                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        <strong>Reserve Price:</strong>
+                    </td>
                     <td>@Model.Auction.ReservePrice</td>
                 </tr>
                 <tr>
-                    <td><strong>Start Date:</strong></td>
+                    <td>
+                        <span class="oi oi-calendar" aria-hidden="true"></span>
+                        <strong>Start Date:</strong>
+                    </td>
                     <td>@Model.Auction.StartDate.ToShortDateString()</td>
                 </tr>
                 <tr>
-                    <td><strong>End Date:</strong></td>
+                    <td>
+                        <span class="oi oi-calendar" aria-hidden="true"></span>
+                        <strong>End Date:</strong>
+                    </td>
                     <td>@Model.Auction.EndDate.ToShortDateString()</td>
                 </tr>
                 <tr>
-                    <td><strong>Delivery Method:</strong></td>
+                    <td>
+                        <span class="oi oi-package" aria-hidden="true"></span>
+                        <strong>Delivery Method:</strong>
+                    </td>
                     <td>@Model.Auction.DeliveryMethod</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="oi oi-person" aria-hidden="true"></span>
+                        <strong>Winning Bidder</strong>
+                    </td>
+                    <td>
+                        @(Model.Auction.WinningBidder == null ? "N/A" : @WinningBidderUsername)
+                    </td>
                 </tr>
             </tbody>
         </table>
         
         @if(TimeLeft.Days >= 0) 
         {
+            <br />
+
             <h3>Time Left</h3>
             <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
         }
-     
-        <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)">
-            <div class="row">
-                <div class="col-sm-12">Buy it now</div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">$@Model.Auction.BuyItNowPrice</div>
-            </div>
-        </button>
+
+        @if (CurrentUserId != Model.Auction.CreatedBy)
+        {
+            <br />
+
+            <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)" @onclick="BuyAuction">
+                <div class="row">
+                    <div class="col-sm-12">Buy it now</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">$@Model.Auction.BuyItNowPrice</div>
+                </div>
+            </button>
+
+            <br />
+        }
+
+        <br />
 
         <h3>Bidding History</h3>
         <ul>
@@ -108,10 +161,3 @@
 <div class="row">
 	<a href="/auctions">Take me back</a>
 </div>
-
-
-
-
-
-
-

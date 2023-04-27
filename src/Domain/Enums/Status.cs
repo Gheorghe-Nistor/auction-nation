@@ -7,7 +7,8 @@
         Submitted = 2,
         Approved = 3,
         InProgress = 4,
-        Cancelled = 5,
-        Finished = 6
+        AwaitingValidation = 5,
+        Cancelled = 6,
+        Finished = 7
     }
 }
