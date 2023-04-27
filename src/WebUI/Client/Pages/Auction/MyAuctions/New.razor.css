@@ -1,0 +1,9 @@
+﻿div {
+    margin: 10px;
+}
+
+.validation-error {
+    color: red;
+    margin-left: 25%;
+    width: 50%;
+}

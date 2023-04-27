@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cegeka.Auction.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230330122113_ChangeBidAmountToDecimalValuesInAuctionItems")]
-    partial class ChangeBidAmountToDecimalValuesInAuctionItems
+    [Migration("20230407134701_Add_DeliveryMethod_in_AuctionItemDTO")]
+    partial class AddDeliveryMethodinAuctionItemDTO
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,22 +33,37 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("BuyItNowPrice")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("CurrentBidAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("CurrentBidAmount")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<int>("DeliveryMethod")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Images")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -56,20 +71,17 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PublicId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<decimal>("ReservePrice")
+                        .HasColumnType("decimal(10,2)");
 
-                    b.Property<string>("ShippingDetails")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("StartingBidAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -90,7 +102,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int?>("AuctionItemId")
                         .HasColumnType("int");

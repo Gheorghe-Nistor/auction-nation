@@ -1,14 +1,5 @@
-﻿using Cegeka.Auction.Application.TodoItems.Commands;
-using Cegeka.Auction.Domain.Enums;
-using Cegeka.Auction.Domain.Events;
+﻿using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
-using Cegeka.Auction.WebUI.Shared.TodoItems;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cegeka.Auction.Application.AuctionItems.Commands;
 
@@ -43,12 +34,13 @@ public class CreateAuctionItemCommandHandler
             Images = request.Item.Images,
             StartingBidAmount = request.Item.StartingBidAmount,
             CurrentBidAmount = request.Item.CurrentBidAmount,
-            StartDate = DateTime.Now,
+            StartDate = request.Item.StartDate,
             EndDate = request.Item.EndDate,
             BuyItNowPrice = request.Item.BuyItNowPrice,
             ReservePrice = request.Item.ReservePrice,
-            DeliveryMethod = (DeliveryMethod)request.Item.DeliveryMethod,
-            Status = Status.New
+            DeliveryMethod = request.Item.DeliveryMethod,
+            Status = Status.New,
+            BiddingHistory = new List<Bid>()
         };
 
         _context.AuctionItems.Add(entity);
@@ -58,4 +50,3 @@ public class CreateAuctionItemCommandHandler
         return entity.Id;
     }
 }
-

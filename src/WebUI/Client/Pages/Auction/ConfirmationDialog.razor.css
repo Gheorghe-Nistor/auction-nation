@@ -1,0 +1,24 @@
+﻿.modal-content {
+    /*border: 2px solid red;*/
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-title {
+    color: darkred;
+    text-align: center;
+}
+
+.btn-secondary {
+    background-color: lightgrey;
+    border-color: lightgrey;
+}
+
+.close {
+    border-color: transparent;
+    position: absolute;
+    top: 11px;
+    right: 11px;
+}

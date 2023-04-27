@@ -18,5 +18,5 @@ public class Bid : BaseAuditableEntity
     public int UserId { get; set; }
 
     public decimal Amount { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; }
 }

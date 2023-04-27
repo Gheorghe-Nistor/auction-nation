@@ -1,31 +1,47 @@
-﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Cegeka.Auction.Domain.Enums;
+using FluentValidation;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction
 {
     public class CreateAuctionItemRequest
     {
+        public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public List<string> Images { get; set; } = new List<string>();
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Category { get; set; } = string.Empty;
 
         public decimal StartingBidAmount { get; set; } = 0;
 
-        public decimal? CurrentBidAmount { get; set; }
+        public decimal CurrentBidAmount { get; set; }
 
-        public decimal? BuyItNowPrice { get; set; }
+        public decimal BuyItNowPrice { get; set; }
 
-        public decimal? ReservePrice { get; set; }
+        public decimal ReservePrice { get; set; }
 
-        public int DeliveryMethod { get; set; }
+        public DeliveryMethod DeliveryMethod { get; set; }
 
+        public int Status { get; set; }
+
+        public CreateAuctionItemRequest(AuctionItemDTO newAuctionItem)
+        {
+            Id = newAuctionItem.Id;
+            Title = newAuctionItem.Title;
+            Description = newAuctionItem.Description;
+            Images = newAuctionItem.Images;
+            StartDate = newAuctionItem.StartDate;
+            EndDate = newAuctionItem.EndDate;
+            Category = newAuctionItem.Category;
+            StartingBidAmount= newAuctionItem.StartingBidAmount;
+            CurrentBidAmount = newAuctionItem.CurrentBidAmount;
+            BuyItNowPrice = newAuctionItem.BuyItNowPrice;
+            ReservePrice = newAuctionItem.ReservePrice;
+            DeliveryMethod = newAuctionItem.DeliveryMethod;
+            Status = newAuctionItem.Status;
+        }
     }
 
     public class CreateAuctionItemRequestValidator
@@ -52,16 +68,21 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
                 .GreaterThan(v => v.StartingBidAmount).WithMessage("Please increase the price.");
 
             RuleFor(v => v.ReservePrice)
-                .GreaterThan(v => v.StartingBidAmount).WithMessage("Please increase the price.");
+                .GreaterThan(v => v.StartingBidAmount).WithMessage("Please increase the price."); 
 
             RuleFor(v => v.DeliveryMethod)
+                .Must(v => Enum.IsDefined(typeof(DeliveryMethod),v))
                 .NotEmpty().WithMessage("This field is required.");
 
-            RuleFor(v => v.EndDate)
-                .GreaterThanOrEqualTo(v => v.StartDate);
+            RuleFor(v => v.Status)
+             .Must(v => Enum.IsDefined(typeof(Status), v));
 
-            RuleFor(v => v.Images)
-                .NotEmpty().WithMessage("Please add at least one picture.");
+            RuleFor(v => v.StartDate)
+                .NotEmpty();
+            
+            RuleFor(v => v.EndDate)
+                .NotEmpty()
+                .GreaterThanOrEqualTo(v => v.StartDate);
         }
     }    
 }

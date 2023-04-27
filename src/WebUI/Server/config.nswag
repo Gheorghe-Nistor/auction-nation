@@ -100,7 +100,8 @@
         "Cegeka.Auction.WebUI.Shared.TodoLists",
         "Cegeka.Auction.WebUI.Shared.WeatherForecasts",
         "Cegeka.Auction.WebUI.Shared.AccessControl",
-        "Cegeka.Auction.WebUI.Shared.Auction"
+        "Cegeka.Auction.WebUI.Shared.Auction",
+        "Cegeka.Auction.WebUI.Shared.Listings"
       ],
       "additionalContractNamespaceUsages": [],
       "generateOptionalParameters": false,

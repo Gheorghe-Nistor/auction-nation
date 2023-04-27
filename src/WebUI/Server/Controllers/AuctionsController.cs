@@ -1,39 +1,10 @@
-﻿using Cegeka.Auction.Application.AuctionItems;
+﻿using Cegeka.Auction.Application.AuctionItems.Commands;
 using Cegeka.Auction.Application.AuctionItems.Queries;
-using Cegeka.Auction.Application.Common.Services.Data;
-using Cegeka.Auction.Application.Users.Queries;
-using Cegeka.Auction.Domain.Entities;
-using Cegeka.Auction.WebUI.Shared.AccessControl;
+using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
-using Cegeka.Auction.WebUI.Shared.Authorization;
-using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Cegeka.Auction.WebUI.Server.Controllers;
-
-// TODO: de mostenit ApiControllerBase - vezi TodoItemsController
-//[Route("api/[controller]")]
-//public class AuctionsController : Controller
-//{
-//    private readonly IApplicationDbContext _context;
-//    public AuctionsController(IApplicationDbContext context)
-//    {
-//        _context = context;
-//    }
-
-//    // TODO: authorization
-//    // GET: api/auctions
-//    //[HttpGet]
-//    //public Task<AuctionItemDTO[]> GetAuctionItems()
-//    //{
-//    //    return _context.AuctionItems.Select(item => Mapping.DTOFromEntity(item)).ToArrayAsync();
-//    //}
-
-
-//}
-
 
 [Route("api/[controller]")]
 public class AuctionsController : ApiControllerBase
@@ -43,5 +14,46 @@ public class AuctionsController : ApiControllerBase
     public async Task<ActionResult<AuctionItemsVM>> GetAuctions()
     {
         return await Mediator.Send(new GetAuctionItemsQuery());
+    }
+
+    // GET: api/auctions/3/view
+    [HttpGet("{id}/view")]
+    public async Task<ActionResult<AuctionItemDetailsVM>> GetAuction(string id)
+    {
+        return await Mediator.Send(new GetAuctionItemQuery(id));
+    }
+
+    // POST: api/auctions/new
+    [HttpPost("new")]
+    public async Task<ActionResult<int>> AddAuction(AuctionItemDTO newAuctionItem)
+    {
+        CreateAuctionItemRequest request = new CreateAuctionItemRequest(newAuctionItem);
+        return await Mediator.Send(new CreateAuctionItemCommand(request));
+    }
+
+    // PUT: api/auctions/5
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> PutAuctionItem(int id, AuctionItemDTO updatedAuctionItem)
+    {
+        if (id != updatedAuctionItem.Id) return BadRequest();
+
+        UpdateAuctionItemRequest request = new UpdateAuctionItemRequest(updatedAuctionItem);
+        await Mediator.Send(new UpdateAuctionItemCommand(request));
+
+        return NoContent();
+    }
+
+    // DELETE: api/auctions/5
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> DeleteAuctionItem(int id)
+    {
+        await Mediator.Send(new DeleteAuctionItemCommand(id));
+
+        return NoContent();
     }
 }

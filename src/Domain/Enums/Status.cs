@@ -1,11 +1,12 @@
 ﻿namespace Cegeka.Auction.Domain.Enums
 {
-    public enum Status
+    public enum Status: int
     {
-        New,
-        Submitted,
-        Approved,
-        Cancelled,
-        Finished
+        Unknown = 0,
+        New = 1,
+        Submitted = 2,
+        Approved = 3,
+        Cancelled = 4,
+        Finished = 5
     }
 }

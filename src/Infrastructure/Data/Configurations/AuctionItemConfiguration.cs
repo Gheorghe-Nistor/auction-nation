@@ -28,10 +28,9 @@ namespace Cegeka.Auction.Infrastructure.Data.Configurations
                 .HasMaxLength(50);
 
             builder.Property(t => t.Images)
-                .IsRequired()
                 .HasConversion(
-                    images => string.Join(',', images),
-                    str => str.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                    images => string.Join("/////", images),
+                    str => str.Split("/////", StringSplitOptions.RemoveEmptyEntries).ToList(),
                     new ValueComparer<List<string>>(
                         (c1, c2) => c1.SequenceEqual(c2),
                         c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
@@ -46,15 +45,23 @@ namespace Cegeka.Auction.Infrastructure.Data.Configurations
                 .HasColumnType("decimal(10,2)");
 
             builder.Property(t => t.BuyItNowPrice)
+                .IsRequired() 
                 .HasColumnType("decimal(10,2)");
 
             builder.Property(t => t.ReservePrice)
+                .IsRequired()
                 .HasColumnType("decimal(10,2)");
 
             builder.Property(t => t.DeliveryMethod)
                 .IsRequired();
 
             builder.Property(t => t.Status)
+                .IsRequired();
+
+            builder.Property(t => t.StartDate)
+                .IsRequired();
+
+            builder.Property(t => t.EndDate)    
                 .IsRequired();
         }
     }
