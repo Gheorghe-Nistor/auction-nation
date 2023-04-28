@@ -31,8 +31,8 @@ public enum Category: int
     Toys = 9,
     [Description("Sport")]
     Sport = 10,
-    [Description("Home And Gardening")]
+    [Description("Home & Gardening")]
     HomeAndGardening = 11,
-    [Description("CollectiblesAndMemorabilia")]
+    [Description("Collectibles & Memorabilia")]
     CollectiblesAndMemorabilia = 12
 }

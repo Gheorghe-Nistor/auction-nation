@@ -1,6 +1,10 @@
 ﻿using Blazored.Toast.Services;
+using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Web.Mvc;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
@@ -13,9 +17,11 @@ public partial class Index
     public NavigationManager Navigation { get; set; } = null!;
 
     [Inject]
-    public IToastService toastService { get; set; }
+    public IToastService ToastService { get; set; }
 
     public AuctionItemsVM? Model { get; set; }
+
+    public List<AuctionItemDTO>? FilteredAuctions { get; set; }
 
     public ConfirmationDialog ConfirmationDeleteDialog { get; set; }
 
@@ -23,9 +29,50 @@ public partial class Index
 
     public SortUtils Sorter { get; set; } = new SortUtils();
 
+    public FilterUtils Filter { get; set; } = new FilterUtils();
+
+    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
+
+    public PublicStatus[] Statuses = (PublicStatus[])Enum.GetValues(typeof(PublicStatus));
+
     protected override async Task OnInitializedAsync()
     {
-        Model = await AuctionsClient.GetAuctionsAsync(); 
+        Model = await AuctionsClient.GetAuctionsAsync();
+        FilteredAuctions = null;
+    }
+
+    private void FilterAuctions()
+    {
+        if (Filter.IsEmpty())
+        {
+            FilteredAuctions = null;
+            return;
+        }
+
+        FilteredAuctions = Model.Auctions;
+
+        if (Filter.Category != Category.None)
+        {
+            FilteredAuctions = FilteredAuctions
+                                .Where(a => a.Category == Filter.Category)
+                                .ToList();
+        }
+        
+        if (Filter.Status != PublicStatus.None)
+        {
+            if (Filter.Status == PublicStatus.Active)
+            {
+                FilteredAuctions = FilteredAuctions
+                                    .Where(a => a.EndDate > DateTime.Now)
+                                    .ToList();
+            }
+            else
+            {
+                FilteredAuctions = FilteredAuctions
+                                    .Where(a => a.EndDate <= DateTime.Now)
+                                    .ToList();
+            }
+        }
     }
 
     private void SortAuctions(string columnName)
@@ -103,12 +150,12 @@ public partial class Index
             if (auctionType == "edit")
             {
                 message = "Editing this auction may result in a penalty or fee!";
-                toastService.ShowWarning(message);
+                ToastService.ShowWarning(message);
             }
             else if (auctionType == "delete")
             {
                 message = "Deleting this auction may result in a penalty or fee!";
-                toastService.ShowError(message);
+                ToastService.ShowError(message);
             }
         }
     }
