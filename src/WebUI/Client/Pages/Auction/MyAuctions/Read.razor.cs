@@ -4,6 +4,7 @@ using Cegeka.Auction.WebUI.Shared.Auction;
 using Cegeka.Auction.WebUI.Shared.Bid;
 using MediatR;
 using Microsoft.AspNetCore.Components;
+using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
@@ -42,16 +43,26 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
         protected async void DialogAddForPlaceBid(bool arg)
         {
+            var maxBid = Model.Auction.BiddingHistory.Last().Amount;
+           
+
             if (_bidDialog.Amount > Model.Auction.StartingBidAmount)
             {
+                /*if (Model.Auction.BiddingHistory != null)
+                {
+                    if (_bidDialog.Amount <= maxBid)
+                    {
+                        arg = false;
+                        _bidDialog.Show();
+                        _bidDialog.message = "nu merge";
+                    }
+                }*/
                 if (arg)
                 {
                     BidDTO bid = new BidDTO()
                     {
                         Amount = _bidDialog.Amount,
-                        ItemId = Model.Auction.Id
                     };
-                    await BidClient.AddAuctionAsync(bid);
 
                     Model.Auction.CurrentBidAmount = bid.Amount;
                     Model.Auction.BiddingHistory.Add(bid);

@@ -214,6 +214,27 @@
         }
       }
     },
+    "/api/Bid": {
+      "get": {
+        "tags": [
+          "Bid"
+        ],
+        "operationId": "Bid_GetMaxBid",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Listings": {
       "post": {
         "tags": [
@@ -1011,10 +1032,10 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string",
-            "format": "guid"
+            "type": "integer",
+            "format": "int32"
           },
-          "itemId": {
+          "auctionItemId": {
             "type": "integer",
             "format": "int32"
           },

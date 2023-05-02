@@ -1,4 +1,5 @@
 ﻿using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Shared.Bid;
 using FluentValidation;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -26,6 +27,8 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public int Status { get; set; }
 
+        public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
+
         public CreateAuctionItemRequest(AuctionItemDTO newAuctionItem)
         {
             Id = newAuctionItem.Id;
@@ -41,6 +44,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
             ReservePrice = newAuctionItem.ReservePrice;
             DeliveryMethod = newAuctionItem.DeliveryMethod;
             Status = newAuctionItem.Status;
+            BiddingHistory = newAuctionItem.BiddingHistory;
         }
     }
 

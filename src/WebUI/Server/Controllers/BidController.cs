@@ -1,4 +1,5 @@
 ﻿using Cegeka.Auction.Application.Bids.Commands;
+using Cegeka.Auction.Application.Bids.Queries;
 using Cegeka.Auction.WebUI.Shared.Bid;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,14 @@ namespace Cegeka.Auction.WebUI.Server.Controllers
             CreateBidRequest request = new CreateBidRequest(newBid);
 
             return await Mediator.Send(new CreateBidCommand(request));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetMaxBid()
+        {
+            var result = await Mediator.Send(new GetMaxBidQuery());
+
+            return Ok(result);
         }
     }
 }

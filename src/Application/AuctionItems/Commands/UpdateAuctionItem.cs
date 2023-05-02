@@ -18,10 +18,11 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
             : AsyncRequestHandler<UpdateAuctionItemCommand>
     {
         private readonly IApplicationDbContext _context;
-
-        public UpdateAuctionItemCommandHandler(IApplicationDbContext context)
+        private readonly IMapper _mapper;
+        public UpdateAuctionItemCommandHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         protected override async Task Handle(UpdateAuctionItemCommand request,
@@ -45,15 +46,15 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
             entity.Status = (Status)request.Item.Status;
             entity.StartDate = request.Item.StartDate;
             entity.EndDate = request.Item.EndDate;
-            foreach(var x in request.Item.BiddingHistory)
+            /*entity.BiddingHistory = request.Item.BiddingHistory;*/
+           /* foreach (var x in request.Item.BiddingHistory)
             {
                 var y = new Bid()
                 {
                     Amount = x.Amount,
-                    ItemId = x.ItemId
                 };
                 entity.BiddingHistory.Add(y);
-            }
+            }*/
 
 
             await _context.SaveChangesAsync(cancellationToken);

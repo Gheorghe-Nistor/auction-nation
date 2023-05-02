@@ -7,5 +7,7 @@ public class Mapping : Profile
     public Mapping()
     {
         CreateMap<AuctionItem, AuctionItemDTO>();
+
+
     }
 }

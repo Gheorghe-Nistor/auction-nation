@@ -33,7 +33,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public int Status { get; set; }
 
         //[JsonIgnore]
-        public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
+        public List<BidDTO> BiddingHistory { get; set; }
 
         public UpdateAuctionItemRequest() { }
 
@@ -52,6 +52,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
             ReservePrice = updatedAuctionItem.ReservePrice;
             DeliveryMethod = updatedAuctionItem.DeliveryMethod;
             Status = updatedAuctionItem.Status;
+            BiddingHistory = updatedAuctionItem.BiddingHistory;
         }
     }
     public class UpdateAuctionItemRequestValidator

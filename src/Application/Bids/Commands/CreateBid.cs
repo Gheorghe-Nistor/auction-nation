@@ -33,7 +33,6 @@ namespace Cegeka.Auction.Application.Bids.Commands
         {
             var entity = new Bid
             {
-                ItemId = request.Item.ItemId,
                 Amount = request.Item.Amount
             };
 

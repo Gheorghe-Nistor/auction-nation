@@ -10,8 +10,5 @@ namespace Cegeka.Auction.Domain.Entities;
 public class Bid : BaseAuditableEntity
 {
     public int Id { get; set; }
-
-    public Guid PublicId { get; set; }
-    public int ItemId { get; set; }
     public decimal Amount { get; set; }
 }
