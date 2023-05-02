@@ -155,7 +155,7 @@
             <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
         }
 
-        @if (CurrentUserId != Model.Auction.CreatedBy)
+        @if (CurrentUserId == Model.Auction.CreatedBy)
         {
             <br />
 
@@ -168,7 +168,7 @@
                 </div>
             </button>
 
-        <button class="btn btn-primary ml-2" @onclick="@PlaceBidForItem">Place Bid</button>
+            <button class="btn btn-primary ml-2" @onclick="@PlaceBidForItem">Place Bid</button>
 
             <br />
         }

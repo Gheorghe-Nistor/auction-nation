@@ -355,6 +355,39 @@
         }
       }
     },
+    "/api/Bid/new": {
+      "post": {
+        "tags": [
+          "Bid"
+        ],
+        "operationId": "Bid_AddAuction",
+        "requestBody": {
+          "x-name": "newBid",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BidDTO"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Listings": {
       "post": {
         "tags": [

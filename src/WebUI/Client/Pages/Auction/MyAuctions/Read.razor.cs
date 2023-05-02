@@ -45,8 +45,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
         protected async void DialogAddForPlaceBid(bool arg)
         {
-            var maxBid = Model.Auction.BiddingHistory.Last().Amount;
-           
+            /*var maxBid = Model.Auction.BiddingHistory.Last().Amount;
+           */
 
             if (_bidDialog.Amount > Model.Auction.StartingBidAmount)
             {
