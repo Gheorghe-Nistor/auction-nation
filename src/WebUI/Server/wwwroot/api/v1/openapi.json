@@ -26,6 +26,70 @@
         }
       }
     },
+    "/api/Auctions/{userId}/won": {
+      "get": {
+        "tags": [
+          "Auctions"
+        ],
+        "operationId": "Auctions_GetWonAuctionsByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionItemsVM"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auctions/{userId}/created": {
+      "get": {
+        "tags": [
+          "Auctions"
+        ],
+        "operationId": "Auctions_GetCreatedAuctionsByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuctionItemsVM"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Auctions/{id}/view": {
       "get": {
         "tags": [
@@ -181,32 +245,54 @@
         }
       }
     },
-    "/api/Bid/new": {
+    "/api/Auctions/{auctionItemId}/buy/{userId}": {
       "post": {
         "tags": [
-          "Bid"
+          "Auctions"
         ],
-        "operationId": "Bid_AddAuction",
-        "requestBody": {
-          "x-name": "newBid",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BidDTO"
-              }
-            }
+        "operationId": "Auctions_BuyAuctionItem",
+        "parameters": [
+          {
+            "name": "auctionItemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
           },
-          "required": true,
-          "x-position": 1
-        },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
         "responses": {
-          "200": {
+          "204": {
+            "description": ""
+          },
+          "400": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -214,20 +300,54 @@
         }
       }
     },
-    "/api/Bid": {
-      "get": {
+    "/api/Auctions/{userId}/validate/{auctionItemId}": {
+      "post": {
         "tags": [
-          "Bid"
+          "Auctions"
         ],
-        "operationId": "Bid_GetMaxBid",
+        "operationId": "Auctions_ValidateAuctionItem",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "auctionItemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
         "responses": {
-          "200": {
+          "204": {
+            "description": ""
+          },
+          "400": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -1010,6 +1130,10 @@
             "items": {
               "$ref": "#/components/schemas/BidDTO"
             }
+          },
+          "winningBidder": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
