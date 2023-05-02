@@ -26,7 +26,7 @@
         }
       }
     },
-    "/api/Auctions/won/{userId}": {
+    "/api/Auctions/{userId}/won": {
       "get": {
         "tags": [
           "Auctions"
@@ -58,7 +58,7 @@
         }
       }
     },
-    "/api/Auctions/created/{userId}": {
+    "/api/Auctions/{userId}/created": {
       "get": {
         "tags": [
           "Auctions"
@@ -269,6 +269,61 @@
             "schema": {
               "type": "string",
               "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Auctions/{userId}/validate/{auctionItemId}": {
+      "post": {
+        "tags": [
+          "Auctions"
+        ],
+        "operationId": "Auctions_ValidateAuctionItem",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "auctionItemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 2
           }

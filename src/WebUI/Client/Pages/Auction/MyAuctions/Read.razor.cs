@@ -73,6 +73,12 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
             StateHasChanged();
         }
 
+        public async Task ValidateAuction()
+        {
+            await AuctionsClient.ValidateAuctionItemAsync(CurrentUserId, Model.Auction.Id);
+
+            StateHasChanged();
+        }
     }
    
 }

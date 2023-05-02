@@ -16,15 +16,15 @@ public class AuctionsController : ApiControllerBase
         return await Mediator.Send(new GetAuctionItemsQuery());
     }
 
-    // GET: api/auctions/won/12345
-    [HttpGet("won/{userId}")]
+    // GET: api/auctions/12345/won
+    [HttpGet("{userId}/won")]
     public async Task<ActionResult<AuctionItemsVM>> GetWonAuctionsByUserId(string userId)
     {
         return await Mediator.Send(new GetWonAuctionItemsQuery(userId));
     }
 
-    // GET: api/auctions/created/12345
-    [HttpGet("created/{userId}")]
+    // GET: api/auctions/12345/created
+    [HttpGet("{userId}/created")]
     public async Task<ActionResult<AuctionItemsVM>> GetCreatedAuctionsByUserId(string userId)
     {
         return await Mediator.Send(new GetCreatedAuctionItemsQuery(userId));
@@ -84,6 +84,23 @@ public class AuctionsController : ApiControllerBase
             return BadRequest();
 
         await Mediator.Send(new BuyAuctionItemCommand(auctionItemId, userId));
+
+        return NoContent();
+    }
+
+    // BUY: api/auction/12345/validate/1
+    [HttpPost("{userId}/validate/{auctionItemId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> ValidateAuctionItem(string userId, int auctionItemId)
+    {
+        var response = await Mediator.Send(new GetAuctionItemQuery(auctionItemId.ToString()));
+
+        if (response.Auction.CreatedBy != userId || response.Auction.WinningBidder != null || DateTime.Now < response.Auction.EndDate || response.Auction.Status != (int) Status.AwaitingValidation)
+            return BadRequest();
+
+        await Mediator.Send(new ValidateAuctionItemCommand(auctionItemId));
 
         return NoContent();
     }

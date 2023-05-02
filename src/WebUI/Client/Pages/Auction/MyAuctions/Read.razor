@@ -105,7 +105,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <span class="oi oi-package" aria-hidden="true"></span>
+                        <span class="oi oi-signpost" aria-hidden="true"></span>
                         <strong>Delivery Method:</strong>
                     </td>
                     <td>@Model.Auction.DeliveryMethod</td>
@@ -119,6 +119,30 @@
                         @(Model.Auction.WinningBidder == null ? "N/A" : @WinningBidderUsername)
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <span class="oi oi-check status-icon" aria-hidden="true"></span>
+                        <strong>Status</strong>
+                    </td>
+                    <td>
+                        @Model.Auction.Status
+                    </td>
+                </tr>
+                @if (CurrentUserId == @Model.Auction.CreatedBy)
+                {
+                    <tr>
+                        <td>
+                            <span class="oi oi-loop-square" aria-hidden="true"></span>
+                            <strong>Actions</strong>
+                        </td>
+                        <td>
+                            @* Status -> AwaitingValidation = 5*@
+                            <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.Status == 5 ? false : true)" @onclick="ValidateAuction">
+                                Validate
+                            </button>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
         
