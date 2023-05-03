@@ -12,10 +12,11 @@
     return;
 }
 
-<h1 class="mb-4">@Model.Auction.Title</h1>
 
 <div class="row" style="margin-left: -10px;">
     <div class="col-md-8" style="margin-left: 10px;">
+        <h1 class="mb-4">@Model.Auction.Title</h1>
+        <hr />
         <div class="col-md-4 mb-4">
             <img src="@Model.Auction.Images.FirstOrDefault()" class="img-fluid" alt="Auction Item Image" />
         </div>
@@ -44,7 +45,7 @@
         }
 
         <h3>Details</h3>
-        <table class="table" style="width: 50%;">
+        <table class="table" style="width: 80%;">
             <tbody>
                 <tr>
                     <td>
@@ -126,7 +127,7 @@
                         <strong>Status</strong>
                     </td>
                     <td>
-                        @Model.Auction.Status
+                        @StatusList[Model.Auction.Status]
                     </td>
                 </tr>
                 @if (CurrentUserId == @Model.Auction.CreatedBy)
@@ -155,7 +156,7 @@
             <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
         }
 
-        @if (CurrentUserId == Model.Auction.CreatedBy)
+        @if (CurrentUserId != Model.Auction.CreatedBy)
         {
             <br />
 
@@ -168,31 +169,67 @@
                 </div>
             </button>
 
-            <button class="btn btn-primary ml-2" @onclick="@PlaceBidForItem">Place Bid</button>
-
+            <button class="btn btn-primary shadow-sm mx-3" disabled="@(!BidAvailable)" @onclick="PlaceBidForItem">
+                <div class="row">
+                    <div class="col-sm-12">Place bid</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">Min. $@(Math.Max(Model.Auction.CurrentBidAmount + 1, Model.Auction.StartingBidAmount))</div>
+                </div>
+            </button>
+            
             <br />
         }
 
         <br />
 
         <h3>Bidding History</h3>
-        <ul>
-            @foreach (var bid in Model.Auction.BiddingHistory)
-            {
-                <li>@bid.CreatedBy - @bid.Amount</li>
-            }
-        </ul>
-    </div>
-</div>
 
-<div class="row">
-	<a href="/auctions">Take me back</a>
+        @if(BiddingHistory.Count() > 0)
+        {
+            <table class="table biddingHistoryTable" style="width: 75%">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <span class="oi oi-person" aria-hidden="true"></span> Username
+                        </th>
+                        <th scope="col">
+                            <span class="oi oi-dollar" aria-hidden="true"></span> Amount
+                        </th>
+                        <th scope="col">
+                            <span class="oi oi-calendar" aria-hidden="true"></span> Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bid in BiddingHistory)
+                    {
+                        <tr>
+                            <td>@bid.CreatedBy</td>
+                            <td>@bid.Amount</td>
+                            <td>@bid.CreatedUtc</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>There are no bids for this auction yet.</p>
+        }
+
+        <br />
+        
+        <div class="row">
+            <a href="/auctions">
+                <button class="btn btn-secondary">Take me back</button>
+            </a>
+        </div>
+
+        <br/>
+    </div>
 </div>
 
 
 <BidDialog Title="Bid" Content="The bid that you place must to be bigger than the starting bid: "
            @ref="_bidDialog" PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>
-
-
-
-

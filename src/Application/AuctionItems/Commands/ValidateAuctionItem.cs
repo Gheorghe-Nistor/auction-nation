@@ -25,6 +25,8 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
            
             Guard.Against.NotFound(request.auctionItemId, entity);
 
+            entity.WinningBidder = entity.BiddingHistory.Last().CreatedBy;
+
             entity.Status = Domain.Enums.Status.Finished;
 
             await _context.SaveChangesAsync(cancellationToken);

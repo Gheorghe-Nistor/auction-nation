@@ -39,15 +39,13 @@
                         }
                     </td>
                     <td>
-                        @if (DateTime.Now < item.StartDate && item.WinningBidder == null)
-                        {
-                            <a href="@($"auctions/{item.Id.ToString()}")" class="btn btn-primary table-btn" data-toggle="tooltip" data-placement="bottom" title="Edit">
-                                Edit
-                            </a>
-                            <a href="@($"auctions")" class="btn btn-danger table-btn" @onclick="@(() => DeleteItem(item))" data-toggle="tooltip" data-placement="bottom" title="Delete">
-                                Delete
-                            </a>
-                        }
+                        @*@if (DateTime.Now < item.StartDate && item.WinningBidder == null)*@
+                        <a href="@($"auctions/{item.Id.ToString()}")" class="btn btn-primary table-btn" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                            Edit
+                        </a>
+                        <a href="@($"auctions")" class="btn btn-danger table-btn" @onclick="@(() => DeleteItem(item))" data-toggle="tooltip" data-placement="bottom" title="Delete">
+                            Delete
+                        </a>
                     </td>
                 </tr>
             }

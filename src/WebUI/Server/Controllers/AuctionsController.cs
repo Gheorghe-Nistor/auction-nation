@@ -2,6 +2,7 @@
 using Cegeka.Auction.Application.AuctionItems.Queries;
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
+using Cegeka.Auction.WebUI.Shared.Bid;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cegeka.Auction.WebUI.Server.Controllers;
@@ -71,7 +72,7 @@ public class AuctionsController : ApiControllerBase
         return NoContent();
     }
 
-    // BUY: api/auction/1/buy/12345
+    // POST: api/auction/1/buy/12345
     [HttpPost("{auctionItemId}/buy/{userId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -88,7 +89,7 @@ public class AuctionsController : ApiControllerBase
         return NoContent();
     }
 
-    // BUY: api/auction/12345/validate/1
+    // POST: api/auction/12345/validate/1
     [HttpPost("{userId}/validate/{auctionItemId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -103,5 +104,32 @@ public class AuctionsController : ApiControllerBase
         await Mediator.Send(new ValidateAuctionItemCommand(auctionItemId));
 
         return NoContent();
+    }
+
+    // POST: api/auction/12345/bid
+    [HttpPost("{auctionItemId}/bid")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> PlaceAuctionBid(int auctionItemId, BidDTO bid)
+    {
+        
+        /*
+         * Este nevoie de acest cod!
+        var response = await Mediator.Send(new GetAuctionItemQuery(auctionItemId.ToString()));
+
+        if (response.Auction.CreatedBy == bid.CreatedBy || response.Auction.WinningBidder != null || response.Auction.Status != (int)Status.InProgress)
+            return BadRequest();
+
+        if (DateTime.Now < response.Auction.StartDate || DateTime.Now > response.Auction.EndDate)
+            return BadRequest();
+
+        if(response.Auction.BiddingHistory != null && bid.Amount < response.Auction.BiddingHistory.Last().Amount)
+            return BadRequest();
+        */
+
+        await Mediator.Send(new PlaceAuctionBidCommand(auctionItemId, bid));
+
+        return Ok();
     }
 }

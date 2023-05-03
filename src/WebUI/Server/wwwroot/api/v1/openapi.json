@@ -355,6 +355,63 @@
         }
       }
     },
+    "/api/Auctions/{auctionItemId}/bid": {
+      "post": {
+        "tags": [
+          "Auctions"
+        ],
+        "operationId": "Auctions_PlaceAuctionBid",
+        "parameters": [
+          {
+            "name": "auctionItemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "bid",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BidDTO"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Bid/new": {
       "post": {
         "tags": [

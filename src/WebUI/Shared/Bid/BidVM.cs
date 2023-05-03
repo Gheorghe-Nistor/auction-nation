@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Cegeka.Auction.WebUI.Shared.Bid;
+
+public class BidVM
+{
+    public string CreatedBy { get; set; }
+
+    public decimal Amount { get; set; }
+
+    public DateTime CreatedUtc { get; set; }
+
+    public BidVM(string createdBy, decimal amount, DateTime createdUtc)
+    {
+        CreatedBy = createdBy;
+        Amount = amount;
+        CreatedUtc = createdUtc;
+    }
+}

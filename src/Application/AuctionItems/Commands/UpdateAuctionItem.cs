@@ -46,20 +46,8 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
             entity.Status = (Status)request.Item.Status;
             entity.StartDate = request.Item.StartDate;
             entity.EndDate = request.Item.EndDate;
-            //entity.BiddingHistory = request.Item.BiddingHistory;
-            entity.BiddingHistory = new List<Bid>();
-            foreach (var x in request.Item.BiddingHistory)
-            {
-                var y = new Bid()
-                {
-                    Amount = x.Amount,
-                };
-                entity.BiddingHistory.Add(y);
-            }
-
 
             await _context.SaveChangesAsync(cancellationToken);
-
         }
     }
 }
