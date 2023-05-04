@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
+using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
 using Cegeka.Auction.WebUI.Client;
 using Cegeka.Auction.WebUI.Client.Authorization;
 using Cegeka.Auction.WebUI.Shared.Authorization;
@@ -32,5 +35,13 @@ builder.Services.Scan(scan => scan
     .AddClasses()
     .AsImplementedInterfaces()
     .WithScopedLifetime());
+
+builder.Services
+    .AddBlazorise(options =>
+    {
+        options.Immediate = true;
+    })
+    .AddBootstrap5Providers()
+    .AddFontAwesomeIcons();
 
 await builder.Build().RunAsync();

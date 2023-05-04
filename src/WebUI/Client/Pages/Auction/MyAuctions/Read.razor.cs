@@ -10,6 +10,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
     {
         private TimeSpan TimeLeft { get; set; }
 
+        private string selectedSlide;
+
         [Parameter]
         public string auctionId { get; set; } = null!;
 
@@ -33,8 +35,9 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
                 StateHasChanged();
             };
             timer.Start();
+            
+            selectedSlide = "0";
         }
-
     }
-   
+
 }
