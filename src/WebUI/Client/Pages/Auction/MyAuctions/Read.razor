@@ -130,7 +130,9 @@
                         @StatusList[Model.Auction.Status]
                     </td>
                 </tr>
-                @if (CurrentUserId == @Model.Auction.CreatedBy)
+                @* Status -> InProgress = 4*@
+                @* Status -> AwaitingValidation = 5*@
+                @if (CurrentUserId == @Model.Auction.CreatedBy && (Model.Auction.Status == 4 || Model.Auction.Status == 5) )
                 {
                     <tr>
                         <td>
@@ -138,12 +140,11 @@
                             <strong>Actions</strong>
                         </td>
                         <td>
-                            @* Status -> AwaitingValidation = 5*@
-                            <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.Status == 5 ? false : true)" @onclick="ValidateAuction">
+                            <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0 ? true: false)"@onclick="ValidateAuction">
                                 Validate
                             </button>
                         </td>
-                    </tr>
+                    </tr> 
                 }
             </tbody>
         </table>
@@ -231,5 +232,5 @@
 </div>
 
 
-<BidDialog Title="Bid" Content="The bid that you place must to be bigger than the starting bid: "
+<BidDialog Title="Bid" Content="Place a higher bid than the current highest to increase your chances of winning! "
            @ref="_bidDialog" PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>

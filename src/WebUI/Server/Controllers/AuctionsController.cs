@@ -1,9 +1,12 @@
-﻿using Cegeka.Auction.Application.AuctionItems.Commands;
+﻿using Azure.Core;
+using Cegeka.Auction.Application.AuctionItems.Commands;
 using Cegeka.Auction.Application.AuctionItems.Queries;
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Cegeka.Auction.WebUI.Shared.Bid;
+using IdentityModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cegeka.Auction.WebUI.Server.Controllers;
 
@@ -91,19 +94,19 @@ public class AuctionsController : ApiControllerBase
 
     // POST: api/auction/12345/validate/1
     [HttpPost("{userId}/validate/{auctionItemId}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
     public async Task<IActionResult> ValidateAuctionItem(string userId, int auctionItemId)
     {
         var response = await Mediator.Send(new GetAuctionItemQuery(auctionItemId.ToString()));
 
-        if (response.Auction.CreatedBy != userId || response.Auction.WinningBidder != null || DateTime.Now < response.Auction.EndDate || response.Auction.Status != (int) Status.AwaitingValidation)
+        if (response == null || response.Auction.CreatedBy != userId || response.Auction.WinningBidder != null)
             return BadRequest();
 
         await Mediator.Send(new ValidateAuctionItemCommand(auctionItemId));
 
-        return NoContent();
+        return Ok();
     }
 
     // POST: api/auction/12345/bid
@@ -113,9 +116,6 @@ public class AuctionsController : ApiControllerBase
     [ProducesDefaultResponseType]
     public async Task<IActionResult> PlaceAuctionBid(int auctionItemId, BidDTO bid)
     {
-        
-        /*
-         * Este nevoie de acest cod!
         var response = await Mediator.Send(new GetAuctionItemQuery(auctionItemId.ToString()));
 
         if (response.Auction.CreatedBy == bid.CreatedBy || response.Auction.WinningBidder != null || response.Auction.Status != (int)Status.InProgress)
@@ -123,10 +123,6 @@ public class AuctionsController : ApiControllerBase
 
         if (DateTime.Now < response.Auction.StartDate || DateTime.Now > response.Auction.EndDate)
             return BadRequest();
-
-        if(response.Auction.BiddingHistory != null && bid.Amount < response.Auction.BiddingHistory.Last().Amount)
-            return BadRequest();
-        */
 
         await Mediator.Send(new PlaceAuctionBidCommand(auctionItemId, bid));
 

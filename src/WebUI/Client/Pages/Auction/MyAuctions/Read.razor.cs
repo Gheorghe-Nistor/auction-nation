@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Text;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 {
@@ -107,11 +108,9 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
                 }
             }
 
-            var winningBidderUser = await UsersClient.GetUserAsync(Model.Auction.WinningBidder);
-            WinningBidderUsername = winningBidderUser.User.UserName;
+            WinningBidderUsername = await GetUsernameFromUserId(Model.Auction.WinningBidder);
 
-            var auctioneerUser = await UsersClient.GetUserAsync(Model.Auction.CreatedBy);
-            AuctioneerUsername = auctioneerUser.User.UserName;
+            AuctioneerUsername = await GetUsernameFromUserId(Model.Auction.CreatedBy);
 
             GetBiddingHistoryVM();
 
@@ -133,12 +132,20 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         {
             await AuctionsClient.BuyAuctionItemAsync(Model.Auction.Id, CurrentUserId);
 
+            Model = await AuctionsClient.GetAuctionAsync(auctionId);
+
+            WinningBidderUsername = await GetUsernameFromUserId(Model.Auction.WinningBidder);
+
             StateHasChanged();
         }
 
         public async Task ValidateAuction()
         {
             await AuctionsClient.ValidateAuctionItemAsync(CurrentUserId, Model.Auction.Id);
+
+            Model = await AuctionsClient.GetAuctionAsync(auctionId);
+
+            WinningBidderUsername = await GetUsernameFromUserId(Model.Auction.WinningBidder);
 
             StateHasChanged();
         }
@@ -152,6 +159,12 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
                 var bidderUsername = bidderUser.User.UserName;
                 BiddingHistory.Add(new BidVM(bidderUsername, bid.Amount, bid.CreatedUtc));
             }
+        }
+
+        private async Task<string> GetUsernameFromUserId(string userId)
+        {
+            var user = await UsersClient.GetUserAsync(userId);
+            return user.User.UserName;
         }
     }
 }

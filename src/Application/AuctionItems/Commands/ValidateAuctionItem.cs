@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cegeka.Auction.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,14 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
            
             Guard.Against.NotFound(request.auctionItemId, entity);
 
-            entity.WinningBidder = entity.BiddingHistory.Last().CreatedBy;
+            // Primeam eroare: Could not deserialize the response body stream as Microsoft.AspNetCore.Mvc.ProblemDetails
+            // entity.WinningBidder = entity.BiddingHistory.Last().CreatedBy;
+
+            entity.WinningBidder = await _context.Bids
+                .Where(b => b.AuctionItemId == request.auctionItemId)
+                .OrderByDescending(b => b.Amount)
+                .Select(b => b.CreatedBy)
+                .FirstOrDefaultAsync();
 
             entity.Status = Domain.Enums.Status.Finished;
 

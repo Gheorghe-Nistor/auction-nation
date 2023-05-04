@@ -26,6 +26,19 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
            
             Guard.Against.NotFound(request.auctionItemId, entity);
 
+            var maxBid = await _context.Bids
+                .Where(b => b.AuctionItemId == request.auctionItemId)
+                .OrderByDescending(b => b.Amount)
+                .Select(b => b.Amount)
+                .FirstOrDefaultAsync();
+
+            decimal? currentBidAmount = request.bid.Amount;
+
+            if(currentBidAmount != null && currentBidAmount < maxBid+1) 
+            {
+                return;
+            }
+
             Bid newBid = new Bid {
                 Amount = request.bid.Amount,
                 CreatedBy = request.bid.CreatedBy
