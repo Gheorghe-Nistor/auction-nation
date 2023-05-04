@@ -33,10 +33,9 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<decimal>("BuyItNowPrice")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
+                    b.Property<int>("Category")
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");

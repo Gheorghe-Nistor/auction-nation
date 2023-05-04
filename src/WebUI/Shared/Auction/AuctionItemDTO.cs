@@ -2,7 +2,6 @@
 using Cegeka.Auction.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using Cegeka.Auction.Domain.CompareAttributes;
-using Microsoft.AspNetCore.Components.Forms;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction;
 
@@ -29,23 +28,25 @@ public class AuctionItemDTO
     public DateTime EndDate { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
-    [MaxLength(50, ErrorMessage = "Please write a shorter category name.")]
-    public string Category { get; set; }
+    [Range(1, double.PositiveInfinity, ErrorMessage = "Please pick a valid category.")]
+    [EnumDataType(typeof(Category))]
+    public Category Category { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
     public decimal StartingBidAmount { get; set; }
 
     public decimal CurrentBidAmount { get; set; } = 0;
 
-    [Required]
-    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
+    [Required(ErrorMessage = "This field is required.")]
+    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
     public decimal BuyItNowPrice { get; set; }
 
-    [Required]
-    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
+    [Required(ErrorMessage = "This field is required.")]
+    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
     public decimal ReservePrice { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
+    [Range(1, double.PositiveInfinity, ErrorMessage = "Please pick a valid delivery method.")]
     [EnumDataType(typeof(DeliveryMethod))]
     public DeliveryMethod DeliveryMethod { get; set; }
 
@@ -57,7 +58,7 @@ public class AuctionItemDTO
     {
     }
 
-    public AuctionItemDTO(int id, Guid publicId, string title = "", string description ="", List<string> images = null, string category = "", decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default)
+    public AuctionItemDTO(int id, Guid publicId, string title = "", string description ="", List<string> images = null, Category category = Category.None, decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default)
     {
         Id = id;
         PublicId = publicId;

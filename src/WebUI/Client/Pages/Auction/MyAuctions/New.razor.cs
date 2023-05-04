@@ -1,4 +1,5 @@
-﻿using Cegeka.Auction.Domain.Enums;
+﻿using Blazored.Toast.Services;
+using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
 
@@ -12,9 +13,25 @@ public partial class New
     [Inject]
     public NavigationManager Navigation { get; set; } = null!;
 
+    [Inject]
+    public IToastService toastService { get; set; }
+
     public AuctionItemDetailsVM? Model { get; set; }
 
     public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
+
+    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
+
+    protected async Task ShowWarnings(AuctionItemDTO item, string auctionType)
+    {
+        string message;
+
+        if (auctionType == "add")
+        {
+            message = "The auction has been successfully added!";
+            toastService.ShowSuccess(message);
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -26,6 +43,7 @@ public partial class New
     public async Task AddAuction()
     {
         await AuctionsClient.AddAuctionAsync(Model.Auction);
+        await ShowWarnings(Model.Auction, "add");
 
         Navigation.NavigateTo("/auctions");
     }
