@@ -21,7 +21,7 @@
             if (image != null)
             {
                 <CarouselSlide Name=@($"{i + 1}")>
-                    <Image Source=@image Display="Display.Block" Height="Height.Auto" Width="Width.Auto" />
+                    <img src="@image" style="height: 600px; width: 800px; object-fit: contain" />
                 </CarouselSlide>
             }
         }

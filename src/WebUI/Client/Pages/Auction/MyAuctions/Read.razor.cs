@@ -31,7 +31,12 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
             var timer = new System.Timers.Timer(1000);
             timer.Elapsed += (sender, e) =>
             {
-                TimeLeft = endDate - DateTime.Now;
+                var timeLeft = endDate - DateTime.Now;
+                if (timeLeft < TimeSpan.Zero)
+                {
+                    timeLeft = TimeSpan.Zero;
+                }
+                TimeLeft = timeLeft;
                 StateHasChanged();
             };
             timer.Start();

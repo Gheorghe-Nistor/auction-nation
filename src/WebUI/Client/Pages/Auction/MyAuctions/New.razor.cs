@@ -40,7 +40,7 @@ public partial class New
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
-            // Validate file type
+           
             if (!Regex.IsMatch(file.ContentType, @"^image\/(jpeg|png)$"))
             {
                 // Invalid file type
@@ -48,10 +48,16 @@ public partial class New
                 return;
             }
 
-            // Validate image file size
+          
             if (file.Size > 5 * 1024 * 1024) // 5 MB
             {
                 ValidationMessage = $"File {file.Name} exceeds the maximum size of 5 MB.";
+                return;
+            }
+            
+            if (Model.Auction.Images.Count >= maxAllowedFiles)
+            {
+                ValidationMessage = $"You can upload a maximum of {maxAllowedFiles} images.";
                 return;
             }
 
