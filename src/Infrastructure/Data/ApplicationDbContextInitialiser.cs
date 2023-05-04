@@ -97,12 +97,6 @@ public class ApplicationDbContextInitialiser
         var adminUserName = "admin@localhost";
         var adminUser = new ApplicationUser { UserName = adminUserName, Email = adminUserName };
 
-        var presentAdminUser = await _userManager.FindByEmailAsync(adminUserName);
-        if (presentAdminUser != null)
-        {
-            await _userManager.DeleteAsync(presentAdminUser);
-        }
-
         await _userManager.CreateAsync(adminUser, DefaultPassword);
 
         adminUser = await _userManager.FindByNameAsync(adminUserName);
