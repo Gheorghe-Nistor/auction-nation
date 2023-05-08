@@ -109,6 +109,13 @@ public class ApplicationDbContextInitialiser
         // Create default auditor user
         var auditorUserName = "auditor@localhost";
         var auditorUser = new ApplicationUser { UserName = auditorUserName, Email = auditorUserName };
+
+        var presentAuditorUser = await _userManager.FindByEmailAsync(auditorUserName);
+        if (presentAuditorUser != null)
+        {
+            await _userManager.DeleteAsync(presentAuditorUser);
+        }
+
         await _userManager.CreateAsync(auditorUser, DefaultPassword);
 
         await _context.SaveChangesAsync();
