@@ -45,11 +45,12 @@ public partial class Edit
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
-        isLoading = true;
+        isLoading = false;
         ValidationMessage = string.Empty;
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
+            isLoading = true;
             
             if (!Regex.IsMatch(file.ContentType, @"^image\/(jpeg|png)$"))
             {
