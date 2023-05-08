@@ -3,13 +3,10 @@ using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-<<<<<<< HEAD
 using Microsoft.AspNetCore.Components.Web;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
-=======
->>>>>>> main
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 

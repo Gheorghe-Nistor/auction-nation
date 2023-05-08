@@ -49,15 +49,6 @@
 
 <table class="table table-striped table-hover">
 	<thead>
-<<<<<<< HEAD
-		<tr>
-            <th>Image</th>
-			<th>Title</th>
-			<th>Opening time</th>
-			<th>Closing time</th>
-			<th>Current Bid</th>	
-			<th>Actions</th>
-=======
 		<tr style="text-align: center;">
 			<th class="sort-header" @onclick="@(() => SortAuctions("Title"))" style="cursor: pointer;">
 				@if (Sorter.ByTitle == "asc")
@@ -122,23 +113,18 @@
 			<th>
 				Actions
 			</th>
->>>>>>> main
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var item in Model.Auctions)
 		{
-<<<<<<< HEAD
-			<tr>
-                <td><img src="@item.Images.FirstOrDefault()" alt="@item.Title" style="max-height:100px; max-width:100px; object-fit:contain;" /></td>
-=======
 			@if (FilteredAuctions != null && !FilteredAuctions.Contains(item))
 			{
 				continue;
 			}
 
 			<tr style="text-align: center;">
->>>>>>> main
+				<td><img src="@item.Images.FirstOrDefault()" alt="@item.Title" style="max-height:100px; max-width:100px; object-fit:contain;" /></td>
                 <td><a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom">@item.Title</a></td>
 				<td>@item.Category</td>
 				<td>@item.StartDate.ToString("dd/MM/yyyy HH:mm")</td>

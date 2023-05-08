@@ -23,7 +23,8 @@ public partial class New
 
     public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
 
-<<<<<<< HEAD
+    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
+
     public List<IBrowserFile> loadedFiles = new();
 
     public int maxAllowedFiles = 10;
@@ -31,8 +32,6 @@ public partial class New
     public bool isLoading;
 
     public string ValidationMessage { get; set; } = string.Empty;
-=======
-    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
 
     protected async Task ShowWarnings(AuctionItemDTO item, string auctionType)
     {
@@ -44,7 +43,6 @@ public partial class New
             toastService.ShowSuccess(message);
         }
     }
->>>>>>> main
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,7 +99,6 @@ public partial class New
 
     public async Task AddAuction()
     {
-<<<<<<< HEAD
         if (loadedFiles.Any())
         {
             foreach (var file in loadedFiles)
@@ -121,14 +118,11 @@ public partial class New
                 }
             }
         }
-=======
-        await AuctionsClient.AddAuctionAsync(Model.Auction);
-        await ShowWarnings(Model.Auction, "add");
->>>>>>> main
 
         if (Model.Auction.Images != null && Model.Auction.Images.Any())
         {
             await AuctionsClient.AddAuctionAsync(Model.Auction);
+            await ShowWarnings(Model.Auction, "add");
             Navigation.NavigateTo("/auctions");
         }
         else

@@ -38,19 +38,11 @@ public class AuctionItemDTO
 
     public decimal CurrentBidAmount { get; set; } = 0;
 
-<<<<<<< HEAD
-    [Required]
-    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
-    public decimal BuyItNowPrice { get; set; }
-
-    [Required]
-=======
     [Required(ErrorMessage = "This field is required.")]
     [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
     public decimal BuyItNowPrice { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
->>>>>>> main
     [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
     public decimal ReservePrice { get; set; }
 

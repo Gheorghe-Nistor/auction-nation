@@ -57,16 +57,10 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
                 .MaximumLength(500).WithMessage("Please make the description shorter.")
                 .NotEmpty().WithMessage("This field is required.");
 
-<<<<<<< HEAD
             RuleFor(v => v.Images)
-                .NotEmpty().WithMessage("This field is required.");
-
-            RuleFor(v => v.Category) 
-                .MaximumLength(50).WithMessage("Please make the category shorter.")
-=======
+              .NotEmpty().WithMessage("This field is required.");
             RuleFor(v => v.Category)
                 .Must(v => Enum.IsDefined(typeof(Category), v))
->>>>>>> main
                 .NotEmpty().WithMessage("This field is required.");
 
             RuleFor(v => v.StartingBidAmount)
