@@ -127,7 +127,7 @@ public partial class New
         }
         else
         {
-            ValidationMessage = "Please upload at least one image";
+            ValidationMessage = "At least one image is required to create the auction.";
         }
 
 

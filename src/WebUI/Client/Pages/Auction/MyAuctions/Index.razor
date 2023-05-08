@@ -50,6 +50,9 @@
 <table class="table table-striped table-hover">
 	<thead>
 		<tr style="text-align: center;">
+            <th>
+                Image
+            </th>
 			<th class="sort-header" @onclick="@(() => SortAuctions("Title"))" style="cursor: pointer;">
 				@if (Sorter.ByTitle == "asc")
 				{
