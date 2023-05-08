@@ -1,8 +1,6 @@
 ﻿using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Bid;
 using FluentValidation;
-using Microsoft.AspNetCore.Components.Forms;
-using System.Text.Json.Serialization;
 
 namespace Cegeka.Auction.WebUI.Shared.Auction
 {
@@ -16,7 +14,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public List<string> Images { get; set; } 
 
-        public string Category { get; set; } = string.Empty;
+        public Category Category { get; set; }
 
         public decimal StartingBidAmount { get; set; } = 0;
 
@@ -32,7 +30,6 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public DeliveryMethod DeliveryMethod { get; set; }
         public int Status { get; set; }
 
-        //[JsonIgnore]
         public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
 
         public UpdateAuctionItemRequest() { }
@@ -71,7 +68,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
                 .NotEmpty().WithMessage("This field is required."); ;
 
             RuleFor(v => v.Category)
-                .MaximumLength(50)
+                .Must(v => Enum.IsDefined(typeof(Category), v))
                 .NotEmpty().WithMessage("This field is required."); ;
 
             RuleFor(v => v.StartingBidAmount)

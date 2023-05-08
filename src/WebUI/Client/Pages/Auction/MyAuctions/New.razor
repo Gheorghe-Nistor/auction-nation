@@ -47,15 +47,6 @@
 			</div>
 		</div>
 
-		<!-- Category -->
-		<div class="row">
-			<div class="form-group">
-				<label for="category" class="col-sm-4">Category</label>
-				<InputText id="category" class="form-control col-sm-8" @bind-Value="@Model.Auction.Category" />
-				<ValidationMessage class="validation-error" For="@(() => Model.Auction.Category)" />
-			</div>
-		</div>
-
 		<!-- Bids and prices -->
 		<div class="row">
 			<div class="form-group col-sm-3">
@@ -76,6 +67,38 @@
 				<ValidationMessage class="validation-error" For="@(() => Model.Auction.ReservePrice)" />
 			</div>
 		</div>
+<<<<<<< HEAD
+=======
+		
+		<!-- Category -->
+		<div class="row">
+			<div class="form-group col-sm-4">
+				<label for="category" class="col-sm-4">Category</label>
+				<select class="auction-select" @bind="@Model.Auction.Category">
+					@foreach (var method in Categories)
+					{
+						<option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
+					}
+				</select>
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.Category)" />
+
+			</div>
+		</div>
+
+		<!-- Delivery -->
+		<div class="row">
+			<div class="form-group col-sm-4">
+				<label for="delivery-method" class="col-sm-4">Delivery method</label>
+				<select class="auction-select" @bind="@Model.Auction.DeliveryMethod">
+					@foreach (var method in Methods)
+					{
+						<option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
+					}
+				</select>
+				<ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
+			</div>
+		</div>
+>>>>>>> main
 
         <!-- Delivery -->
         <div class="row">

@@ -95,7 +95,14 @@
         </table>
 
         <h3>Time Left</h3>
-        <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
+		@if (TimeLeft.Days < 0 || TimeLeft.Hours < 0 || TimeLeft.Minutes < 0 || TimeLeft.Seconds < 0)
+		{
+			<p>Auction is closed!</p>
+		}
+		else
+		{
+			<p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
+		}
 
         <h3>Bidding History</h3>
         <ul>

@@ -1,4 +1,5 @@
-﻿using Cegeka.Auction.Domain.Enums;
+﻿using Blazored.Toast.Services;
+using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -15,10 +16,14 @@ public partial class New
     [Inject]
     public NavigationManager Navigation { get; set; } = null!;
 
+    [Inject]
+    public IToastService toastService { get; set; }
+
     public AuctionItemDetailsVM? Model { get; set; }
 
     public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
 
+<<<<<<< HEAD
     public List<IBrowserFile> loadedFiles = new();
 
     public int maxAllowedFiles = 10;
@@ -26,6 +31,20 @@ public partial class New
     public bool isLoading;
 
     public string ValidationMessage { get; set; } = string.Empty;
+=======
+    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
+
+    protected async Task ShowWarnings(AuctionItemDTO item, string auctionType)
+    {
+        string message;
+
+        if (auctionType == "add")
+        {
+            message = "The auction has been successfully added!";
+            toastService.ShowSuccess(message);
+        }
+    }
+>>>>>>> main
 
     protected override async Task OnInitializedAsync()
     {
@@ -82,6 +101,7 @@ public partial class New
 
     public async Task AddAuction()
     {
+<<<<<<< HEAD
         if (loadedFiles.Any())
         {
             foreach (var file in loadedFiles)
@@ -101,6 +121,10 @@ public partial class New
                 }
             }
         }
+=======
+        await AuctionsClient.AddAuctionAsync(Model.Auction);
+        await ShowWarnings(Model.Auction, "add");
+>>>>>>> main
 
         if (Model.Auction.Images != null && Model.Auction.Images.Any())
         {
