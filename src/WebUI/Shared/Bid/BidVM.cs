@@ -8,6 +8,7 @@ namespace Cegeka.Auction.WebUI.Shared.Bid;
 
 public class BidVM
 {
+    public List<BidDTOAuctionTitle> Bids { get; set; } = new List<BidDTOAuctionTitle>();
     public string CreatedBy { get; set; }
 
     public decimal Amount { get; set; }
@@ -19,5 +20,16 @@ public class BidVM
         CreatedBy = createdBy;
         Amount = amount;
         CreatedUtc = createdUtc;
+    }
+   
+
+    public BidVM()
+    {
+
+    }
+
+    public BidVM(List<BidDTOAuctionTitle> bidDTOs)
+    {
+        Bids = bidDTOs;
     }
 }

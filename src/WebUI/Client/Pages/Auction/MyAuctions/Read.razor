@@ -132,7 +132,7 @@
                 </tr>
                 @* Status -> InProgress = 4*@
                 @* Status -> AwaitingValidation = 5*@
-                @if (CurrentUserId == @Model.Auction.CreatedBy && (Model.Auction.Status == 4 || Model.Auction.Status == 5) )
+                @if (CurrentUserId == @Model.Auction.CreatedBy && (Model.Auction.Status == 4 || Model.Auction.Status == 5))
                 {
                     <tr>
                         <td>
@@ -140,16 +140,16 @@
                             <strong>Actions</strong>
                         </td>
                         <td>
-                            <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0 ? true: false)"@onclick="ValidateAuction">
+                            <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0 ? true: false)" @onclick="ValidateAuction">
                                 Validate
                             </button>
                         </td>
-                    </tr> 
+                    </tr>
                 }
             </tbody>
         </table>
-        
-        @if(TimeLeft.Days >= 0) 
+
+        @if (TimeLeft.Days >= 0)
         {
             <br />
 
@@ -157,7 +157,7 @@
             <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
         }
 
-        @if (CurrentUserId != Model.Auction.CreatedBy)
+        @if (CurrentUserId != Model.Auction.CreatedBy && Model.Auction.Status !=7)
         {
             <br />
 
@@ -178,7 +178,7 @@
                     <div class="col-sm-12">Min. $@(Math.Max(Model.Auction.CurrentBidAmount + 1, Model.Auction.StartingBidAmount))</div>
                 </div>
             </button>
-            
+
             <br />
         }
 
@@ -186,7 +186,7 @@
 
         <h3>Bidding History</h3>
 
-        @if(BiddingHistory.Count() > 0)
+        @if (BiddingHistory.Count() > 0)
         {
             <table class="table biddingHistoryTable" style="width: 75%">
                 <thead>
@@ -220,14 +220,14 @@
         }
 
         <br />
-        
+
         <div class="row">
             <a href="/auctions">
                 <button class="btn btn-secondary">Take me back</button>
             </a>
         </div>
 
-        <br/>
+        <br />
     </div>
 </div>
 

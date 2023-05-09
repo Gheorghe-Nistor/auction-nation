@@ -30,7 +30,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                 column: "AuctionItemId",
                 principalTable: "AuctionItems",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
 
         /// <inheritdoc />

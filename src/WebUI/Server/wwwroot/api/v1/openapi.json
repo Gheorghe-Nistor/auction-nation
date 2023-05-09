@@ -412,32 +412,31 @@
         }
       }
     },
-    "/api/Bid/new": {
-      "post": {
+    "/api/Bid/createdBy/{userId}": {
+      "get": {
         "tags": [
           "Bid"
         ],
-        "operationId": "Bid_AddAuction",
-        "requestBody": {
-          "x-name": "newBid",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BidDTO"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
+        "operationId": "Bid_GetBidByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/BidVM"
                 }
               }
             }
@@ -1302,6 +1301,58 @@
           "instance": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "BidVM": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "bids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BidDTOAuctionTitle"
+            }
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "createdUtc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BidDTOAuctionTitle": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auctionItemId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "createdUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "title": {
+            "type": "string"
           }
         }
       },

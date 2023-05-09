@@ -1,4 +1,4 @@
-﻿using Cegeka.Auction.Application.Bids.Commands;
+﻿using Cegeka.Auction.Application.Bids.Queries;
 using Cegeka.Auction.WebUI.Shared.Bid;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +9,10 @@ namespace Cegeka.Auction.WebUI.Server.Controllers
     [ApiController]
     public class BidController : ApiControllerBase
     {
-        // POST: api/bid/new
-        [HttpPost("new")]
-        public async Task<ActionResult<int>> AddAuction(BidDTO newBid)
+        [HttpGet("createdBy/{userId}")]
+        public async Task<ActionResult<BidVM>> GetBidByUserId(string userId)
         {
-            CreateBidRequest request = new CreateBidRequest(newBid);
-
-            return await Mediator.Send(new CreateBidCommand(request));
+            return await Mediator.Send(new GetBidsQuery(userId));
         }
-
-       
     }
 }

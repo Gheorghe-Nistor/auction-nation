@@ -1,4 +1,5 @@
-﻿using Cegeka.Auction.WebUI.Shared.Auction;
+﻿using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -26,6 +27,8 @@ public partial class Index
     public ConfirmationDialog ConfirmationDeleteDialog { get; set; }
 
     private AuctionItemDTO _toDelete;
+
+    public Status[] StatusList = (Status[])Enum.GetValues(typeof(Status));
 
     protected override async Task OnInitializedAsync()
     {

@@ -77,7 +77,7 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
                 await AuctionsClient.PlaceAuctionBidAsync(Model.Auction.Id, bid);
                 Model = await AuctionsClient.GetAuctionAsync(auctionId);
-
+                
                 GetBiddingHistoryVM();
 
                 StateHasChanged();

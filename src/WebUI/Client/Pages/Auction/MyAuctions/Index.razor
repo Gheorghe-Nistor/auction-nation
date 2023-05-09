@@ -5,11 +5,11 @@
 
 <h3>Auctions you started</h3>
 <br />
- 
+
 @if (CreatedAuctions != null && CreatedAuctions.Auctions.Count > 0)
 {
     <a href="@($"auctions/new")" class="btn btn-success table-btn" data-toggle="tooltip" data-placement="bottom" title="Add">
-	    <i class="oi oi-book"></i> Add new
+        <i class="oi oi-book"></i> Add new
     </a>
     <table class="table table-striped table-hover w-75">
         <thead>
@@ -17,7 +17,8 @@
                 <th>Title</th>
                 <th>Opening time</th>
                 <th>Closing time</th>
-                <th>Current Bid</th>	
+                <th>Current Bid</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -38,6 +39,7 @@
                             @item.CurrentBidAmount.ToString()
                         }
                     </td>
+                    <td> @StatusList[@item.Status]</td>
                     <td>
                         @*@if (DateTime.Now < item.StartDate && item.WinningBidder == null)*@
                         <a href="@($"auctions/{item.Id.ToString()}")" class="btn btn-primary table-btn" data-toggle="tooltip" data-placement="bottom" title="Edit">
@@ -57,14 +59,14 @@ else
     <h5 class="text-center">You haven't created any auctions yet. Why not <a href="@($"auctions/new")">create one</a> now?</h5>
 }
 
-<br/>
+<br />
 <hr />
 <br />
 
 <h3>Auctions you won</h3>
 <br />
 
-@if(WonAuctions != null && WonAuctions.Auctions.Count > 0)
+@if (WonAuctions != null && WonAuctions.Auctions.Count > 0)
 {
     <div class="row">
         @foreach (var item in WonAuctions.Auctions)
@@ -85,15 +87,19 @@ else
                         </p>
                         <p class="card-text">
                             <span class="oi oi-dollar" aria-hidden="true"></span>
-                            Price: @(item.BuyItNowPrice)
-                        </p>
-                        <hr />
-                        <div class="d-flex justify-content-center">
-                            <a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom" class="btn btn-dark">Show</a>
+                            Price:
+                            @if (item.CurrentBidAmount == 0)
+                                @item.BuyItNowPrice
+                            else
+                                @item.CurrentBidAmount
+                            </p>
+                            <hr />
+                            <div class="d-flex justify-content-center">
+                                <a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom" class="btn btn-dark">Show</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         }
     </div>
 }
@@ -105,5 +111,5 @@ else
 
 
 <ConfirmationDialog Title="Confirm delete"
-					CloseEventCallback="@OnConfirmationDeleteDialogClosed"
-					@ref="@ConfirmationDeleteDialog"></ConfirmationDialog>
+                    CloseEventCallback="@OnConfirmationDeleteDialogClosed"
+                    @ref="@ConfirmationDeleteDialog"></ConfirmationDialog>
