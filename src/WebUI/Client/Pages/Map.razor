@@ -1,0 +1,27 @@
+﻿@page "/map"
+@inject IJSRuntime JSRuntime;
+
+<div id="map" style="height:500px;width:100%;"></div>
+
+@code {
+    private IJSObjectReference? module;
+    private string? result;
+    private int? testId { get; set; }
+
+    internal async Task ClickPin(ChangeEventArgs e)
+    {
+        var selVal = e.Value.ToString();
+        await JSRuntime.InvokeVoidAsync("clickPin", new string[] { selVal });
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initialize", null);
+            StateHasChanged();
+
+        }
+    }
+
+}
