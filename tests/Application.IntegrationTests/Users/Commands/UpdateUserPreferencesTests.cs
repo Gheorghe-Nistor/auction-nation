@@ -106,7 +106,7 @@ public class UpdateUserPreferencesTests : BaseTestFixture
 
         if (user != null)
         {
-            user.TimeZoneId = "testT1imeZone";
+            user.TimeZoneId = 1;
         }
         var mappedUser = _mapper.Map<UserDto>(user);
 
