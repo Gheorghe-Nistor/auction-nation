@@ -16,6 +16,10 @@ public class UserDto
     public string UserName { get; set; }
 
     public string Email { get; set; }
+    public int? LanguageId { get; set; } = null;
+    public int? CurrencyId { get; set; } = null;
+    public int? TimeZoneId { get; set; } = null;
+    public int? DisplaySettingId { get; set; } = null;
 
     public List<string> Roles { get; set; } = new();
 }
