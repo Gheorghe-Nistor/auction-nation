@@ -67,7 +67,7 @@
 				<ValidationMessage class="validation-error" For="@(() => Model.Auction.ReservePrice)" />
 			</div>
 		</div>
-		
+
 		<!-- Category -->
 		<div class="row">
 			<div class="form-group col-sm-4">
@@ -96,6 +96,29 @@
 				<ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
 			</div>
 		</div>
+
+		<!-- Images-->
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="loaded-files" class="col-sm-4">Load up to 10 images</label>
+                <InputFile multiple id="loaded-files" OnChange="LoadFiles" />
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.Images)" />
+                @if (!string.IsNullOrEmpty(ValidationMessage))
+                {
+                    <div class="text-danger">@ValidationMessage</div>
+                }
+      
+            </div>
+
+            <div>
+                @if (Model.Auction.Images.Any())
+                {
+                    @RenderImages()
+                }
+            </div>
+        </div>
+
+
 
 		<!-- SUBMIT -->
 		<div class="row">

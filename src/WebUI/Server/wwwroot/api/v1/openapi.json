@@ -844,6 +844,7 @@
         "required": [
           "title",
           "description",
+          "images",
           "startDate",
           "endDate",
           "category",

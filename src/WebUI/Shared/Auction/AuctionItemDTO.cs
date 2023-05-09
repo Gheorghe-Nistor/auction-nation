@@ -18,6 +18,7 @@ public class AuctionItemDTO
     [MaxLength(500, ErrorMessage = "Please make the description shorter.")]
     public string Description { get; set; }
 
+    [Required(ErrorMessage = "This field is required.")]
     public List<string> Images { get; set; } = new List<string>();
 
     [Required(ErrorMessage = "This field is required.")]

@@ -12,12 +12,33 @@
 }
 
 <h1 class="mb-4">@Model.Auction.Title</h1>
+@if (Model.Auction.Images.Count == 1)
+{
+    <img src="@Model.Auction.Images[0]" style="height: 600px; width: 800px; object-fit: contain" />
+}
+else
+{
+<Carousel @bind-SelectedSlide="@selectedSlide">
+    @for (int i = 0; i < Model.Auction.Images.Count; i++)
+    {
+        if (i < Model.Auction.Images.Count)
+        {
+            var image = Model.Auction.Images[i];
+            if (image != null)
+            {
+                <CarouselSlide Name=@($"{i + 1}")>
+                    <img src="@image" style="height: 600px; width: 800px; object-fit: contain" />
+                </CarouselSlide>
+            }
+        }
+    }
+</Carousel>
+}
 
 <div class="row" style="margin-left: -10px;">
     <div class="col-md-8" style="margin-left: 10px;">
-        <div class="col-md-4 mb-4">
-            <img src="@Model.Auction.Images.FirstOrDefault()" class="img-fluid" alt="Auction Item Image" />
-        </div>
+       
+        
 
         <h3>Description</h3>
         @if (Model.Auction.Description.Split(" ").Length <= 170)
