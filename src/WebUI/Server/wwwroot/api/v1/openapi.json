@@ -1363,6 +1363,26 @@
           "email": {
             "type": "string"
           },
+          "languageId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "timeZoneId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "displaySettingId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "roles": {
             "type": "array",
             "items": {

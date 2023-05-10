@@ -137,6 +137,10 @@ public class IdentityService : IIdentityService
 
         user.UserName = updatedUser.UserName;
         user.Email = updatedUser.Email;
+        user.LanguageId = updatedUser.LanguageId;
+        user.CurrencyId = updatedUser.CurrencyId;
+        user.TimeZoneId = updatedUser.TimeZoneId;
+        user.DisplaySettingId = updatedUser.DisplaySettingId;
 
         await _userManager.UpdateAsync(user);
 
