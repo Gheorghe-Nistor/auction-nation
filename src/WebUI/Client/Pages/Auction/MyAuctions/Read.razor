@@ -112,15 +112,18 @@
                     </td>
                     <td>@Model.Auction.DeliveryMethod</td>
                 </tr>
-                <tr>
-                    <td>
-                        <span class="oi oi-person" aria-hidden="true"></span>
-                        <strong>Winning Bidder</strong>
-                    </td>
-                    <td>
-                        @(Model.Auction.WinningBidder == null ? "N/A" : @WinningBidderUsername)
-                    </td>
-                </tr>
+                @if (Model.Auction.Status == 7)
+                {
+                    <tr>
+                        <td>
+                            <span class="oi oi-person" aria-hidden="true"></span>
+                            <strong>Winning Bidder</strong>
+                        </td>
+                        <td>
+                            @(Model.Auction.WinningBidder == null ? "N/A" : @WinningBidderUsername)
+                        </td>
+                    </tr>
+                }
                 <tr>
                     <td>
                         <span class="oi oi-check status-icon" aria-hidden="true"></span>
