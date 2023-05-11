@@ -9,7 +9,7 @@
             <tr>
                 <th>Amount</th>
                 <th>Date</th>
-                <th>AuctionItem</th>
+                <th>Auction</th>
             </tr>
         </thead>
         <tbody>
@@ -17,7 +17,7 @@
             {
                 <tr>
                     <td>@bid.Amount</td>
-                    <td>@bid.CreatedUtc.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@bid.CreatedUtc.ToString("MM/dd/yyyy HH:mm")</td>
                     <td>
                         <a href="@($"auctions/{bid.AuctionItemId.ToString()}/view")" data-toggle="tooltip" data-placement="bottom">@bid.Title</a>
                     </td>
