@@ -2,11 +2,8 @@
 using Cegeka.Auction.WebUI.Client.Pages.Auction.Bids;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Cegeka.Auction.WebUI.Shared.Bid;
-using MediatR;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Text;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 {
@@ -29,6 +26,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         [Inject]
         public IBidClient BidClient { get; set; }
 
+        private string selectedSlide;
+
         public AuctionItemDetailsVM? Model { get; set; }
 
         public List<BidVM> BiddingHistory { get; set; } = new List<BidVM>();
@@ -39,10 +38,9 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         public string? CurrentUserId { get; set; } = null;
         public string? AuctioneerUsername { get; set; } = null;
         public string? WinningBidderUsername { get; set; } = null;
-        
+
         public bool BuyItNowAvailable { get; set; } = false;
         public bool BidAvailable { get; set; } = false;
-
 
         private BidDialog _bidDialog { get; set; }
 
@@ -60,7 +58,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
             decimal? maxBidAmount;
 
-            if (Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0){
+            if (Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0)
+            {
                 maxBidAmount = null;
             }
             else
@@ -68,7 +67,7 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
                 maxBidAmount = Model.Auction.BiddingHistory.Last().Amount;
             }
 
-            if(maxBidAmount == null || _bidDialog.Amount+1 >= maxBidAmount && _bidDialog.Amount >= Model.Auction.StartingBidAmount)
+            if (maxBidAmount == null || _bidDialog.Amount + 1 >= maxBidAmount && _bidDialog.Amount >= Model.Auction.StartingBidAmount)
             {
                 var bid = new BidDTO
                 {
@@ -77,7 +76,7 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
                 await AuctionsClient.PlaceAuctionBidAsync(Model.Auction.Id, bid);
                 Model = await AuctionsClient.GetAuctionAsync(auctionId);
-                
+
                 GetBiddingHistoryVM();
 
                 StateHasChanged();
@@ -98,11 +97,11 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
             if (DateTime.Now < Model.Auction.EndDate && CurrentUserId != Model.Auction.CreatedBy && Model.Auction.WinningBidder == null)
             {
-                if(DateTime.Now < Model.Auction.StartDate)
+                if (DateTime.Now < Model.Auction.StartDate)
                 {
                     BuyItNowAvailable = true;
                 }
-                else if(Model.Auction.Status == (int) Status.InProgress)
+                else if (Model.Auction.Status == (int)Status.InProgress)
                 {
                     BidAvailable = true;
                 }
@@ -118,14 +117,17 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
             var timer = new System.Timers.Timer(1000);
             timer.Elapsed += (sender, e) =>
             {
-                TimeLeft = endDate - DateTime.Now;
-                if (TimeLeft.TotalSeconds < 0)
+                var timeLeft = endDate - DateTime.Now;
+                if (timeLeft < TimeSpan.Zero)
                 {
-                    timer.Stop();
+                    timeLeft = TimeSpan.Zero;
                 }
+                TimeLeft = timeLeft;
                 StateHasChanged();
             };
             timer.Start();
+
+            selectedSlide = "0";
         }
 
         public async Task BuyAuction()
@@ -167,4 +169,5 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
             return user.User.UserName;
         }
     }
+
 }

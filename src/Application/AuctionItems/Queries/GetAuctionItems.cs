@@ -26,7 +26,7 @@ public class GetAuctionItemsQueryHandler
         ListingsQueryParams queryParams = request.QueryParams ?? new ListingsQueryParams();
 
         string? search = queryParams?.Search;
-        string? category = queryParams?.Category;
+        int category = queryParams.Category;
         decimal? minPrice = queryParams?.MinPrice;
         decimal? maxPrice = queryParams?.MaxPrice;
         
@@ -40,7 +40,7 @@ public class GetAuctionItemsQueryHandler
         {
             Auctions = await _context.AuctionItems
                 .Where(a => string.IsNullOrEmpty(search) || a.Title.Contains(search) || a.Description.Contains(search))
-                .Where(a => string.IsNullOrEmpty(category) || a.Category.Equals(category))
+                .Where(a => category == (int) Category.None|| a.Category.Equals(category))
                 .Where(a => minPrice == null || (a.CurrentBidAmount != 0 ? a.CurrentBidAmount >= minPrice : a.StartingBidAmount >= minPrice))
                 .Where(a => maxPrice == null || (a.CurrentBidAmount != 0 ? a.CurrentBidAmount <= maxPrice : a.StartingBidAmount <= maxPrice))
                 .Where(a => minDate == null || minDate <= a.StartDate || minDate <= a.EndDate)

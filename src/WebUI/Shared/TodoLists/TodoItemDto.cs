@@ -1,4 +1,4 @@
-﻿namespace Cegeka.Auction.WebUI.Shared.TodoItems;
+﻿namespace Cegeka.Auction.WebUI.Shared.TodoLists;
 
 public class TodoItemDto
 {

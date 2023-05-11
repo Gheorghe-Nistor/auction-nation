@@ -12,14 +12,32 @@
     return;
 }
 
+<h1 class="mb-4">@Model.Auction.Title</h1>
+@if (Model.Auction.Images.Count == 1)
+{
+    <img src="@Model.Auction.Images[0]" style="height: 600px; width: 800px; object-fit: contain" />
+}
+else
+{
+<Carousel @bind-SelectedSlide="@selectedSlide">
+    @for (int i = 0; i < Model.Auction.Images.Count; i++)
+    {
+        if (i < Model.Auction.Images.Count)
+        {
+            var image = Model.Auction.Images[i];
+            if (image != null)
+            {
+                <CarouselSlide Name=@($"{i + 1}")>
+                    <img src="@image" style="height: 600px; width: 800px; object-fit: contain" />
+                </CarouselSlide>
+            }
+        }
+    }
+</Carousel>
+}
 
 <div class="row" style="margin-left: -10px;">
     <div class="col-md-8" style="margin-left: 10px;">
-        <h1 class="mb-4">@Model.Auction.Title</h1>
-        <hr />
-        <div class="col-md-4 mb-4">
-            <img src="@Model.Auction.Images.FirstOrDefault()" class="img-fluid" alt="Auction Item Image" />
-        </div>
 
         <h3>Description</h3>
         @if (Model.Auction.Description.Split(" ").Length <= 170)
@@ -152,15 +170,18 @@
             </tbody>
         </table>
 
-        @if (TimeLeft.Days >= 0)
-        {
-            <br />
 
-            <h3>Time Left</h3>
+        <h3>Time Left</h3>
+        @if (TimeLeft.Days < 0 || TimeLeft.Hours < 0 || TimeLeft.Minutes < 0 || TimeLeft.Seconds < 0)
+        {
+            <p>Auction is closed!</p>
+        }
+        else
+        {
             <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
         }
 
-        @if (CurrentUserId != Model.Auction.CreatedBy && Model.Auction.Status !=7)
+        @if (CurrentUserId != Model.Auction.CreatedBy && Model.Auction.Status != 7)
         {
             <br />
 
@@ -237,3 +258,4 @@
 
 <BidDialog Title="Bid" Content="Place a higher bid than the current highest to increase your chances of winning! "
            @ref="_bidDialog" PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>
+

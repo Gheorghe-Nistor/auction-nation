@@ -1,4 +1,6 @@
-﻿@page "/listings"
+﻿@using System.Text.RegularExpressions;
+
+@page "/listings"
 @attribute [Authorize(Permissions.Auction)]
 
 <PageTitle>listings</PageTitle>
@@ -19,7 +21,12 @@
             <div class="input-group">
                 <InputNumber TValue="decimal?" class="form-control" style="margin-right: 1rem" @bind-Value="@Model.QueryParams.MinPrice" placeholder="Min-Price" />
                 <InputNumber TValue="decimal?" class="form-control" @bind-Value="@Model.QueryParams.MaxPrice" placeholder="Max-Price" />
-                <InputText class="form-control mx-3" @bind-Value="@Model.QueryParams.Category" placeholder="Category" />
+                <select class="auction-select" @bind="@Model.QueryParams.Category">
+                    @foreach (var category in Categories)
+                    {
+                        <option value="@category">@Regex.Replace(category.ToString(), "(\\B[A-Z])", " $1")</option>
+                    }
+                </select>
                 <button class="btn btn-primary" type="submit" @onclick="GetListings"> <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search</button>
             </div>
         </div>
@@ -41,7 +48,9 @@
     {
         <div class="col-sm-3">
             <div class="card">
-                <img class="card-img-top" src="https://riaccdn.s3.us-east-2.amazonaws.com/dev_cdn/front-page-slider/Greg_Lampe_Web_Image_w1600.jpg" alt="Card image">
+                <div class="text-center">
+                <img class="card-img-top" src=@item.Images.FirstOrDefault() alt="Card image" style="max-height:200px; max-width:350px; object-fit:contain;">
+                </div>
                 <div class="card-body">
                     <h4 class="card-title text-center">@item.Title</h4>
                     <hr />

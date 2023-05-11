@@ -1,4 +1,5 @@
-﻿using Cegeka.Auction.WebUI.Shared.Listings;
+﻿using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Shared.Listings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
@@ -14,6 +15,8 @@ public partial class Index
     public NavigationManager Navigation { get; set; } = null!;
 
     public ListingsVM? Model { get; set; }
+
+    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
 
     protected override async Task OnInitializedAsync()
     {
