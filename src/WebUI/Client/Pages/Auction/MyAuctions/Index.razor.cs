@@ -4,7 +4,6 @@ using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Web.Mvc;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
