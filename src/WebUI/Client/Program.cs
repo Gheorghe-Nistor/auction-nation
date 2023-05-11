@@ -3,9 +3,13 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.JSInterop;
+using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
 using Cegeka.Auction.WebUI.Client;
 using Cegeka.Auction.WebUI.Client.Authorization;
 using Cegeka.Auction.WebUI.Shared.Authorization;
+using Blazored.Toast;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -16,6 +20,8 @@ builder.Services.AddHttpClient("Cegeka.Auction.WebUI.ServerAPI", client => clien
 
 // Supply HttpClient instances that include access tokens when making requests to the server project
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Cegeka.Auction.WebUI.ServerAPI"));
+
+builder.Services.AddBlazoredToast();
 
 builder.Services
     .AddApiAuthorization()
@@ -32,5 +38,13 @@ builder.Services.Scan(scan => scan
     .AddClasses()
     .AsImplementedInterfaces()
     .WithScopedLifetime());
+
+builder.Services
+    .AddBlazorise(options =>
+    {
+        options.Immediate = true;
+    })
+    .AddBootstrap5Providers()
+    .AddFontAwesomeIcons();
 
 await builder.Build().RunAsync();

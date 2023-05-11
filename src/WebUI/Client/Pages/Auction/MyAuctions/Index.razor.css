@@ -1,0 +1,18 @@
+﻿.sort-header {
+    cursor: pointer;
+}
+
+.filter-div {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.auction-select {
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    width: 100%;
+    outline: none;
+    color: #333;
+}

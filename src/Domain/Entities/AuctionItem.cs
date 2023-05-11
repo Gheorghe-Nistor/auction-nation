@@ -19,6 +19,7 @@ public class AuctionItem : BaseAuditableEntity
     [MaxLength(500)]
     public string Description { get; set; }
 
+    [Required]
     public List<string> Images { get; set; } = new List<string>();
 
     [Required]
@@ -29,8 +30,7 @@ public class AuctionItem : BaseAuditableEntity
     public DateTime EndDate { get; set; }
 
     [Required]
-    [MaxLength(50)]
-    public string Category { get; set; }
+    public Category Category { get; set; }
 
     [Required]
     public decimal StartingBidAmount { get; set; }

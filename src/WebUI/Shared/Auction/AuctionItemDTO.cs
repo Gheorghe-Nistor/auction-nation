@@ -22,6 +22,7 @@ public class AuctionItemDTO
     [MaxLength(500, ErrorMessage = "Please make the description shorter.")]
     public string Description { get; set; }
 
+    [Required(ErrorMessage = "This field is required.")]
     public List<string> Images { get; set; } = new List<string>();
 
     [Required(ErrorMessage = "This field is required.")]
@@ -32,23 +33,25 @@ public class AuctionItemDTO
     public DateTime EndDate { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
-    [MaxLength(50, ErrorMessage = "Please write a shorter category name.")]
-    public string Category { get; set; }
+    [Range(1, double.PositiveInfinity, ErrorMessage = "Please pick a valid category.")]
+    [EnumDataType(typeof(Category))]
+    public Category Category { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
     public decimal StartingBidAmount { get; set; }
 
     public decimal CurrentBidAmount { get; set; } = 0;
 
-    [Required]
-    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
+    [Required(ErrorMessage = "This field is required.")]
+    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
     public decimal BuyItNowPrice { get; set; }
 
-    [Required]
-    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increasee the price.")]
+    [Required(ErrorMessage = "This field is required.")]
+    [GreaterThanDecimal(nameof(StartingBidAmount), ErrorMessage = "Please increase the price.")]
     public decimal ReservePrice { get; set; }
 
     [Required(ErrorMessage = "This field is required.")]
+    [Range(1, double.PositiveInfinity, ErrorMessage = "Please pick a valid delivery method.")]
     [EnumDataType(typeof(DeliveryMethod))]
     public DeliveryMethod DeliveryMethod { get; set; }
 

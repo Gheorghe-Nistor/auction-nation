@@ -7,6 +7,8 @@ using Cegeka.Auction.Application.Common.Services.Identity;
 using Cegeka.Auction.Infrastructure.Data;
 using Cegeka.Auction.WebUI.Server.Services;
 using Cegeka.Auction.WebUI.Shared.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

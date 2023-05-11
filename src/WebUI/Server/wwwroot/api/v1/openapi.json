@@ -1139,6 +1139,7 @@
         "required": [
           "title",
           "description",
+          "images",
           "startDate",
           "endDate",
           "category",
@@ -1187,9 +1188,12 @@
             "minLength": 1
           },
           "category": {
-            "type": "string",
-            "maxLength": 50,
-            "minLength": 1
+            "minimum": 1.0,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              }
+            ]
           },
           "startingBidAmount": {
             "type": "number",
@@ -1208,7 +1212,12 @@
             "format": "decimal"
           },
           "deliveryMethod": {
-            "$ref": "#/components/schemas/DeliveryMethod"
+            "minimum": 1.0,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DeliveryMethod"
+              }
+            ]
           },
           "status": {
             "type": "integer",
@@ -1225,6 +1234,40 @@
             "nullable": true
           }
         }
+      },
+      "Category": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Books",
+          "Music",
+          "Movies",
+          "Beauty",
+          "Clothing",
+          "Accessories",
+          "Electronics",
+          "Vehicles",
+          "Toys",
+          "Sport",
+          "HomeAndGardening",
+          "CollectiblesAndMemorabilia"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
       },
       "DeliveryMethod": {
         "type": "integer",
@@ -1674,6 +1717,26 @@
           },
           "email": {
             "type": "string"
+          },
+          "languageId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "timeZoneId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "displaySettingId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "roles": {
             "type": "array",

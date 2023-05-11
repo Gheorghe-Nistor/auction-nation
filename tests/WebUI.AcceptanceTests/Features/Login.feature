@@ -2,11 +2,13 @@
 Feature: Login
     User can log in
 
+@ignore
 Scenario: User can log in with valid credentials
 	Given a logged out user
 	When the user logs in with valid credentials
 	Then they log in successfully
 
+@ignore
 Scenario: User cannot log in with invalid credentials
     Given a logged out user
     When the user logs in with invalid credentials

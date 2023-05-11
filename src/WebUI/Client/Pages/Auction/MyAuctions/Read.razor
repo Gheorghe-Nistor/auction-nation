@@ -1,6 +1,5 @@
 ﻿@using System;
 @using System.Text.RegularExpressions;
-@using Cegeka.Auction.WebUI.Client.Pages.Auction.Bids;
 
 @page "/auctions/{auctionId}/view"
 @attribute [Authorize(Permissions.Auction)]
@@ -12,14 +11,34 @@
     return;
 }
 
+<h1 class="mb-4">@Model.Auction.Title</h1>
+@if (Model.Auction.Images.Count == 1)
+{
+    <img src="@Model.Auction.Images[0]" style="height: 600px; width: 800px; object-fit: contain" />
+}
+else
+{
+<Carousel @bind-SelectedSlide="@selectedSlide">
+    @for (int i = 0; i < Model.Auction.Images.Count; i++)
+    {
+        if (i < Model.Auction.Images.Count)
+        {
+            var image = Model.Auction.Images[i];
+            if (image != null)
+            {
+                <CarouselSlide Name=@($"{i + 1}")>
+                    <img src="@image" style="height: 600px; width: 800px; object-fit: contain" />
+                </CarouselSlide>
+            }
+        }
+    }
+</Carousel>
+}
 
 <div class="row" style="margin-left: -10px;">
     <div class="col-md-8" style="margin-left: 10px;">
-        <h1 class="mb-4">@Model.Auction.Title</h1>
-        <hr />
-        <div class="col-md-4 mb-4">
-            <img src="@Model.Auction.Images.FirstOrDefault()" class="img-fluid" alt="Auction Item Image" />
-        </div>
+       
+        
 
         <h3>Description</h3>
         @if (Model.Auction.Description.Split(" ").Length <= 170)
@@ -45,195 +64,70 @@
         }
 
         <h3>Details</h3>
-        <table class="table" style="width: 80%;">
+        <table class="table">
             <tbody>
                 <tr>
-                    <td>
-                        <span class="oi oi-person" aria-hidden="true"></span>
-                        <strong>Auctioneer</strong>
-                    </td>
-                    <td>
-                        @AuctioneerUsername
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="oi oi-tag" aria-hidden="true"></span>
-                        <strong>Category:</strong>
-                    </td>
+                    <td><strong>Category:</strong></td>
                     <td>@Model.Auction.Category</td>
                 </tr>
                 <tr>
-                    <td>
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
-                        <strong>Starting Bid Amount:</strong>
-                    </td>
+                    <td><strong>Starting Bid Amount:</strong></td>
                     <td>@Model.Auction.StartingBidAmount</td>
                 </tr>
                 <tr>
-                    <td>
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
-                        <strong>Current Bid Amount:</strong>
-                    </td>
+                    <td><strong>Current Bid Amount:</strong></td>
                     <td>@Model.Auction.CurrentBidAmount</td>
                 </tr>
                 <tr>
-                    <td>
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
-                        <strong>Buy It Now Price:</strong>
-                    </td>
+                    <td><strong>Buy It Now Price:</strong></td>
                     <td>@Model.Auction.BuyItNowPrice</td>
                 </tr>
                 <tr>
-                    <td>
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
-                        <strong>Reserve Price:</strong>
-                    </td>
+                    <td><strong>Reserve Price:</strong></td>
                     <td>@Model.Auction.ReservePrice</td>
                 </tr>
                 <tr>
-                    <td>
-                        <span class="oi oi-calendar" aria-hidden="true"></span>
-                        <strong>Start Date:</strong>
-                    </td>
+                    <td><strong>Start Date:</strong></td>
                     <td>@Model.Auction.StartDate.ToShortDateString()</td>
                 </tr>
                 <tr>
-                    <td>
-                        <span class="oi oi-calendar" aria-hidden="true"></span>
-                        <strong>End Date:</strong>
-                    </td>
+                    <td><strong>End Date:</strong></td>
                     <td>@Model.Auction.EndDate.ToShortDateString()</td>
                 </tr>
                 <tr>
-                    <td>
-                        <span class="oi oi-signpost" aria-hidden="true"></span>
-                        <strong>Delivery Method:</strong>
-                    </td>
+                    <td><strong>Delivery Method:</strong></td>
                     <td>@Model.Auction.DeliveryMethod</td>
                 </tr>
-                @if (Model.Auction.Status == 7)
-                {
-                    <tr>
-                        <td>
-                            <span class="oi oi-person" aria-hidden="true"></span>
-                            <strong>Winning Bidder</strong>
-                        </td>
-                        <td>
-                            @(Model.Auction.WinningBidder == null ? "N/A" : @WinningBidderUsername)
-                        </td>
-                    </tr>
-                }
-                <tr>
-                    <td>
-                        <span class="oi oi-check status-icon" aria-hidden="true"></span>
-                        <strong>Status</strong>
-                    </td>
-                    <td>
-                        @StatusList[Model.Auction.Status]
-                    </td>
-                </tr>
-                @* Status -> InProgress = 4*@
-                @* Status -> AwaitingValidation = 5*@
-                @if (CurrentUserId == @Model.Auction.CreatedBy && (Model.Auction.Status == 4 || Model.Auction.Status == 5))
-                {
-                    <tr>
-                        <td>
-                            <span class="oi oi-loop-square" aria-hidden="true"></span>
-                            <strong>Actions</strong>
-                        </td>
-                        <td>
-                            <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0 ? true: false)" @onclick="ValidateAuction">
-                                Validate
-                            </button>
-                        </td>
-                    </tr>
-                }
             </tbody>
         </table>
 
-        @if (TimeLeft.Days >= 0)
-        {
-            <br />
-
-            <h3>Time Left</h3>
-            <p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
-        }
-
-        @if (CurrentUserId != Model.Auction.CreatedBy && Model.Auction.Status !=7)
-        {
-            <br />
-
-            <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)" @onclick="BuyAuction">
-                <div class="row">
-                    <div class="col-sm-12">Buy it now</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">$@Model.Auction.BuyItNowPrice</div>
-                </div>
-            </button>
-
-            <button class="btn btn-primary shadow-sm mx-3" disabled="@(!BidAvailable)" @onclick="PlaceBidForItem">
-                <div class="row">
-                    <div class="col-sm-12">Place bid</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">Min. $@(Math.Max(Model.Auction.CurrentBidAmount + 1, Model.Auction.StartingBidAmount))</div>
-                </div>
-            </button>
-
-            <br />
-        }
-
-        <br />
+        <h3>Time Left</h3>
+		@if (TimeLeft.Days < 0 || TimeLeft.Hours < 0 || TimeLeft.Minutes < 0 || TimeLeft.Seconds < 0)
+		{
+			<p>Auction is closed!</p>
+		}
+		else
+		{
+			<p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
+		}
 
         <h3>Bidding History</h3>
-
-        @if (BiddingHistory.Count() > 0)
-        {
-            <table class="table biddingHistoryTable" style="width: 75%">
-                <thead>
-                    <tr>
-                        <th scope="col">
-                            <span class="oi oi-person" aria-hidden="true"></span> Username
-                        </th>
-                        <th scope="col">
-                            <span class="oi oi-dollar" aria-hidden="true"></span> Amount
-                        </th>
-                        <th scope="col">
-                            <span class="oi oi-calendar" aria-hidden="true"></span> Date
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var bid in BiddingHistory)
-                    {
-                        <tr>
-                            <td>@bid.CreatedBy</td>
-                            <td>@bid.Amount</td>
-                            <td>@bid.CreatedUtc</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>There are no bids for this auction yet.</p>
-        }
-
-        <br />
-
-        <div class="row">
-            <a href="/auctions">
-                <button class="btn btn-secondary">Take me back</button>
-            </a>
-        </div>
-
-        <br />
+        <ul>
+            @foreach (var bid in Model.Auction.BiddingHistory)
+            {
+                <li>@bid.UserId - @bid.Amount</li>
+            }
+        </ul>
     </div>
 </div>
 
+<div class="row">
+	<a href="/auctions">Take me back</a>
+</div>
 
-<BidDialog Title="Bid" Content="Place a higher bid than the current highest to increase your chances of winning! "
-           @ref="_bidDialog" PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>
+
+
+
+
+
+
