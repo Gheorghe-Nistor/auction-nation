@@ -7,6 +7,11 @@ using Cegeka.Auction.Application.Common.Services.Identity;
 using Cegeka.Auction.Infrastructure.Data;
 using Cegeka.Auction.WebUI.Server.Services;
 using Cegeka.Auction.WebUI.Shared.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Cegeka.Auction.WebUI.Server.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Cegeka.Auction.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +37,8 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+
+//builder.Services.AddSingleton<IEmailSender, SendGridMailServices>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
