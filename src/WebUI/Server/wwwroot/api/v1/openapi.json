@@ -1422,7 +1422,8 @@
             "type": "string"
           },
           "category": {
-            "type": "string"
+            "type": "integer",
+            "format": "int32"
           },
           "status": {
             "type": "string"
