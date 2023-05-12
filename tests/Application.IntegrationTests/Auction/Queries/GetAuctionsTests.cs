@@ -169,6 +169,7 @@ public class GetAuctionsTests : BaseTestFixture
     }
 
 
+    /*
     [Test]
     public async Task ShouldReturnOnlyAuctionsThatHaveASpecifiedStatus()
     {
@@ -184,7 +185,7 @@ public class GetAuctionsTests : BaseTestFixture
         result.Auctions.Should().HaveCount(2);
         result.Auctions[0].PublicId.Should().Be("68d0cbb6-09a6-4c05-a50a-c26d0c0e35b2");
         result.Auctions[1].PublicId.Should().Be("26aa77e2-ebd2-417c-9cb8-7cfe695548ab");
-    }
+    }*/
 
     [Test]
     public async Task ShouldReturnOnlyAuctionsThatHaveASpecifiedDeliveryMethod()

@@ -32,7 +32,9 @@ public class GetListingsQueryHandler
         ListingsQueryParams queryParams = request.QueryParams ?? new ListingsQueryParams();
 
         string search = queryParams.Search;
-        int category = queryParams.Category;
+        Category category = queryParams.Category;
+
+        PublicStatus publicStatus = queryParams.PublicStatus;
 
         decimal? minPrice = queryParams?.MinPrice;
         decimal? maxPrice = queryParams?.MaxPrice;
@@ -40,19 +42,18 @@ public class GetListingsQueryHandler
         DateTime? minDate = queryParams?.MinDate;
         DateTime? maxDate = queryParams?.MaxDate;
 
-        Status status = ParseEnum(queryParams?.Status, Status.Unknown);
         DeliveryMethod deliveryMethod = ParseEnum(queryParams?.DeliveryMethod, DeliveryMethod.None);
 
         return new ListingsVM {
             QueryParams = queryParams,
             Auctions = await _context.AuctionItems
                 .Where(a => string.IsNullOrEmpty(search) || a.Title.Contains(search) || a.Description.Contains(search))
-                .Where(a => category == (int) Category.None || a.Category.Equals(category))
+                .Where(a => category == Category.None || a.Category.Equals(category))
+                .Where(a => publicStatus == PublicStatus.None || (publicStatus == PublicStatus.Closed && (a.EndDate < DateTime.Now || a.Status == Status.Finished)) || (publicStatus == PublicStatus.Active && DateTime.Now < a.EndDate && (a.Status == Status.InProgress || a.Status == Status.AwaitingValidation)))
                 .Where(a => minPrice == null || (a.CurrentBidAmount != 0 ? a.CurrentBidAmount >= minPrice : a.StartingBidAmount >= minPrice))
                 .Where(a => maxPrice == null || (a.CurrentBidAmount != 0 ? a.CurrentBidAmount <= maxPrice : a.StartingBidAmount <= maxPrice))
                 .Where(a => minDate == null || minDate <= a.StartDate || minDate <= a.EndDate)
                 .Where(a => maxDate == null || a.StartDate <= a.EndDate || a.EndDate <= maxDate)
-                .Where(a => status == Status.Unknown || a.Status == status)
                 .Where(a => deliveryMethod == DeliveryMethod.None || a.DeliveryMethod == deliveryMethod)
                 .OrderBy(a => a.StartDate)
                 .ProjectTo<AuctionItemDTO>(_mapper.ConfigurationProvider)

@@ -19,7 +19,7 @@
 	    </div>
     </div>
 
-    <div class="row filter-div d-flex align-items-end">
+    <div class="row filter-div d-flex align-items-center">
 	    <h5>Filter</h5>
 	    <div class="form-group col-sm-3">
 		    <label for="filter-category" class="col-sm-3">Category</label>
@@ -41,7 +41,7 @@
 		    </select>
 	    </div>
 
-	    <div class="col-sm-2 align-items-end">
+	    <div class="col-sm-2 align-items-center">
 		    <a class="btn btn-secondary table-btn" @onclick="@(() => FilterAuctions())" data-toggle="tooltip" data-placement="bottom" title="Filter">
 			    <i class="oi oi-magnifying-glass"></i>
 		    </a>
@@ -167,14 +167,16 @@
             }
         </tbody>
     </table>
+    <br />
 }
 else
 {
     <h5 class="text-center">You haven't created any auctions yet. Why not <a href="@($"auctions/new")">create one</a> now?</h5>
+    <br />
+    <hr />
 }
 
-<br />
-<hr />
+
 <br />
 
 <h3>Auctions you won</h3>

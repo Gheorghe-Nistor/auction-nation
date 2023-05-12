@@ -1422,11 +1422,10 @@
             "type": "string"
           },
           "category": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/Category"
           },
-          "status": {
-            "type": "string"
+          "publicStatus": {
+            "$ref": "#/components/schemas/PublicStatus"
           },
           "deliveryMethod": {
             "type": "string"
@@ -1452,6 +1451,20 @@
             "nullable": true
           }
         }
+      },
+      "PublicStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Active",
+          "Closed"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
       },
       "CreateTodoItemRequest": {
         "type": "object",

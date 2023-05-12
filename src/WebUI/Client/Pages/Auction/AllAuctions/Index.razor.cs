@@ -16,14 +16,13 @@ public partial class Index
 
     public ListingsVM? Model { get; set; }
 
-    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
+    public Category[] Categories = (Category[]) Enum.GetValues(typeof(Category));
+
+    public PublicStatus[] Statuses = (PublicStatus[])Enum.GetValues(typeof(PublicStatus));
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await ListingsClient.PostListingsAsync(new ListingsQueryParams { 
-            Status = "InProgress",
-            MinDate = DateTime.Now
-        });
+        Model = await ListingsClient.PostListingsAsync(new ListingsQueryParams());
     }
 
     public async Task GetListings()

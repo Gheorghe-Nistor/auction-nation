@@ -19,14 +19,20 @@
     <div class="d-flex justify-content-center">
         <div class="col-md-6">
             <div class="input-group">
-                <InputNumber TValue="decimal?" class="form-control" style="margin-right: 1rem" @bind-Value="@Model.QueryParams.MinPrice" placeholder="Min-Price" />
-                <InputNumber TValue="decimal?" class="form-control" @bind-Value="@Model.QueryParams.MaxPrice" placeholder="Max-Price" />
-                <select class="auction-select" @bind="@Model.QueryParams.Category">
+                <InputNumber TValue="decimal?" class="form-control" style="margin-right: 1rem" @bind-Value="@Model.QueryParams.MinPrice" placeholder="Min price" />
+                <InputNumber TValue="decimal?" class="form-control" @bind-Value="@Model.QueryParams.MaxPrice" placeholder="Max price" />
+                <InputSelect class="mx-3" @bind-Value="@Model.QueryParams.Category">
                     @foreach (var category in Categories)
                     {
                         <option value="@category">@Regex.Replace(category.ToString(), "(\\B[A-Z])", " $1")</option>
                     }
-                </select>
+                </InputSelect>
+                <InputSelect style="margin-right: 1rem" @bind-Value="@Model.QueryParams.PublicStatus">
+                    @foreach (var status in Statuses)
+                    {
+                        <option value="@status">@Regex.Replace(status.ToString(), "(\\B[A-Z])", " $1")</option>
+                    }
+                </InputSelect>
                 <button class="btn btn-primary" type="submit" @onclick="GetListings"> <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search</button>
             </div>
         </div>
@@ -59,8 +65,8 @@
                         Category: @item.Category
                     </p>
                     <p class="card-text">
-                        <span class="oi oi-align-left" aria-hidden="true"></span> 
-                        Description: @item.Description
+                        <span class="oi oi-align-left" aria-hidden="true"></span>
+                        Description: @(item.Description.Length > 30 ? $"{@item.Description.Substring(0, 30)}..." :@item.Description)
                     </p>
                     <p class="card-text">
                         <span class="oi oi-clock" aria-hidden="true"></span>
@@ -73,8 +79,19 @@
                     <p class="card-text">
                         <span class="oi oi-dollar" aria-hidden="true"></span>
                         Current bid ammount:
-                        @(item.CurrentBidAmount > 0 ? @item.CurrentBidAmount : "N/A")
+                        @(item.CurrentBidAmount > 0 ? @item.CurrentBidAmount : "-")
                      </p>
+                    <div class="d-flex justify-content-end">
+                        @*Status = 7 => Finished*@
+                        @if (item.EndDate < DateTime.Now || item.Status == 7)
+                        {
+                            <span class="badge rounded-pill bg-danger">Closed</span>
+                        }
+                        else
+                        {
+                            <span class="badge rounded-pill bg-success">Active</span>
+                        }
+                    </div>
                     <hr />
                      <div class="d-flex justify-content-center">
                         <a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom" class="btn btn-dark">Show</a>

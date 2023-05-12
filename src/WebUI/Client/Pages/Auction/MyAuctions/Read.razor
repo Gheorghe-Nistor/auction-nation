@@ -148,7 +148,15 @@ else
                         <strong>Status</strong>
                     </td>
                     <td>
-                        @StatusList[Model.Auction.Status]
+                        @*Status = 7 => Finished*@
+                        @if (Model.Auction.EndDate < DateTime.Now || Model.Auction.Status == 7)
+                        {
+                            <span class="badge rounded-pill bg-danger">Closed</span>
+                        }
+                        else
+                        {
+                            <span class="badge rounded-pill bg-success">Active</span>
+                        }
                     </td>
                 </tr>
                 @* Status -> InProgress = 4*@
@@ -242,14 +250,6 @@ else
         {
             <p>There are no bids for this auction yet.</p>
         }
-
-        <br />
-
-        <div class="row">
-            <a href="/auctions">
-                <button class="btn btn-secondary">Take me back</button>
-            </a>
-        </div>
 
         <br />
     </div>
