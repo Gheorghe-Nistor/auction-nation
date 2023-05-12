@@ -39,6 +39,7 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
             entity.Description = request.Item.Description;
             entity.Images = request.Item.Images;
             entity.StartingBidAmount = request.Item.StartingBidAmount;
+            entity.CurrencyId = request.Item.CurrencyId;
             entity.CurrentBidAmount = request.Item.CurrentBidAmount;
             entity.BuyItNowPrice = request.Item.BuyItNowPrice;
             entity.ReservePrice = request.Item.ReservePrice;

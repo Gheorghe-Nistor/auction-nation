@@ -1,5 +1,6 @@
 ﻿using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Client.Pages.Auction.Bids;
+using Cegeka.Auction.WebUI.Shared.AccessControl;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Cegeka.Auction.WebUI.Shared.Bid;
 using Microsoft.AspNetCore.Components;
@@ -26,6 +27,9 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         [Inject]
         public IBidClient BidClient { get; set; }
 
+        [Inject]
+        public IValuteClient Valute { get; set; } = null!;
+
         private string selectedSlide;
 
         public AuctionItemDetailsVM? Model { get; set; }
@@ -35,6 +39,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         public DeliveryMethod[] Methods = (DeliveryMethod[])Enum.GetValues(typeof(DeliveryMethod));
 
         public Status[] StatusList = (Status[])Enum.GetValues(typeof(Status));
+
+        public UserDetailsVm UserDetails { get; set; }
         public string? CurrentUserId { get; set; } = null;
         public string? AuctioneerUsername { get; set; } = null;
         public string? WinningBidderUsername { get; set; } = null;
@@ -43,6 +49,11 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         public bool BidAvailable { get; set; } = false;
 
         private BidDialog _bidDialog { get; set; }
+
+        public decimal StartBidAccount { get; set; }
+        public decimal CurentBidAccount { get; set; }
+        public decimal ReserveBidAccount { get; set; }
+        public decimal BuyItNowBidAccount { get; set; }
 
         protected async Task PlaceBidForItem()
         {
@@ -93,6 +104,18 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
             if (user.Identity.IsAuthenticated)
             {
                 CurrentUserId = await UsersClient.GetUserIdByUserNameAsync(user.Identity.Name);
+                UserDetails = await UsersClient.GetUserAsync(CurrentUserId.ToString());
+                if(UserDetails.User.CurrencyId != Model.Auction.CurrencyId && UserDetails.User.CurrencyId != null)
+                {
+                    StartBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
+                        Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId), Model.Auction.StartingBidAmount);
+                    CurentBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
+                        Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId), Model.Auction.CurrentBidAmount);
+                    ReserveBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
+                        Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId), Model.Auction.ReservePrice);
+                    BuyItNowBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
+                        Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId), Model.Auction.BuyItNowPrice);
+                }
             }
 
             if (DateTime.Now < Model.Auction.EndDate && CurrentUserId != Model.Auction.CreatedBy && Model.Auction.WinningBidder == null)

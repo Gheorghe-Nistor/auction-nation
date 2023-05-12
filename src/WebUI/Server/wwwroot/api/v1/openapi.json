@@ -740,6 +740,56 @@
         }
       }
     },
+    "/api/Valute": {
+      "get": {
+        "tags": [
+          "Valute"
+        ],
+        "operationId": "Valute_ConvertCurrency",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "decimal"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "decimal"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/WeatherForecast": {
       "get": {
         "tags": [
@@ -1199,6 +1249,10 @@
             "type": "number",
             "format": "decimal"
           },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "currentBidAmount": {
             "type": "number",
             "format": "decimal"
@@ -1389,6 +1443,10 @@
           "amount": {
             "type": "number",
             "format": "decimal"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
           },
           "createdUtc": {
             "type": "string",

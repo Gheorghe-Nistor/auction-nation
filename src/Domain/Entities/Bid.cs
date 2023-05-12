@@ -12,4 +12,6 @@ public class Bid : BaseAuditableEntity
     public int Id { get; set; }
     public int AuctionItemId { get; set; }
     public decimal Amount { get; set; }
+
+    public int CurrencyId { get; set; }
 }

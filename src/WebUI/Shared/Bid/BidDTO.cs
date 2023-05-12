@@ -14,6 +14,7 @@ public class BidDTO
     public decimal Amount { get; set; }
     public DateTime CreatedUtc { get; set; }
 
+
     public BidDTO(int id, int auctionItemId, string? createdBy, decimal amount, DateTime createdUtc)
     {
         Id = id;
