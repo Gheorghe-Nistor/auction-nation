@@ -42,7 +42,8 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
             Bid newBid = new Bid {
                 Amount = request.bid.Amount,
                 CreatedBy = request.bid.CreatedBy,
-                CreatedUtc = DateTime.UtcNow
+                CreatedUtc = DateTime.UtcNow,
+                CurrencyId= request.bid.CurrencyId
             };
 
             entity.CurrentBidAmount = newBid.Amount;

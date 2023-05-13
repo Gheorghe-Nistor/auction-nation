@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Cegeka.Auction.Application.Common.Services.Identity;
 
 namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
 {
@@ -29,13 +30,15 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IIdentityService _identityService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IIdentityService identityService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +46,7 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _identityService = identityService;
         }
 
         /// <summary>
@@ -117,7 +121,9 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
+                var roles = await _identityService.GetRolesAsync(CancellationToken.None);
+                var role = roles.FirstOrDefault(r => r.Name.Equals("Accounts"));
+                await _userManager.AddToRoleAsync(user, role.Name);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

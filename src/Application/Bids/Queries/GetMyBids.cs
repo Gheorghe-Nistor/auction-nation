@@ -38,7 +38,7 @@ public class GeyBidsQueryHandler : IRequestHandler<GetBidsQuery, BidVM>
                 AuctionItemId= auction.Id,
                 CreatedUtc = bid.CreatedUtc,
                 Title = auction.Title,
-                CurrencyId = auction.CurrencyId
+                CurrencyId = bid.CurrencyId
             }
         )
         .ToListAsync(cancellationToken)

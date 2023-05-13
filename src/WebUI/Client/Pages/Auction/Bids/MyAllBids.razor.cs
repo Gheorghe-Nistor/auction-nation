@@ -1,4 +1,6 @@
-﻿using Cegeka.Auction.WebUI.Shared.Auction;
+﻿using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Shared.AccessControl;
+using Cegeka.Auction.WebUI.Shared.Auction;
 using Cegeka.Auction.WebUI.Shared.Bid;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -34,7 +36,7 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.Bids
             }
 
             Bids = await BidClient.GetBidByUserIdAsync(CurrentUserId);
-            
+
         }
 
         public async Task<string> GetNameAsync(int auctionId)

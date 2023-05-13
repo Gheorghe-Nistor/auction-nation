@@ -27,8 +27,6 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         [Inject]
         public IBidClient BidClient { get; set; }
 
-        [Inject]
-        public IValuteClient Valute { get; set; } = null!;
 
         private string selectedSlide;
 
@@ -40,7 +38,6 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
         public Status[] StatusList = (Status[])Enum.GetValues(typeof(Status));
 
-        public UserDetailsVm UserDetails { get; set; }
         public string? CurrentUserId { get; set; } = null;
         public string? AuctioneerUsername { get; set; } = null;
         public string? WinningBidderUsername { get; set; } = null;
@@ -49,11 +46,6 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
         public bool BidAvailable { get; set; } = false;
 
         private BidDialog _bidDialog { get; set; }
-
-        public decimal StartBidAccount { get; set; }
-        public decimal CurentBidAccount { get; set; }
-        public decimal ReserveBidAccount { get; set; }
-        public decimal BuyItNowBidAccount { get; set; }
 
         protected async Task PlaceBidForItem()
         {
@@ -82,7 +74,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
             {
                 var bid = new BidDTO
                 {
-                    Amount = _bidDialog.Amount
+                    Amount = _bidDialog.Amount,
+                    CurrencyId = Model.Auction.CurrencyId
                 };
 
                 await AuctionsClient.PlaceAuctionBidAsync(Model.Auction.Id, bid);
@@ -104,18 +97,7 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
             if (user.Identity.IsAuthenticated)
             {
                 CurrentUserId = await UsersClient.GetUserIdByUserNameAsync(user.Identity.Name);
-                UserDetails = await UsersClient.GetUserAsync(CurrentUserId.ToString());
-                if(UserDetails.User.CurrencyId != Model.Auction.CurrencyId && UserDetails.User.CurrencyId != null)
-                {
-                    StartBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
-                        Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId), Model.Auction.StartingBidAmount);
-                    CurentBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
-                        Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId), Model.Auction.CurrentBidAmount);
-                    ReserveBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
-                        Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId), Model.Auction.ReservePrice);
-                    BuyItNowBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
-                        Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId), Model.Auction.BuyItNowPrice);
-                }
+
             }
 
             if (DateTime.Now < Model.Auction.EndDate && CurrentUserId != Model.Auction.CreatedBy && Model.Auction.WinningBidder == null)
@@ -182,7 +164,7 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
             {
                 var bidderUser = await UsersClient.GetUserAsync(bid.CreatedBy);
                 var bidderUsername = bidderUser.User.UserName;
-                BiddingHistory.Add(new BidVM(bidderUsername, bid.Amount, bid.CreatedUtc));
+                BiddingHistory.Add(new BidVM(bidderUsername, bid.Amount, bid.CreatedUtc, bid.CurrencyId));
             }
         }
 

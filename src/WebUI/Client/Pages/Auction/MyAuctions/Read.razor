@@ -82,82 +82,41 @@ else
                     </td>
                     <td>@Model.Auction.Category</td>
                 </tr>
-                @if (UserDetails.User.CurrencyId == Model.Auction.CurrencyId || UserDetails.User.CurrencyId == null)
-                {
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Starting Bid Amount:</strong>
-                        </td>
-                        <td>@Model.Auction.StartingBidAmount</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Current Bid Amount:</strong>
-                        </td>
-                        <td>@Model.Auction.CurrentBidAmount</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Buy It Now Price:</strong>
-                        </td>
-                        <td>@Model.Auction.BuyItNowPrice</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Reserve Price:</strong>
-                        </td>
-                        <td>@Model.Auction.ReservePrice</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Currency:</strong>
-                        </td>
-                        <td>@Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</td>
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Starting Bid Amount:</strong>
-                        </td>
-                        <td>@StartBidAccount</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Current Bid Amount:</strong>
-                        </td>
-                        <td>@CurentBidAccount</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Buy It Now Price:</strong>
-                        </td>
-                        <td>@BuyItNowBidAccount</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Reserve Price:</strong>
-                        </td>
-                        <td>@ReserveBidAccount</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span aria-hidden="true"></span>
-                            <strong>Currency:</strong>
-                        </td>
-                        <td>@Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId)</td>
-                    </tr>
-                }
+                <tr>
+                    <td>
+                        <span aria-hidden="true"></span>
+                        <strong>Starting Bid Amount:</strong>
+                    </td>
+                    <td>@Model.Auction.StartingBidAmount</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span aria-hidden="true"></span>
+                        <strong>Current Bid Amount:</strong>
+                    </td>
+                    <td>@Model.Auction.CurrentBidAmount</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span aria-hidden="true"></span>
+                        <strong>Buy It Now Price:</strong>
+                    </td>
+                    <td>@Model.Auction.BuyItNowPrice</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span aria-hidden="true"></span>
+                        <strong>Reserve Price:</strong>
+                    </td>
+                    <td>@Model.Auction.ReservePrice</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span aria-hidden="true"></span>
+                        <strong>Currency:</strong>
+                    </td>
+                    <td>@Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</td>
+                </tr>
                 <tr>
                     <td>
                         <span class="oi oi-calendar" aria-hidden="true"></span>
@@ -233,47 +192,23 @@ else
         @if (CurrentUserId != Model.Auction.CreatedBy && Model.Auction.Status != 7)
         {
             <br />
-            @if (UserDetails.User.CurrencyId == Model.Auction.CurrencyId || UserDetails.User.CurrencyId == null)
-            {
-                <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)" @onclick="BuyAuction">
-                    <div class="row">
-                        <div class="col-sm-12">Buy it now</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">@Model.Auction.BuyItNowPrice @Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</div>
-                    </div>
-                </button>
+            <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)" @onclick="BuyAuction">
+                <div class="row">
+                    <div class="col-sm-12">Buy it now</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">@Model.Auction.BuyItNowPrice @Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</div>
+                </div>
+            </button>
 
-                <button class="btn btn-primary shadow-sm mx-3" disabled="@(!BidAvailable)" @onclick="PlaceBidForItem">
-                    <div class="row">
-                        <div class="col-sm-12">Place bid</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">Min. @(Math.Max(Model.Auction.CurrentBidAmount + 1, Model.Auction.StartingBidAmount)) @Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</div>
-                    </div>
-                </button>
-            }
-            else
-            {
-                <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)" @onclick="BuyAuction">
-                    <div class="row">
-                        <div class="col-sm-12">Buy it now</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">@BuyItNowBidAccount @Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId)</div>
-                    </div>
-                </button>
-
-                <button class="btn btn-primary shadow-sm mx-3" disabled="@(!BidAvailable)" @onclick="PlaceBidForItem">
-                    <div class="row">
-                        <div class="col-sm-12">Place bid</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">Min. @(Math.Max(CurentBidAccount + 1, StartBidAccount)) @Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId)</div>
-                    </div>
-                </button>
-            }
-
+            <button class="btn btn-primary shadow-sm mx-3" disabled="@(!BidAvailable)" @onclick="PlaceBidForItem">
+                <div class="row">
+                    <div class="col-sm-12">Place bid</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">Min. @(Math.Max(Model.Auction.CurrentBidAmount + 1, Model.Auction.StartingBidAmount)) @Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</div>
+                </div>
+            </button>
             <br />
         }
 
@@ -290,7 +225,10 @@ else
                             <span class="oi oi-person" aria-hidden="true"></span> Username
                         </th>
                         <th scope="col">
-                            <span aria-hidden="true"></span> Amount
+                            <span class="fas fa-money-bill" aria-hidden="true"></span> Amount
+                        </th>
+                        <th scope="col">
+                            <span class="fas fa-coins" aria-hidden="true"></span> Currency
                         </th>
                         <th scope="col">
                             <span class="oi oi-calendar" aria-hidden="true"></span> Date
@@ -303,6 +241,7 @@ else
                         <tr>
                             <td>@bid.CreatedBy</td>
                             <td>@bid.Amount</td>
+                            <td>@Enum.GetName(typeof(Currencies), @bid.CurrencyId)</td>
                             <td>@bid.CreatedUtc</td>
                         </tr>
                     }

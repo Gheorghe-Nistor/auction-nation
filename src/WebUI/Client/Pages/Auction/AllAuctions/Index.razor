@@ -72,44 +72,18 @@
                         <span aria-hidden="true"></span>
                         Currency: @Enum.GetName(typeof(Currencies), item.CurrencyId)
                     </p>
-                    @if (UserDetails.User.CurrencyId == item.CurrencyId || UserDetails.User.CurrencyId == null)
-                    {
-                        <p class="card-text">
-                            <span aria-hidden="true"></span>
-                            Starting bid ammount: @item.StartingBidAmount
-                        </p>
-                        <p class="card-text">
-                            <span aria-hidden="true"></span>
-                            Current bid ammount:
-                            @(item.CurrentBidAmount > 0 ? @item.CurrentBidAmount : "No bids placed yet")
-                        </p>
-                    }
-                    else
-                    {
-                        @{
-                            decimal startBidAccount = 0;
 
-                            async Task ConvertCurrencyAsync()
-                            {
-                                startBidAccount = await Valute.ConvertCurrencyAsync(Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId),
-                                Enum.GetName(typeof(Currencies), UserDetails.User.CurrencyId),
-                                Model.Auction.StartingBidAmount);
-                            }
-
-                            await ConvertCurrencyAsync();
-                        }
-
-                        <p class="card-text">
-                            <span aria-hidden="true"></span>
-                            Starting bid ammount:
-                        </p>
-                        <p class="card-text">
-                            <span aria-hidden="true"></span>
-                            Current bid ammount:
-                            @(item.CurrentBidAmount > 0 ? @item.CurrentBidAmount : "No bids placed yet")
-                        </p>
-                    }
-                    }
+                    <p class="card-text">
+                        <span aria-hidden="true"></span>
+                        Starting bid ammount: @item.StartingBidAmount
+                    </p>
+                    <p class="card-text">
+                        <span aria-hidden="true"></span>
+                        Current bid ammount:
+                        @(
+                            item.CurrentBidAmount > 0 ? @item.CurrentBidAmount : "No bids placed yet"
+                            )
+                    </p>
                     <hr />
                     <div class="d-flex justify-content-center">
                         <a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom" class="btn btn-dark">Show</a>
