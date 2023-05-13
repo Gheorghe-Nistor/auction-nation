@@ -22,7 +22,7 @@ public partial class Edit
     public NavigationManager Navigation { get; set; } = null!;
 
     [Inject]
-    public IToastService toastService { get; set; }
+    public IToastService? toastService { get; set; }
 
     public AuctionItemDetailsVM? Model { get; set; }
 

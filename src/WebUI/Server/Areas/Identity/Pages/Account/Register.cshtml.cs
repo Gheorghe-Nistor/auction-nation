@@ -2,14 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using Cegeka.Auction.Infrastructure.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Cegeka.Auction.Infrastructure;
+using Cegeka.Auction.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -28,14 +31,14 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly SendGridMailServices _emailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            SendGridMailServices emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -114,9 +117,15 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
+                string userAgent = HttpContext.Request.Headers["User-Agent"].ToString().ToLower();
+                //_logger.LogInformation("device type: " + Device.GetDeviceType(userAgent));
+
+                //user.DeviceType = Device.GetDeviceType(userAgent);
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+                //_logger.LogInformation("device type: " + user.DeviceType);
 
                 if (result.Succeeded)
                 {
