@@ -18,7 +18,7 @@
 }
 else
 {
-<Carousel @bind-SelectedSlide="@selectedSlide">
+<Carousel @bind-SelectedSlide="@selectedSlide" Class="visible-arrows-carousel">
     @for (int i = 0; i < Model.Auction.Images.Count; i++)
     {
         if (i < Model.Auction.Images.Count)
@@ -27,7 +27,7 @@ else
             if (image != null)
             {
                 <CarouselSlide Name=@($"{i + 1}")>
-                    <img src="@image" style="height: 600px; width: 800px; object-fit: contain" />
+                        <img src="@image" style="height: 600px; width: 800px; object-fit: contain; display: block; margin: 0 auto;" />
                 </CarouselSlide>
             }
         }
@@ -125,7 +125,20 @@ else
 	<a href="/auctions">Take me back</a>
 </div>
 
+<style>
+.visible-arrows-carousel .carousel-control-prev,
+.custom-carousel .carousel-control-next {
+    color: black;
+    font-size: 24px;
+    opacity: 1;
+}
 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: transparent;
+    filter: invert(100%);
+}
+</style>
 
 
 

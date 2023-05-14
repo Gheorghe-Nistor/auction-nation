@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Server</title>
+    <title>@ViewData["Title"] - Auction Nation</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.css" />
@@ -23,9 +23,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark midnight-purple border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" href="~/">Server</a>
+                <a class="navbar-brand" href="~/">Auction Nation</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -46,7 +46,7 @@
                     }
                 </div>
             </div>
-        </nav>
+        </>
     </header>
 
     <div class="container">
@@ -55,9 +55,9 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="footer border-top pl-3 text-muted">
+    <footer class="footer border-top pl-3 text-white midnight-purple">
         <div class="container">
-        &copy; 2023 - Server
+        &copy; 2023 - Auction Nation
             @{
                 var foundPrivacy = Url.Page("/Privacy", new { area = "" });
             }
@@ -92,3 +92,9 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    .midnight-purple {
+        background-color: #1E1031 /* Replace with your desired color */
+    }
+</style>
