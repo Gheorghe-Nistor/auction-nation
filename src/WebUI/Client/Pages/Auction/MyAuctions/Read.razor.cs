@@ -1,4 +1,5 @@
-﻿using Cegeka.Auction.Domain.Enums;
+﻿using Blazored.Toast.Services;
+using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Client.Pages.Auction.Bids;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Cegeka.Auction.WebUI.Shared.Bid;
@@ -10,6 +11,9 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
     public partial class Read
     {
         private TimeSpan TimeLeft { get; set; }
+
+        [Inject]
+        public IToastService ToastService { get; set; }
 
         [Parameter]
         public string auctionId { get; set; } = null!;
@@ -77,9 +81,16 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
                 await AuctionsClient.PlaceAuctionBidAsync(Model.Auction.Id, bid);
                 Model = await AuctionsClient.GetAuctionAsync(auctionId);
 
+                ToastService.ShowSuccess("Bid placed successfully!");
+
                 GetBiddingHistoryVM();
 
                 StateHasChanged();
+            }
+
+            else
+            {
+                ToastService.ShowError("Your bid amount is less than the previous bid placed.");
             }
         }
 
@@ -132,6 +143,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
         public async Task BuyAuction()
         {
+            ToastService.ShowSuccess("Item purchased successfully!");
+
             await AuctionsClient.BuyAuctionItemAsync(Model.Auction.Id, CurrentUserId);
 
             Model = await AuctionsClient.GetAuctionAsync(auctionId);
@@ -143,6 +156,8 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
         public async Task ValidateAuction()
         {
+            ToastService.ShowSuccess("Last bid accepted!");
+
             await AuctionsClient.ValidateAuctionItemAsync(CurrentUserId, Model.Auction.Id);
 
             Model = await AuctionsClient.GetAuctionAsync(auctionId);

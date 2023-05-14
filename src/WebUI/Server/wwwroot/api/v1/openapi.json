@@ -1223,6 +1223,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "publicStatus": {
+            "$ref": "#/components/schemas/PublicStatus"
+          },
           "biddingHistory": {
             "type": "array",
             "items": {
@@ -1276,6 +1279,20 @@
           "None",
           "DeliveryByCourier",
           "PersonalPickUp"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
+      "PublicStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Active",
+          "Closed"
         ],
         "enum": [
           0,
@@ -1451,20 +1468,6 @@
             "nullable": true
           }
         }
-      },
-      "PublicStatus": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "None",
-          "Active",
-          "Closed"
-        ],
-        "enum": [
-          0,
-          1,
-          2
-        ]
       },
       "CreateTodoItemRequest": {
         "type": "object",

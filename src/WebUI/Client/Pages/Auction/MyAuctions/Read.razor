@@ -7,11 +7,6 @@
 
 <PageTitle>View Auction </PageTitle>
 
-@if (Model == null)
-{
-    return;
-}
-
 <h1 class="mb-4">@Model.Auction.Title</h1>
 @if (Model.Auction.Images.Count == 1)
 {
@@ -148,8 +143,7 @@ else
                         <strong>Status</strong>
                     </td>
                     <td>
-                        @*Status = 7 => Finished*@
-                        @if (Model.Auction.EndDate < DateTime.Now || Model.Auction.Status == 7)
+                        @if (@Model.Auction.EndDate < DateTime.Now || @Model.Auction.Status == 7)
                         {
                             <span class="badge rounded-pill bg-danger">Closed</span>
                         }
@@ -170,7 +164,7 @@ else
                         </td>
                         <td>
                             <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0 ? true: false)" @onclick="ValidateAuction">
-                                Validate
+                                Accept Last Bid
                             </button>
                         </td>
                     </tr>

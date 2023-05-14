@@ -1,4 +1,5 @@
-﻿using Cegeka.Auction.Domain.Enums;
+﻿using Blazored.Toast.Services;
+using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Listings;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,9 @@ public partial class Index
     [Inject]
     public NavigationManager Navigation { get; set; } = null!;
 
+    [Inject]
+    public IToastService ToastService { get; set; }
+
     public ListingsVM? Model { get; set; }
 
     public Category[] Categories = (Category[]) Enum.GetValues(typeof(Category));
@@ -27,6 +31,8 @@ public partial class Index
 
     public async Task GetListings()
     {
+        ToastService.ShowInfo("Searching auctions...");
+
         Model = await ListingsClient.PostListingsAsync(Model.QueryParams);
 
         StateHasChanged();

@@ -57,6 +57,8 @@ public class AuctionItemDTO
 
     public int Status { get; set; }
 
+    public PublicStatus PublicStatus { get; set; } = PublicStatus.None;
+
     public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
 
     public string? WinningBidder { get; set; }
