@@ -88,23 +88,23 @@ else
                 </tr>
                 <tr>
                     <td><strong>Start Date:</strong></td>
-                    <td>@Model.Auction.StartDate.ToShortDateString()</td>
+					<td>@Model.Auction.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
                 </tr>
                 <tr>
                     <td><strong>End Date:</strong></td>
-                    <td>@Model.Auction.EndDate.ToShortDateString()</td>
+					<td>@Model.Auction.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
                 </tr>
                 <tr>
                     <td><strong>Delivery Method:</strong></td>
-                    <td>@Model.Auction.DeliveryMethod</td>
+					<td>@Regex.Replace(Model.Auction.DeliveryMethod.ToString(), "(\\B[A-Z])", " $1")</td>
                 </tr>
             </tbody>
         </table>
 
         <h3>Time Left</h3>
-		@if (TimeLeft.Days < 0 || TimeLeft.Hours < 0 || TimeLeft.Minutes < 0 || TimeLeft.Seconds < 0)
+		@if (TimeLeft.Days == 0 && TimeLeft.Hours == 0 && TimeLeft.Minutes == 0 && TimeLeft.Seconds == 0)
 		{
-			<p>Auction is closed!</p>
+			<p style="color: red">Auction is closed!</p>
 		}
 		else
 		{
