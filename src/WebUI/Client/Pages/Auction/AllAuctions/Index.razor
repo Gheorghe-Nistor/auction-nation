@@ -68,7 +68,7 @@
                     </p>
                     <p class="card-text">
                         <span class="oi oi-align-left" aria-hidden="true"></span>
-                        Description: @(item.Description.Length > 30 ? $"{@item.Description.Substring(0, Math.Min(100, @item.Description.Length))}..." :@item.Description)
+                        Description: @(item.Description.Length > 30 ? $"{@item.Description.Substring(0, Math.Min(100, @item.Description.Length))}..." : @item.Description)
                     </p>
                     <p class="card-text">
                         <span class="oi oi-clock" aria-hidden="true"></span>
@@ -77,45 +77,52 @@
                     @if (item.PublicStatus == Domain.Enums.PublicStatus.Closed)
                     {
                         <p class="card-text">
-                            <span class="oi oi-dollar" aria-hidden="true"></span>
+                            <span class="fas fa-money-bill" aria-hidden="true"></span>
                             Price:
                             @if (item.CurrentBidAmount == 0)
                                 @item.BuyItNowPrice
                             else
                                 @item.CurrentBidAmount
-                        </p>
+
+                            </p>
                         <p class="card-text">
                             <span class="oi oi-chevron-right" aria-hidden="true"></span>
-                            Purchase Method: 
+                            Purchase Method:
                             @if (item.CurrentBidAmount == 0)
                             {
-                                @("Buy it now");
+                                @("Buy it now")
+                                ;
                             }
-                            @if(item.CurrentBidAmount != 0)
+                            @if (item.CurrentBidAmount != 0)
                             {
-                                @("Bid");
+                                @("Bid")
+                                ;
                             }
-                         </p>
+                        </p>
                     }
                     else
                     {
                         <p class="card-text">
-                            <span class="oi oi-dollar" aria-hidden="true"></span>
+                            <span class="fas fa-money-bill" aria-hidden="true"></span>
                             Buy it now price:
                             @item.BuyItNowPrice
                         </p>
                         <p class="card-text">
-                            <span class="oi oi-dollar" aria-hidden="true"></span>
+                            <span class="fas fa-money-bill" aria-hidden="true"></span>
                             Starting bid ammount: @item.StartingBidAmount
                         </p>
                         @if (item.CurrentBidAmount > 0)
                         {
                             <p class="card-text">
-                                <span class="oi oi-dollar" aria-hidden="true"></span>
+                                <span class="fas fa-money-bill" aria-hidden="true"></span>
                                 Current bid ammount: @item.CurrentBidAmount
                             </p>
                         }
                     }
+                    <p class="card-text">
+                        <span class="fas fa-coins" aria-hidden="true"></span>
+                        Currency: @Enum.GetName(typeof(Currencies), item.CurrencyId)
+                    </p>
                     <div class="flex-grow-1 d-flex flex-column justify-content-end">
                         <div>
                             @if (item.PublicStatus == Domain.Enums.PublicStatus.Closed)

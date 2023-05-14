@@ -67,14 +67,14 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
             if (Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0)
             {
-                maxBidAmount = null;
+                maxBidAmount = Model.Auction.StartingBidAmount;
             }
             else
             {
                 maxBidAmount = Model.Auction.BiddingHistory.Last().Amount;
             }
 
-            if (maxBidAmount == null || _bidDialog.Amount + 1 >= maxBidAmount && _bidDialog.Amount >= Model.Auction.StartingBidAmount)
+            if (_bidDialog.Amount + 1 >= maxBidAmount && _bidDialog.Amount > Model.Auction.StartingBidAmount)
             {
                 var bid = new BidDTO
                 {

@@ -8,6 +8,12 @@
 
 <PageTitle>View Auction </PageTitle>
 
+@if (Model == null)
+{
+    return;
+}
+
+
 <h1 class="mb-4">@Model.Auction.Title</h1>
 @if (Model.Auction.Images.Count == 1)
 {
@@ -79,35 +85,35 @@ else
                 </tr>
                 <tr>
                     <td>
-                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
                         <strong>Starting Bid Amount:</strong>
                     </td>
                     <td>@Model.Auction.StartingBidAmount</td>
                 </tr>
                 <tr>
                     <td>
-                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
                         <strong>Current Bid Amount:</strong>
                     </td>
                     <td>@Model.Auction.CurrentBidAmount</td>
                 </tr>
                 <tr>
                     <td>
-                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
                         <strong>Buy It Now Price:</strong>
                     </td>
                     <td>@Model.Auction.BuyItNowPrice</td>
                 </tr>
                 <tr>
                     <td>
-                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
                         <strong>Reserve Price:</strong>
                     </td>
                     <td>@Model.Auction.ReservePrice</td>
                 </tr>
                 <tr>
                     <td>
-                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-coins"></span>
                         <strong>Currency:</strong>
                     </td>
                     <td>@Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</td>
