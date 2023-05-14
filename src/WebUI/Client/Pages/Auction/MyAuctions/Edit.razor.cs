@@ -2,6 +2,7 @@
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using System.Net.Http.Headers;
@@ -17,13 +18,19 @@ public partial class Edit
     public string AuctionId { get; set; } = null!;
 
     [Inject]
+    private IUsersClient UsersClient { get; set; } = null!;
+
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
+
+    [Inject]
     public IAuctionsClient AuctionsClient { get; set; } = null!;
 
     [Inject]
     public NavigationManager Navigation { get; set; } = null!;
 
     [Inject]
-    public IToastService toastService { get; set; }
+    public IToastService? toastService { get; set; }
 
     public AuctionItemDetailsVM? Model { get; set; }
 
@@ -46,7 +53,23 @@ public partial class Edit
            Text = p.ToString()
        })
        .ToList();
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await AuctionsClient.GetAuctionAsync(AuctionId);
 
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var currentUserId = await UsersClient.GetUserIdByUserNameAsync(user.Identity.Name);
+
+            if(currentUserId != Model.Auction.CreatedBy)
+            {
+                Navigation.NavigateTo("/auctions");
+            }
+        }
+    }
     protected override async Task OnParametersSetAsync()
     {
         Model = await AuctionsClient.GetAuctionAsync(AuctionId);

@@ -11,9 +11,8 @@ public class ListingsQueryParams
 {
     public string Search { get; set; } = String.Empty;
 
-    public int Category { get; set; } = 0;
-
-    public string Status { get; set; } = String.Empty;
+    public Category Category { get; set; } = Category.None;
+    public PublicStatus PublicStatus { get; set; } = PublicStatus.None;
 
     public string DeliveryMethod { get; set; } = String.Empty;
 
@@ -27,11 +26,11 @@ public class ListingsQueryParams
 
     public ListingsQueryParams() { }
 
-    public ListingsQueryParams(string search, int category, string status, string deliveryMethod, decimal? minPrice, decimal? maxPrice, DateTime? minDate, DateTime? maxDate)
+    public ListingsQueryParams(string search, Category category, PublicStatus publicStatus, string deliveryMethod, decimal? minPrice, decimal? maxPrice, DateTime? minDate, DateTime? maxDate)
     {
         Search = search.Trim();
         Category = category;
-        Status = status.Trim();
+        PublicStatus = publicStatus;
         DeliveryMethod = deliveryMethod.Trim();
         MinPrice = minPrice;
         MaxPrice = maxPrice;

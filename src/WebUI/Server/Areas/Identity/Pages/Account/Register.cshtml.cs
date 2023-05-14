@@ -2,14 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using Cegeka.Auction.Infrastructure.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Cegeka.Auction.Infrastructure;
+using Cegeka.Auction.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Cegeka.Auction.Application.Common.Services.Identity;
+
 
 namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
 {
@@ -118,6 +122,10 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
+                string userAgent = HttpContext.Request.Headers["User-Agent"].ToString().ToLower();
+                //_logger.LogInformation("device type: " + Device.GetDeviceType(userAgent));
+
+                //user.DeviceType = Device.GetDeviceType(userAgent);
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);

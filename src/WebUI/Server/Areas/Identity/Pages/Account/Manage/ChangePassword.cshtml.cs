@@ -2,10 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using Cegeka.Auction.Infrastructure.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Cegeka.Auction.Infrastructure;
+using Cegeka.Auction.Infrastructure.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -17,15 +21,18 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
+        private readonly SendGridMailServices _emailSender;
 
         public ChangePasswordModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger,
+            SendGridMailServices emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -77,6 +84,23 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
             public string ConfirmPassword { get; set; }
         }
 
+        private string CreateMailContent(ApplicationUser user)
+        {
+            string userAgent = HttpContext.Request.Headers["User-Agent"].ToString().ToLower();
+            string deviceType = Device.GetDeviceType(userAgent);
+
+            var content = "<p>Dear user,</p>";
+            
+            content += $"<p>We are writing to inform you that your password has been changed on <b>{DateTime.Now.ToString("dd'/'MM'/'yyyy' 'HH':'mm':'ss")}</b>. " +
+                       $"The password change was made using a <b>{deviceType} device</b>, and we wanted to make you aware of this change.</p>";
+            content += "<p> If you did not initiate this password change or believe that your account has been compromised, " +
+                       "please contact our support team immediately.</p>";
+            content += "<p>Thank you,</p>";
+            content += "<p>Auction Nation</p>";
+
+            return content;
+        }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -108,6 +132,7 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
+
             if (!changePasswordResult.Succeeded)
             {
                 foreach (var error in changePasswordResult.Errors)
@@ -116,6 +141,8 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account.Manage
                 }
                 return Page();
             }
+
+            await _emailSender.SendEmailAsync(user.Email, "Password Change Alert", CreateMailContent(user));
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");

@@ -9,7 +9,13 @@
 <br />
 <h3>Auctions you started</h3>
 
-@if (CreatedAuctions != null && CreatedAuctions.Auctions.Count > 0)
+@if(CreatedAuctions == null)
+{
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+}
+else if (CreatedAuctions != null && CreatedAuctions.Auctions.Count > 0)
 {
     <div class="row">
 	    <div class="col-sm-2">
@@ -19,7 +25,7 @@
 	    </div>
     </div>
 
-    <div class="row filter-div d-flex align-items-end">
+    <div class="row filter-div d-flex align-items-center">
 	    <h5>Filter</h5>
 	    <div class="form-group col-sm-3">
 		    <label for="filter-category" class="col-sm-3">Category</label>
@@ -41,7 +47,7 @@
 		    </select>
 	    </div>
 
-	    <div class="col-sm-2 align-items-end">
+	    <div class="col-sm-2 align-items-center">
 		    <a class="btn btn-secondary table-btn" @onclick="@(() => FilterAuctions())" data-toggle="tooltip" data-placement="bottom" title="Filter">
 			    <i class="oi oi-magnifying-glass"></i>
 		    </a>
@@ -146,13 +152,13 @@
                         }
                     </td>
                     <td>
-                        @if (@item.EndDate > DateTime.Now)
+                        @if (item.EndDate < DateTime.Now || item.Status == 7)
                         {
-                            <p style="color: green">ACTIVE</p>
+                            <span class="badge rounded-pill bg-danger">Closed</span>
                         }
                         else
                         {
-                            <p style="color: red">CLOSED</p>
+                            <span class="badge rounded-pill bg-success">Active</span>
                         }
                     </td>
                     <td>
@@ -167,28 +173,38 @@
             }
         </tbody>
     </table>
+    <br />
 }
 else
 {
     <h5 class="text-center">You haven't created any auctions yet. Why not <a href="@($"auctions/new")">create one</a> now?</h5>
+    <br />
+    <hr />
 }
 
-<br />
-<hr />
+
 <br />
 
 <h3>Auctions you won</h3>
 <br />
 
-@if (WonAuctions != null && WonAuctions.Auctions.Count > 0)
+@if (WonAuctions == null)
 {
-    <div class="row">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+}
+else if (WonAuctions != null && WonAuctions.Auctions.Count > 0)
+{
+    <div class="row row-cols-md-4 g-2">
         @foreach (var item in WonAuctions.Auctions)
         {
-            <div class="col-sm-3">
-                <div class="card">
-                    <img class="card-img-top" src=@item.Images.FirstOrDefault() alt="Card image" style="max-height:200px; max-width:350px; object-fit:contain;">
-                    <div class="card-body">
+            <div class="col">
+                <div class="card" style="height: 100%;">
+                    <div class="text-center mt-2">
+                        <img class="card-img-top" src=@item.Images.FirstOrDefault() alt="Card image" style="max-height:200px; max-width:350px; object-fit:contain;">
+                    </div>
+                    <div class="card-body d-flex flex-column">
                         <h4 class="card-title text-center">@item.Title</h4>
                         <hr />
                         <p class="card-text">
@@ -197,7 +213,11 @@ else
                         </p>
                         <p class="card-text">
                             <span class="oi oi-align-left" aria-hidden="true"></span>
-                            Description: @item.Description
+                            Description: @(item.Description.Length > 30 ? $"{@item.Description.Substring(0, Math.Min(100, @item.Description.Length))}..." : @item.Description)
+                        </p>
+                        <p class="card-text">
+                            <span class="oi oi-clock" aria-hidden="true"></span>
+                            Date: @item.StartDate.ToString("dd MMMM yyyy") - @item.EndDate.ToString("dd MMMM yyyy")
                         </p>
                         <p class="card-text">
                             <span class="oi oi-dollar" aria-hidden="true"></span>
@@ -207,14 +227,30 @@ else
                             else
                                 @item.CurrentBidAmount
 
+
                             </p>
-                            <hr />
+                            <p class="card-text">
+                                <span class="oi oi-chevron-right" aria-hidden="true"></span>
+                                Purchase Method:
+                                @if (item.CurrentBidAmount == 0)
+                            {
+                                @("Buy it now")
+                                ;
+                            }
+                            @if (item.CurrentBidAmount != 0)
+                            {
+                                @("Bid")
+                                ;
+                            }
+                        </p>
+                        <div class="flex-grow-1 d-flex flex-column justify-content-end">
                             <div class="d-flex justify-content-center">
                                 <a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom" class="btn btn-dark">Show</a>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         }
     </div>
 }
