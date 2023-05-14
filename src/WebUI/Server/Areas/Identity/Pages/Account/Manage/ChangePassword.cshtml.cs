@@ -5,7 +5,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using System.Web.WebPages;
 using Cegeka.Auction.Infrastructure;
 using Cegeka.Auction.Infrastructure.Identity;
 using Microsoft.AspNetCore.Http;
