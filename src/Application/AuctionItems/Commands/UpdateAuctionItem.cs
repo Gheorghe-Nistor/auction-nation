@@ -42,8 +42,8 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
             entity.ReservePrice = request.Item.ReservePrice;
             entity.DeliveryMethod = (DeliveryMethod)request.Item.DeliveryMethod;
             entity.Status = (Status)request.Item.Status;
-
-
+            entity.Lat = request.Item.Lat;
+            entity.Lon = request.Item.Lon;
 
             await _context.SaveChangesAsync(cancellationToken);
 

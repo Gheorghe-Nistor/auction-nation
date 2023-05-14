@@ -54,11 +54,16 @@ public class AuctionItemDTO
 
     public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
 
+    public float Lat { get; set; }
+    public float Lon { get; set; }
+
     public AuctionItemDTO()
     {
     }
 
-    public AuctionItemDTO(int id, Guid publicId, string title = "", string description ="", List<string> images = null, Category category = Category.None, decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default)
+    public AuctionItemDTO(int id, Guid publicId, string title = "", string description ="", List<string> images = null, Category category = Category.None, 
+        decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, 
+        DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default, float lat=0,float lon = 0)
     {
         Id = id;
         PublicId = publicId;
@@ -75,5 +80,7 @@ public class AuctionItemDTO
         DeliveryMethod = deliveryMethod;
         BiddingHistory = biddingHistory;
         Status = (int) status;
+        Lat = lat;
+        Lon = lon;
     }
 }

@@ -928,6 +928,14 @@
             "items": {
               "$ref": "#/components/schemas/BidDTO"
             }
+          },
+          "lat": {
+            "type": "number",
+            "format": "float"
+          },
+          "lon": {
+            "type": "number",
+            "format": "float"
           }
         }
       },
