@@ -1,8 +1,9 @@
 ﻿@using System;
 @using System.Text.RegularExpressions;
+@using System.Web.Mvc;
 
 @page "/auctions/new"
-@attribute [Authorize(Permissions.Auction)]
+@attribute [Cegeka.Auction.WebUI.Shared.Authorization.AuthorizeAttribute(Permissions.Auction)]
 
 <PageTitle>New Auction</PageTitle>
 
@@ -11,18 +12,18 @@
 @if (Model == null) return;
 
 <section>
-	<EditForm Model="@Model.Auction" OnValidSubmit="@AddAuction">
+    <EditForm Model="@Model.Auction" OnValidSubmit="@AddAuction">
 
-		<DataAnnotationsValidator />
+        <DataAnnotationsValidator />
 
-		<!-- Title -->
-		<div class="row">
-			<div class="form-group">
-				<label for="title" class="col-sm-3">Title</label>
-				<InputText id="title" class="form-control col-sm-8" @bind-Value="@Model.Auction.Title" />
-				<ValidationMessage class="validation-error" For="@(() => Model.Auction.Title)" />
-			</div>
-		</div>
+        <!-- Title -->
+        <div class="row">
+            <div class="form-group">
+                <label for="title" class="col-sm-3">Title</label>
+                <InputText id="title" class="form-control col-sm-8" @bind-Value="@Model.Auction.Title" />
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.Title)" />
+            </div>
+        </div>
 
 		<!-- Description -->
 		<div class="row">
@@ -47,57 +48,69 @@
 			</div>
 		</div>
 
-		<!-- Bids and prices -->
-		<div class="row">
-			<div class="form-group col-sm-3">
-				<label for="starting-bid-amount">Starting bid</label>
-				<InputNumber step="0.1" id="starting-bid-amount" class="form-control col-sm-3" @bind-Value="@Model.Auction.StartingBidAmount" />
-				<ValidationMessage class="validation-error" For="@(() => Model.Auction.StartingBidAmount)" />
-			</div>
+        <!-- Bids and prices -->
+        <div class="row">
+            <div class="form-group col-sm-3">
+                <label for="starting-bid-amount">Starting bid</label>
+                <InputNumber step="0.1" id="starting-bid-amount" class="form-control col-sm-3" @bind-Value="@Model.Auction.StartingBidAmount" />
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.StartingBidAmount)" />
+            </div>
 
-			<div class="form-group col-sm-3">
-				<label for="buy-it-now-price">Buy it now price</label>
-				<InputNumber step="0.1" id="buy-it-now-price" class="form-control col-sm-3" @bind-Value="@Model.Auction.BuyItNowPrice" />
-				<ValidationMessage class="validation-error" For="@(() => Model.Auction.BuyItNowPrice)" />
-			</div>
-			
-			<div class="form-group col-sm-3">
-				<label for="reserve-price">Reserve price</label>
-				<InputNumber step="0.1" id="reserve-price" class="form-control col-sm-3" @bind-Value="@Model.Auction.ReservePrice" />
-				<ValidationMessage class="validation-error" For="@(() => Model.Auction.ReservePrice)" />
-			</div>
-		</div>
+            <div class="form-group col-sm-3">
+                <label for="buy-it-now-price">Buy it now price</label>
+                <InputNumber step="0.1" id="buy-it-now-price" class="form-control col-sm-3" @bind-Value="@Model.Auction.BuyItNowPrice" />
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.BuyItNowPrice)" />
+            </div>
 
-		<!-- Category -->
-		<div class="row">
-			<div class="form-group col-sm-4">
-				<label for="category" class="col-sm-4">Category</label>
-				<select class="auction-select" @bind="@Model.Auction.Category">
-					@foreach (var method in Categories)
-					{
-						<option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
-					}
-				</select>
-				<ValidationMessage class="validation-error" For="@(() => Model.Auction.Category)" />
+            <div class="form-group col-sm-3">
+                <label for="reserve-price">Reserve price</label>
+                <InputNumber step="0.1" id="reserve-price" class="form-control col-sm-3" @bind-Value="@Model.Auction.ReservePrice" />
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.ReservePrice)" />
+            </div>
+        </div>
 
-			</div>
-		</div>
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="currency" class="col-sm-4">Select currency</label>
+                <select class="auction-select" @bind="@Model.Auction.CurrencyId">
+                    @foreach (var item in availableCurrencies)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
 
-		<!-- Delivery -->
-		<div class="row">
-			<div class="form-group col-sm-4">
-				<label for="delivery-method" class="col-sm-4">Delivery method</label>
-				<select class="auction-select" @bind="@Model.Auction.DeliveryMethod">
-					@foreach (var method in Methods)
-					{
-						<option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
-					}
-				</select>
-				<ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
-			</div>
-		</div>
+        <!-- Category -->
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="category" class="col-sm-4">Category</label>
+                <select class="auction-select" @bind="@Model.Auction.Category">
+                    @foreach (var method in Categories)
+                    {
+                        <option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
+                    }
+                </select>
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.Category)" />
 
-		<!-- Images-->
+            </div>
+        </div>
+
+        <!-- Delivery -->
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="delivery-method" class="col-sm-4">Delivery method</label>
+                <select class="auction-select" @bind="@Model.Auction.DeliveryMethod">
+                    @foreach (var method in Methods)
+                    {
+                        <option value="@method">@Regex.Replace(method.ToString(), "(\\B[A-Z])", " $1")</option>
+                    }
+                </select>
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.DeliveryMethod)" />
+            </div>
+        </div>
+
+        <!-- Images-->
         <div class="row">
             <div class="form-group col-sm-4">
                 <label for="loaded-files" class="col-sm-4">Load up to 10 images</label>
@@ -107,7 +120,7 @@
                 {
                     <div class="text-danger">@ValidationMessage</div>
                 }
-      
+
             </div>
 
             <div>
@@ -120,15 +133,15 @@
 
 
 
-		<!-- SUBMIT -->
-		<div class="row">
-			<div class="col-sm-2">
-				<button type="submit" class="btn btn-success" id="save">Save</button>
-			</div>
-		</div>
-	</EditForm>
+        <!-- SUBMIT -->
+        <div class="row">
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-success" id="save">Save</button>
+            </div>
+        </div>
+    </EditForm>
 </section>
 
 <div class="row">
-	<a href="/auctions">Take me back</a>
+    <a href="/auctions">Take me back</a>
 </div>

@@ -2,11 +2,13 @@
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
@@ -14,6 +16,12 @@ public partial class Edit
 {
     [Parameter]
     public string AuctionId { get; set; } = null!;
+
+    [Inject]
+    private IUsersClient UsersClient { get; set; } = null!;
+
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
 
     [Inject]
     public IAuctionsClient AuctionsClient { get; set; } = null!;
@@ -37,7 +45,31 @@ public partial class Edit
     public bool isLoading;
     public string ValidationMessage { get; set; } = string.Empty;
 
+    public IEnumerable<SelectListItem> availableCurrencies = Enum.GetValues(typeof(Currencies))
+       .Cast<Currencies>()
+       .Select(p => new SelectListItem
+       {
+           Value = ((int)p).ToString(),
+           Text = p.ToString()
+       })
+       .ToList();
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await AuctionsClient.GetAuctionAsync(AuctionId);
 
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var currentUserId = await UsersClient.GetUserIdByUserNameAsync(user.Identity.Name);
+
+            if(currentUserId != Model.Auction.CreatedBy)
+            {
+                Navigation.NavigateTo("/auctions");
+            }
+        }
+    }
     protected override async Task OnParametersSetAsync()
     {
         Model = await AuctionsClient.GetAuctionAsync(AuctionId);

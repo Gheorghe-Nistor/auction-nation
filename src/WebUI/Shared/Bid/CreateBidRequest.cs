@@ -12,12 +12,15 @@ namespace Cegeka.Auction.WebUI.Shared.Bid
     public class CreateBidRequest
     {
         public decimal Amount { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedUtc { get; set; }
+
+        public int AuctionItemId { get; set; }
 
         public CreateBidRequest(BidDTO newBid)
         {
-           Amount = newBid.Amount;
-           CreatedAt = newBid.CreatedAt;   
+            AuctionItemId = newBid.AuctionItemId;
+            Amount = newBid.Amount;
+            CreatedUtc = newBid.CreatedUtc;
         }
     }
 

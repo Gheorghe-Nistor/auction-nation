@@ -33,6 +33,7 @@ public class CreateAuctionItemCommandHandler
             Description = request.Item.Description,
             Images = request.Item.Images,
             StartingBidAmount = request.Item.StartingBidAmount,
+            CurrencyId = request.Item.CurrencyId,
             CurrentBidAmount = request.Item.CurrentBidAmount,
             StartDate = request.Item.StartDate,
             EndDate = request.Item.EndDate,
@@ -42,6 +43,9 @@ public class CreateAuctionItemCommandHandler
             Status = Status.New,
             BiddingHistory = new List<Bid>()
         };
+
+        // TO DO
+        entity.Status = Status.InProgress;
 
         _context.AuctionItems.Add(entity);
 

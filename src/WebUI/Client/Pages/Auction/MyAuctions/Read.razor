@@ -1,5 +1,7 @@
 ﻿@using System;
 @using System.Text.RegularExpressions;
+@using Cegeka.Auction.Domain.Enums;
+@using Cegeka.Auction.WebUI.Client.Pages.Auction.Bids;
 
 @page "/auctions/{auctionId}/view"
 @attribute [Authorize(Permissions.Auction)]
@@ -64,83 +66,233 @@ else
         }
 
         <h3>Details</h3>
-        <table class="table">
+        <table class="table" style="width: 80%;">
             <tbody>
                 <tr>
-                    <td><strong>Category:</strong></td>
+                    <td>
+                        <span class="oi oi-person" aria-hidden="true"></span>
+                        <strong>Auctioneer</strong>
+                    </td>
+                    <td>
+                        @AuctioneerUsername
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="oi oi-tag" aria-hidden="true"></span>
+                        <strong>Category:</strong>
+                    </td>
                     <td>@Model.Auction.Category</td>
                 </tr>
                 <tr>
-                    <td><strong>Starting Bid Amount:</strong></td>
+                    <td>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
+                        <strong>Starting Bid Amount:</strong>
+                    </td>
                     <td>@Model.Auction.StartingBidAmount</td>
                 </tr>
                 <tr>
-                    <td><strong>Current Bid Amount:</strong></td>
+                    <td>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
+                        <strong>Current Bid Amount:</strong>
+                    </td>
                     <td>@Model.Auction.CurrentBidAmount</td>
                 </tr>
                 <tr>
-                    <td><strong>Buy It Now Price:</strong></td>
+                    <td>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
+                        <strong>Buy It Now Price:</strong>
+                    </td>
                     <td>@Model.Auction.BuyItNowPrice</td>
                 </tr>
                 <tr>
-                    <td><strong>Reserve Price:</strong></td>
+                    <td>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
+                        <strong>Reserve Price:</strong>
+                    </td>
                     <td>@Model.Auction.ReservePrice</td>
                 </tr>
                 <tr>
-                    <td><strong>Start Date:</strong></td>
-					<td>@Model.Auction.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        <span aria-hidden="true" class="fas fa-coins"></span>
+                        <strong>Currency:</strong>
+                    </td>
+                    <td>@Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</td>
                 </tr>
                 <tr>
-                    <td><strong>End Date:</strong></td>
-					<td>@Model.Auction.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        <span class="oi oi-calendar" aria-hidden="true"></span>
+                        <strong>Start Date:</strong>
+                    </td>
+                    <td>@Model.Auction.StartDate.ToShortDateString()</td>
                 </tr>
                 <tr>
-                    <td><strong>Delivery Method:</strong></td>
-					<td>@Regex.Replace(Model.Auction.DeliveryMethod.ToString(), "(\\B[A-Z])", " $1")</td>
+                    <td>
+                        <span class="oi oi-calendar" aria-hidden="true"></span>
+                        <strong>End Date:</strong>
+                    </td>
+                    <td>@Model.Auction.EndDate.ToShortDateString()</td>
                 </tr>
+                <tr>
+                    <td>
+                        <span class="oi oi-signpost" aria-hidden="true"></span>
+                        <strong>Delivery Method:</strong>
+                    </td>
+                    <td>@Model.Auction.DeliveryMethod</td>
+                </tr>
+                @if (Model.Auction.Status == 7)
+                {
+                    <tr>
+                        <td>
+                            <span class="oi oi-person" aria-hidden="true"></span>
+                            <strong>Winning Bidder</strong>
+                        </td>
+                        <td>
+                            @(Model.Auction.WinningBidder == null ? "N/A" : @WinningBidderUsername)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="oi oi-chevron-right" aria-hidden="true"></span>
+                            <strong>Purchase Method</strong>
+                        </td>
+                        <td>
+                            @if (Model.Auction.CurrentBidAmount == 0)
+                            {
+                                <span class="badge bg-primary">Buy it now</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-info">Bid</span>
+                            }
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <span class="oi oi-check status-icon" aria-hidden="true"></span>
+                        <strong>Status</strong>
+                    </td>
+                    <td>
+                        @if (@Model.Auction.EndDate < DateTime.Now || @Model.Auction.Status == 7)
+                        {
+                            <span class="badge rounded-pill bg-danger">Closed</span>
+                        }
+                        else
+                        {
+                            <span class="badge rounded-pill bg-success">Active</span>
+                        }
+                    </td>
+                </tr>
+                @* Status -> InProgress = 4*@
+                @* Status -> AwaitingValidation = 5*@
+                @if (CurrentUserId == @Model.Auction.CreatedBy && (Model.Auction.Status == 4 || Model.Auction.Status == 5))
+                {
+                    <tr>
+                        <td>
+                            <span class="oi oi-loop-square" aria-hidden="true"></span>
+                            <strong>Actions</strong>
+                        </td>
+                        <td>
+                            <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0 ? true: false)" @onclick="ValidateAuction">
+                                Accept last bid
+                            </button>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
 
-        <h3>Time Left</h3>
-		@if (TimeLeft.Days == 0 && TimeLeft.Hours == 0 && TimeLeft.Minutes == 0 && TimeLeft.Seconds == 0)
+        <br />
+       
+		@if (!(TimeLeft.Days == 0 && TimeLeft.Hours == 0 && TimeLeft.Minutes == 0 && TimeLeft.Seconds == 0) && Model.Auction.Status != 7)
 		{
-			<p style="color: red">Auction is closed!</p>
-		}
-		else
-		{
+            <h3>Time Left</h3>
 			<p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
+            <br />
 		}
 
+        @if (CurrentUserId != Model.Auction.CreatedBy && Model.Auction.Status != 7)
+        {
+            <br />
+            <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)" @onclick="BuyAuction">
+                <div class="row">
+                    <div class="col-sm-12">Buy it now</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">@Model.Auction.BuyItNowPrice @Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</div>
+                </div>
+            </button>
+
+            <button class="btn btn-primary shadow-sm mx-3" disabled="@(!BidAvailable)" @onclick="PlaceBidForItem">
+                <div class="row">
+                    <div class="col-sm-12">Place bid</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">Min. @(Math.Max(Model.Auction.CurrentBidAmount + 1, Model.Auction.StartingBidAmount)) @Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</div>
+                </div>
+            </button>
+            <br />
+        }
+
         <h3>Bidding History</h3>
-        <ul>
-            @foreach (var bid in Model.Auction.BiddingHistory)
-            {
-                <li>@bid.UserId - @bid.Amount</li>
-            }
-        </ul>
+
+        @if (BiddingHistory.Count() > 0)
+        {
+            <table class="table biddingHistoryTable" style="width: 75%">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <span class="oi oi-person" aria-hidden="true"></span> Username
+                        </th>
+                        <th scope="col">
+                            <span class="fas fa-money-bill" aria-hidden="true"></span> Amount
+                        </th>
+                        <th scope="col">
+                            <span class="fas fa-coins" aria-hidden="true"></span> Currency
+                        </th>
+                        <th scope="col">
+                            <span class="oi oi-calendar" aria-hidden="true"></span> Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var bid in BiddingHistory)
+                    {
+                        <tr>
+                            <td>@bid.CreatedBy</td>
+                            <td>@bid.Amount</td>
+                            <td>@Enum.GetName(typeof(Currencies), @bid.CurrencyId)</td>
+                            <td>@bid.CreatedUtc</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>There are no bids for this auction yet.</p>
+        }
+
+        <br />
     </div>
 </div>
 
-<div class="row">
-	<a href="/auctions">Take me back</a>
-</div>
+
+<BidDialog Title="Bid" Content="Place a higher bid than the current highest to increase your chances of winning! "
+           @ref="_bidDialog" PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>
 
 <style>
-.visible-arrows-carousel .carousel-control-prev,
-.custom-carousel .carousel-control-next {
-    color: black;
-    font-size: 24px;
-    opacity: 1;
-}
+    .visible-arrows-carousel .carousel-control-prev,
+    .custom-carousel .carousel-control-next {
+        color: black;
+        font-size: 24px;
+        opacity: 1;
+    }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: transparent;
-    filter: invert(100%);
-}
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: transparent;
+        filter: invert(100%);
+    }
 </style>
-
-
-
-
-

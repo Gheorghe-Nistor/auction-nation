@@ -33,7 +33,7 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly SendGridMailServices _emailSender;
+        private readonly IEmailSender _emailSender;
         private readonly IIdentityService _identityService;
 
         public RegisterModel(
@@ -41,7 +41,7 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            SendGridMailServices emailSender,
+            IEmailSender emailSender,
             IIdentityService identityService)
         {
             _userManager = userManager;
@@ -51,7 +51,6 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _identityService = identityService;
-
         }
 
         /// <summary>
@@ -133,9 +132,6 @@ namespace Cegeka.Auction.WebUI.Server.Areas.Identity.Pages.Account
                 var roles = await _identityService.GetRolesAsync(CancellationToken.None);
                 var role = roles.FirstOrDefault(r => r.Name.Equals("Accounts"));
                 await _userManager.AddToRoleAsync(user, role.Name);
-
-                //_logger.LogInformation("device type: " + user.DeviceType);
-
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

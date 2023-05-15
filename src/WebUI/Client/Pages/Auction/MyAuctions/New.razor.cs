@@ -1,10 +1,16 @@
 ﻿using Blazored.Toast.Services;
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
+using Cegeka.Auction.WebUI.Shared.Common;
+using Cegeka.Auction.WebUI.Shared.TodoLists;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
+
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
@@ -33,6 +39,17 @@ public partial class New
 
     public string ValidationMessage { get; set; } = string.Empty;
 
+
+    public IEnumerable<SelectListItem> availableCurrencies = Enum.GetValues(typeof(Currencies))
+       .Cast<Currencies>()
+       .Select(p => new SelectListItem
+       {
+           Value = ((int)p).ToString(),
+           Text = p.ToString()
+       })
+       .ToList();
+
+
     protected async Task ShowWarnings(AuctionItemDTO item, string auctionType)
     {
         string message;
@@ -46,7 +63,7 @@ public partial class New
 
     protected override async Task OnInitializedAsync()
     {
-        Model = new AuctionItemDetailsVM(); 
+        Model = new AuctionItemDetailsVM();
         Model.Auction.StartDate = DateTime.Now;
         Model.Auction.EndDate = DateTime.Now;
     }
@@ -58,7 +75,7 @@ public partial class New
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
             isLoading = true;
-           
+
             if (!Regex.IsMatch(file.ContentType, @"^image\/(jpeg|png)$"))
             {
                 // Invalid file type
@@ -66,13 +83,13 @@ public partial class New
                 return;
             }
 
-          
+
             if (file.Size > 5 * 1024 * 1024) // 5 MB
             {
                 ValidationMessage = $"File {file.Name} exceeds the maximum size of 5 MB.";
                 return;
             }
-            
+
             if (Model.Auction.Images.Count >= maxAllowedFiles)
             {
                 ValidationMessage = $"You can upload a maximum of {maxAllowedFiles} images.";
