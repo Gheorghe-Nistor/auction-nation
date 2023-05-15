@@ -149,8 +149,7 @@ else if (CreatedAuctions != null && CreatedAuctions.Auctions.Count > 0)
                         }
                         else
                         {
-                            @item.CurrentBidAmount.ToString()
-                            ;
+							@item.CurrentBidAmount.ToString() @Enum.GetName(typeof(Currencies), item.CurrencyId);
                         }
                     </td>
                     <td>
