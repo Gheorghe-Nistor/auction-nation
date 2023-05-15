@@ -159,13 +159,11 @@ else
                         <td>
                             @if (Model.Auction.CurrentBidAmount == 0)
                             {
-                                @("Buy it now")
-                                ;
+                                <span class="badge bg-primary">Buy it now</span>
                             }
                             else
                             {
-                                @("Bid")
-                                ;
+                                <span class="badge bg-info">Bid</span>
                             }
                         </td>
                     </tr>

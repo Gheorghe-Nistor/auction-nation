@@ -242,13 +242,11 @@ else if (WonAuctions != null && WonAuctions.Auctions.Count > 0)
                             Purchase Method:
                             @if (item.CurrentBidAmount == 0)
                             {
-                                @("Buy it now")
-                                ;
+                                <span class="badge bg-primary">Buy it now</span>
                             }
-                            @if (item.CurrentBidAmount != 0)
+                            else
                             {
-                                @("Bid")
-                                ;
+                                <span class="badge bg-info">Bid</span>
                             }
                         </p>
                         <div class="flex-grow-1 d-flex flex-column justify-content-end">
