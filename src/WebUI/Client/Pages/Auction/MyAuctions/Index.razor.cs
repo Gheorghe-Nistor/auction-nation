@@ -2,9 +2,9 @@
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Web.Mvc;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
@@ -14,12 +14,21 @@ public partial class Index
     public IAuctionsClient AuctionsClient { get; set; } = null!;
 
     [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
+
+    [Inject]
+    private IUsersClient UsersClient { get; set; } = null!;
+
+    [Inject]
     public NavigationManager Navigation { get; set; } = null!;
 
     [Inject]
     public IToastService ToastService { get; set; }
 
-    public AuctionItemsVM? Model { get; set; }
+    public AuctionItemsVM? CreatedAuctions { get; set; }
+    public AuctionItemsVM? WonAuctions { get; set; }
+
+    public string CurrentUserId { get; set; }
 
     public List<AuctionItemDTO>? FilteredAuctions { get; set; }
 
@@ -37,7 +46,18 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await AuctionsClient.GetAuctionsAsync();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            CurrentUserId = await UsersClient.GetUserIdByUserNameAsync(user.Identity.Name);
+        }
+
+        CreatedAuctions = await AuctionsClient.GetCreatedAuctionsByUserIdAsync(CurrentUserId);
+
+        WonAuctions = await AuctionsClient.GetWonAuctionsByUserIdAsync(CurrentUserId);
+
         FilteredAuctions = null;
     }
 
@@ -49,7 +69,7 @@ public partial class Index
             return;
         }
 
-        FilteredAuctions = Model.Auctions;
+        FilteredAuctions = CreatedAuctions.Auctions;
 
         if (Filter.Category != Category.None)
         {
@@ -108,12 +128,12 @@ public partial class Index
 
         if (currentSortDirection == "asc")
         {
-            Model.Auctions = Model.Auctions.OrderBy(property).ToList();
+            CreatedAuctions.Auctions = CreatedAuctions.Auctions.OrderBy(property).ToList();
             currentSortDirection = "desc";
         }
         else
         {
-            Model.Auctions = Model.Auctions.OrderByDescending(property).ToList();
+            CreatedAuctions.Auctions = CreatedAuctions.Auctions.OrderByDescending(property).ToList();
             currentSortDirection = "asc";
         }
 

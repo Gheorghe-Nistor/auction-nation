@@ -1,4 +1,7 @@
-﻿@page "/listings"
+﻿@using System.Text.RegularExpressions;
+@using Cegeka.Auction.Domain.Enums;
+
+@page "/listings"
 @attribute [Authorize(Permissions.Auction)]
 
 <PageTitle>listings</PageTitle>
@@ -17,10 +20,21 @@
     <div class="d-flex justify-content-center">
         <div class="col-md-6">
             <div class="input-group">
-                <InputNumber TValue="decimal?" class="form-control" style="margin-right: 1rem" @bind-Value="@Model.QueryParams.MinPrice" placeholder="Min-Price" />
-                <InputNumber TValue="decimal?" class="form-control" @bind-Value="@Model.QueryParams.MaxPrice" placeholder="Max-Price" />
-                <InputText class="form-control mx-3" @bind-Value="@Model.QueryParams.Category" placeholder="Category" />
-                <button class="btn btn-primary" type="submit" @onclick="GetListings"> <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search</button>
+                <InputNumber TValue="decimal?" class="form-control" style="margin-right: 1rem" @bind-Value="@Model.QueryParams.MinPrice" placeholder="Min price" min="0" />
+                <InputNumber TValue="decimal?" class="form-control" @bind-Value="@Model.QueryParams.MaxPrice" placeholder="Max price" min="0"  />
+                <InputSelect class="mx-3" @bind-Value="@Model.QueryParams.Category">
+                    @foreach (var category in Categories)
+                    {
+                        <option value="@category">@(@category == 0 ? "Category" : category.ToString())</option>
+                    }
+                </InputSelect>
+                <InputSelect style="margin-right: 1rem" @bind-Value="@Model.QueryParams.PublicStatus">
+                    @foreach (var status in Statuses)
+                    {
+                        <option value="@status">@(@status == 0 ? "Status" : status.ToString())</option>
+                    }
+                </InputSelect>
+                <button class="btn btn-primary" type="submit" @onclick="GetListings"> <span class="oi oi-magnifying-glass" aria-hidden="true" style="z-index: -1;"></span> Search</button>
             </div>
         </div>
     </div>
@@ -30,48 +44,107 @@
 <br />
 <br />
 
-@if(Model.Auctions.Count == 0){
+@if (Model.Auctions.Count == 0)
+{
     <h5 class="text-center">Currently, there are no auctions available. Please check back soon!</h5>
     return;
 }
 
 
-<div class="row">
+<div class="row row-cols-md-4 g-2">
     @foreach (var item in Model.Auctions)
     {
-        <div class="col-sm-3">
-            <div class="card">
-                <div class="text-center">
-                <img class="card-img-top" src=@item.Images.FirstOrDefault() alt="Card image" style="max-height:200px; max-width:350px; object-fit:contain;">
+        <div class="col">
+            <div class="card" style="height: 100%;">
+                <div class="text-center mt-2">
+                    <img class="card-img-top" src=@item.Images.FirstOrDefault() alt="Card image" style="max-height:200px; max-width:350px; object-fit:contain;">
                 </div>
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h4 class="card-title text-center">@item.Title</h4>
                     <hr />
                     <p class="card-text">
-                        <span class="oi oi-tag" aria-hidden="true"></span> 
+                        <span class="oi oi-tag" aria-hidden="true"></span>
                         Category: @item.Category
                     </p>
                     <p class="card-text">
-                        <span class="oi oi-align-left" aria-hidden="true"></span> 
-                        Description: @item.Description
+                        <span class="oi oi-align-left" aria-hidden="true"></span>
+                        Description: @(item.Description.Length >= 100 ? $"{@item.Description.Substring(0, Math.Min(100, @item.Description.Length))}..." :@item.Description)
                     </p>
                     <p class="card-text">
                         <span class="oi oi-clock" aria-hidden="true"></span>
                         Date: @item.StartDate.ToString("dd MMMM yyyy") - @item.EndDate.ToString("dd MMMM yyyy")
                     </p>
+                    @if (item.PublicStatus == Domain.Enums.PublicStatus.Closed)
+                    {
+                        <p class="card-text">
+                            <span class="fas fa-money-bill" aria-hidden="true"></span>
+                            Price:
+                            @if (item.CurrentBidAmount == 0)
+                                @item.BuyItNowPrice
+                            else
+                                @item.CurrentBidAmount
+
+                        </p>
+                    }
+                    else
+                    {
+                        @if (DateTime.Now < item.StartDate)
+                        {
+                            <p class="card-text">
+                                <span class="fas fa-money-bill" aria-hidden="true"></span>
+                                Buy it now price:
+                                @item.BuyItNowPrice
+                            </p>
+                        }
+                        @if (item.CurrentBidAmount == 0)
+                        {
+                            <p class="card-text">
+                                <span class="fas fa-money-bill" aria-hidden="true"></span>
+                                Starting bid ammount: @item.StartingBidAmount
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="card-text">
+                                <span class="fas fa-money-bill" aria-hidden="true"></span>
+                                Current bid ammount: @item.CurrentBidAmount
+                            </p>
+                        }
+                    }
                     <p class="card-text">
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
-                        Starting bid ammount: @item.StartingBidAmount
+                        <span class="fas fa-coins" aria-hidden="true"></span>
+                        Currency: @Enum.GetName(typeof(Currencies), item.CurrencyId)
                     </p>
-                    <p class="card-text">
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
-                        Current bid ammount:
-                        @(item.CurrentBidAmount > 0 ? @item.CurrentBidAmount : "N/A")
-                     </p>
-                    <hr />
-                     <div class="d-flex justify-content-center">
-                        <a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom" class="btn btn-dark">Show</a>
-                     </div>
+                    @if (item.PublicStatus == Domain.Enums.PublicStatus.Closed)
+                    {
+                        <p class="card-text">
+                            <span class="oi oi-chevron-right" aria-hidden="true"></span>
+                            Purchase Method:
+                            @if (item.CurrentBidAmount == 0)
+                            {
+                                <span class="badge bg-primary">Buy it now</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-info">Bid</span>
+                            }
+                        </p>   
+                    }
+                    <div class="flex-grow-1 d-flex flex-column justify-content-end">
+                        <div>
+                            @if (item.PublicStatus == Domain.Enums.PublicStatus.Closed)
+                            {
+                                <span class="badge rounded-pill bg-danger">Closed</span>
+                            }
+                            else
+                            {
+                                <span class="badge rounded-pill bg-success">Active</span>
+                            }
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a href="@($"auctions/{item.Id.ToString()}/view")" data-toggle="tooltip" data-placement="bottom" class="btn btn-dark">Show</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

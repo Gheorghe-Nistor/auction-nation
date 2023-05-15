@@ -25,6 +25,14 @@ public class UsersController : ApiControllerBase
         return await Mediator.Send(new GetUserQuery(id));
     }
 
+    // GET: api/Admin/Users/username/admin@localhost
+    [HttpGet("username/{userName}")]
+    //[Authorize(Permissions.ViewUsers)]
+    public async Task<ActionResult<string>> GetUserIdByUserName(string userName)
+    {
+        return await Mediator.Send(new GetUserIdByUsernameQuery(userName));
+    }
+
     // PUT: api/Admin/Users/5
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

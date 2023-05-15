@@ -3,7 +3,7 @@
 @inject IJSRuntime JSRuntime;
 @using System.Text.Json;
 @using Cegeka.Auction.WebUI.Shared.Auction;
-
+@using Cegeka.Auction.Domain.Enums;
 
 <div id="map" style="height:500px;width:100%;"></div>
 <br />
@@ -21,7 +21,12 @@
             <div class="input-group">
                 <InputNumber TValue="decimal?" class="form-control" style="margin-right: 1rem" @bind-Value="@Model.QueryParams.MinPrice" placeholder="Min-Price" />
                 <InputNumber TValue="decimal?" class="form-control" @bind-Value="@Model.QueryParams.MaxPrice" placeholder="Max-Price" />
-                <InputText class="form-control mx-3" @bind-Value="@Model.QueryParams.Category" placeholder="Category" />
+                <InputSelect class="mx-3" @bind-Value="@Model.QueryParams.Category">
+                    @foreach (var category in Categories)
+                    {
+                        <option value="@category">@(@category == 0 ? "Category" : category.ToString())</option>
+                    }
+                </InputSelect>
                 <button class="btn btn-primary" type="submit" @onclick="GetListings"> <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search</button>
             </div>
         </div>
@@ -32,6 +37,7 @@
 
     [Inject]
     public IListingsClient ListingsClient { get; set; } = null!;
+    public Category[] Categories = (Category[])Enum.GetValues(typeof(Category));
 
 
     public ListingsVM? Model { get; set; }

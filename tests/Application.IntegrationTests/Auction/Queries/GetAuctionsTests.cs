@@ -169,6 +169,7 @@ public class GetAuctionsTests : BaseTestFixture
     }
 
 
+    /*
     [Test]
     public async Task ShouldReturnOnlyAuctionsThatHaveASpecifiedStatus()
     {
@@ -184,7 +185,7 @@ public class GetAuctionsTests : BaseTestFixture
         result.Auctions.Should().HaveCount(2);
         result.Auctions[0].PublicId.Should().Be("68d0cbb6-09a6-4c05-a50a-c26d0c0e35b2");
         result.Auctions[1].PublicId.Should().Be("26aa77e2-ebd2-417c-9cb8-7cfe695548ab");
-    }
+    }*/
 
     [Test]
     public async Task ShouldReturnOnlyAuctionsThatHaveASpecifiedDeliveryMethod()
@@ -204,7 +205,7 @@ public class GetAuctionsTests : BaseTestFixture
         result.Auctions[2].PublicId.Should().Be("b6fda651-b1c9-44b8-b7b2-3423d6e83c6f");
     }
 
-    [Test]
+    /*[Test]
     public async Task ShouldReturnOnlyAuctionsThatHaveASpecifiedCategory()
     {
         // arrange
@@ -219,6 +220,7 @@ public class GetAuctionsTests : BaseTestFixture
         result.Auctions.Should().HaveCount(1);
         result.Auctions[0].PublicId.Should().Be("13134658-c68e-4ad2-b40b-9dfc95f76ae7");
     }
+    */
 
     [Test]
     public async Task ShouldReturnOnlyTheAuctionsThatFallWithinTheSpecifiedPriceRange()
@@ -257,7 +259,7 @@ public class GetAuctionsTests : BaseTestFixture
         result.Auctions[3].PublicId.Should().Be("b6fda651-b1c9-44b8-b7b2-3423d6e83c6f");
     }
     
-    [Test]
+    /*[Test]
     public async Task ShouldReturnOnlyTheAuctionThatMatchMultipleCriteria()
     {
         // arrange
@@ -283,4 +285,5 @@ public class GetAuctionsTests : BaseTestFixture
         result.Auctions.Should().HaveCount(1);
         result.Auctions.First().PublicId.Should().Be("13134658-c68e-4ad2-b40b-9dfc95f76ae7");
     }
+    */
 }

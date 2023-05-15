@@ -35,6 +35,9 @@ public class AuctionItem : BaseAuditableEntity
     [Required]
     public decimal StartingBidAmount { get; set; }
 
+    [Required]
+    public int CurrencyId { get; set; }
+
     public decimal CurrentBidAmount { get; set; } = 0;
 
     [Required]
@@ -54,4 +57,6 @@ public class AuctionItem : BaseAuditableEntity
     public List<Bid> BiddingHistory { get; set; } = new List<Bid>();
     public float Lat { get; set; }
     public float Lon { get; set; }
+
+    public string? WinningBidder { get; set; } = null;
 }

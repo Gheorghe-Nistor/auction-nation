@@ -2,7 +2,7 @@
 @using System.Text.RegularExpressions;
 
 @page "/auctions/{auctionId}"
-@attribute [Authorize(Permissions.Auction)]
+@attribute [Cegeka.Auction.WebUI.Shared.Authorization.AuthorizeAttribute(Permissions.Auction)]
 
 <PageTitle>Edit Auction</PageTitle>
 
@@ -83,6 +83,18 @@
 				<ValidationMessage class="validation-error" For="@(() => Model.Auction.ReservePrice)" />
 			</div>
 		</div>
+
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <label for="currency" class="col-sm-4">Select currency</label>
+                <select class="auction-select" @bind="@Model.Auction.CurrencyId">
+                    @foreach (var item in availableCurrencies)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
 
 		<!-- Category -->
 		<div class="row">

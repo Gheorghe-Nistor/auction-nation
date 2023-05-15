@@ -110,7 +110,7 @@ public class IdentityService : IIdentityService
     {
         return await _userManager.Users
             .OrderBy(r => r.UserName)
-            .Select(u => new UserDto(u.Id, u.UserName ?? string.Empty, u.Email ?? string.Empty))
+            .Select(u => new UserDto(u.Id, u.UserName ?? string.Empty, u.Email ?? string.Empty, u.CurrencyId ?? null))
             .ToListAsync(cancellationToken);
     }
 
@@ -120,13 +120,25 @@ public class IdentityService : IIdentityService
 
         Guard.Against.NotFound(id, user);
 
-        var result = new UserDto(user.Id, user.UserName ?? string.Empty, user.Email ?? string.Empty);
+        var result = new UserDto(user.Id, user.UserName ?? string.Empty, user.Email ?? string.Empty, user.CurrencyId ?? null);
 
         var roles = await _userManager.GetRolesAsync(user);
 
         result.Roles.AddRange(roles);
 
         return result;
+    }
+
+    public async Task<string> GetUserIdByNameAsync(string userName)
+    {
+        var user = await _userManager.FindByNameAsync(userName);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        return user.Id;
     }
 
     public async Task UpdateUserAsync(UserDto updatedUser)

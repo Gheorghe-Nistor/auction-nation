@@ -76,9 +76,7 @@ public class ApplicationDbContextInitialiser
             {
                 Name = AccountsRole,
                 NormalizedName = AccountsRole.ToUpper(),
-                Permissions =
-                    Permissions.ViewUsers |
-                    Permissions.Counter
+                Permissions = Permissions.Counter | Permissions.ViewUsers
             });
 
         await _roleManager.CreateAsync(

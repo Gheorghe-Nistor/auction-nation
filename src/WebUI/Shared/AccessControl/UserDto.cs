@@ -2,13 +2,14 @@
 
 public class UserDto
 {
-    public UserDto() : this(string.Empty, string.Empty, string.Empty) { }
+    public UserDto() : this(string.Empty, string.Empty, string.Empty, null) { }
 
-    public UserDto(string id, string userName, string email)
+    public UserDto(string id, string userName, string email,int? currencyId)
     {
         Id = id;
         UserName = userName;
         Email = email;
+        CurrencyId = currencyId;
     }
 
     public string Id { get; set; }

@@ -1,8 +1,12 @@
-﻿using Cegeka.Auction.Application.AuctionItems.Commands;
+﻿using Azure.Core;
+using Cegeka.Auction.Application.AuctionItems.Commands;
 using Cegeka.Auction.Application.AuctionItems.Queries;
 using Cegeka.Auction.Domain.Enums;
 using Cegeka.Auction.WebUI.Shared.Auction;
+using Cegeka.Auction.WebUI.Shared.Bid;
+using IdentityModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cegeka.Auction.WebUI.Server.Controllers;
 
@@ -14,6 +18,20 @@ public class AuctionsController : ApiControllerBase
     public async Task<ActionResult<AuctionItemsVM>> GetAuctions()
     {
         return await Mediator.Send(new GetAuctionItemsQuery());
+    }
+
+    // GET: api/auctions/12345/won
+    [HttpGet("{userId}/won")]
+    public async Task<ActionResult<AuctionItemsVM>> GetWonAuctionsByUserId(string userId)
+    {
+        return await Mediator.Send(new GetWonAuctionItemsQuery(userId));
+    }
+
+    // GET: api/auctions/12345/created
+    [HttpGet("{userId}/created")]
+    public async Task<ActionResult<AuctionItemsVM>> GetCreatedAuctionsByUserId(string userId)
+    {
+        return await Mediator.Send(new GetCreatedAuctionItemsQuery(userId));
     }
 
     // GET: api/auctions/3/view
@@ -55,5 +73,59 @@ public class AuctionsController : ApiControllerBase
         await Mediator.Send(new DeleteAuctionItemCommand(id));
 
         return NoContent();
+    }
+
+    // POST: api/auction/1/buy/12345
+    [HttpPost("{auctionItemId}/buy/{userId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> BuyAuctionItem(int auctionItemId, string userId)
+    {
+        var response = await Mediator.Send(new GetAuctionItemQuery(auctionItemId.ToString()));
+
+        if (response.Auction.CreatedBy == userId || response.Auction.WinningBidder != null || DateTime.Now > response.Auction.StartDate)
+            return BadRequest();
+
+        await Mediator.Send(new BuyAuctionItemCommand(auctionItemId, userId));
+
+        return NoContent();
+    }
+
+    // POST: api/auction/12345/validate/1
+    [HttpPost("{userId}/validate/{auctionItemId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> ValidateAuctionItem(string userId, int auctionItemId)
+    {
+        var response = await Mediator.Send(new GetAuctionItemQuery(auctionItemId.ToString()));
+
+        if (response == null || response.Auction.CreatedBy != userId || response.Auction.WinningBidder != null)
+            return BadRequest();
+
+        await Mediator.Send(new ValidateAuctionItemCommand(auctionItemId));
+
+        return Ok();
+    }
+
+    // POST: api/auction/12345/bid
+    [HttpPost("{auctionItemId}/bid")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> PlaceAuctionBid(int auctionItemId, BidDTO bid)
+    {
+        var response = await Mediator.Send(new GetAuctionItemQuery(auctionItemId.ToString()));
+
+        if (response.Auction.CreatedBy == bid.CreatedBy || response.Auction.WinningBidder != null || response.Auction.Status != (int)Status.InProgress)
+            return BadRequest();
+
+        if (DateTime.Now < response.Auction.StartDate || DateTime.Now > response.Auction.EndDate)
+            return BadRequest();
+
+        await Mediator.Send(new PlaceAuctionBidCommand(auctionItemId, bid));
+
+        return Ok();
     }
 }
