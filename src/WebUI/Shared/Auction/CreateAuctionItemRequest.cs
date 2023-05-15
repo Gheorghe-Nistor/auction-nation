@@ -17,6 +17,8 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public decimal StartingBidAmount { get; set; } = 0;
 
+        public int CurrencyId { get; set; }
+
         public decimal CurrentBidAmount { get; set; }
 
         public decimal BuyItNowPrice { get; set; }
@@ -39,6 +41,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
             EndDate = newAuctionItem.EndDate;
             Category = newAuctionItem.Category;
             StartingBidAmount= newAuctionItem.StartingBidAmount;
+            CurrencyId = newAuctionItem.CurrencyId;
             CurrentBidAmount = newAuctionItem.CurrentBidAmount;
             BuyItNowPrice = newAuctionItem.BuyItNowPrice;
             ReservePrice = newAuctionItem.ReservePrice;

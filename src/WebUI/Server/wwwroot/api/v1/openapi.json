@@ -1199,6 +1199,10 @@
             "type": "number",
             "format": "decimal"
           },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "currentBidAmount": {
             "type": "number",
             "format": "decimal"
@@ -1323,6 +1327,10 @@
           "createdUtc": {
             "type": "string",
             "format": "date-time"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -1384,6 +1392,10 @@
           "createdUtc": {
             "type": "string",
             "format": "date-time"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -1406,6 +1418,10 @@
           "amount": {
             "type": "number",
             "format": "decimal"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
           },
           "createdUtc": {
             "type": "string",

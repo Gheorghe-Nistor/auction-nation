@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
 
 namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions;
 
@@ -44,6 +45,14 @@ public partial class Edit
     public bool isLoading;
     public string ValidationMessage { get; set; } = string.Empty;
 
+    public IEnumerable<SelectListItem> availableCurrencies = Enum.GetValues(typeof(Currencies))
+       .Cast<Currencies>()
+       .Select(p => new SelectListItem
+       {
+           Value = ((int)p).ToString(),
+           Text = p.ToString()
+       })
+       .ToList();
     protected override async Task OnInitializedAsync()
     {
         Model = await AuctionsClient.GetAuctionAsync(AuctionId);

@@ -1,11 +1,18 @@
 ﻿@using System;
 @using System.Text.RegularExpressions;
+@using Cegeka.Auction.Domain.Enums;
 @using Cegeka.Auction.WebUI.Client.Pages.Auction.Bids;
 
 @page "/auctions/{auctionId}/view"
 @attribute [Authorize(Permissions.Auction)]
 
 <PageTitle>View Auction </PageTitle>
+
+@if (Model == null)
+{
+    return;
+}
+
 
 <h1 class="mb-4">@Model.Auction.Title</h1>
 @if (Model.Auction.Images.Count == 1)
@@ -14,21 +21,21 @@
 }
 else
 {
-<Carousel @bind-SelectedSlide="@selectedSlide">
-    @for (int i = 0; i < Model.Auction.Images.Count; i++)
-    {
-        if (i < Model.Auction.Images.Count)
+    <Carousel @bind-SelectedSlide="@selectedSlide">
+        @for (int i = 0; i < Model.Auction.Images.Count; i++)
         {
-            var image = Model.Auction.Images[i];
-            if (image != null)
+            if (i < Model.Auction.Images.Count)
             {
-                <CarouselSlide Name=@($"{i + 1}")>
-                    <img src="@image" style="height: 600px; width: 800px; object-fit: contain" />
-                </CarouselSlide>
+                var image = Model.Auction.Images[i];
+                if (image != null)
+                {
+                    <CarouselSlide Name=@($"{i + 1}")>
+                        <img src="@image" style="height: 600px; width: 800px; object-fit: contain" />
+                    </CarouselSlide>
+                }
             }
         }
-    }
-</Carousel>
+    </Carousel>
 }
 
 <div class="row" style="margin-left: -10px;">
@@ -78,31 +85,38 @@ else
                 </tr>
                 <tr>
                     <td>
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
                         <strong>Starting Bid Amount:</strong>
                     </td>
                     <td>@Model.Auction.StartingBidAmount</td>
                 </tr>
                 <tr>
                     <td>
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
                         <strong>Current Bid Amount:</strong>
                     </td>
                     <td>@Model.Auction.CurrentBidAmount</td>
                 </tr>
                 <tr>
                     <td>
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
                         <strong>Buy It Now Price:</strong>
                     </td>
                     <td>@Model.Auction.BuyItNowPrice</td>
                 </tr>
                 <tr>
                     <td>
-                        <span class="oi oi-dollar" aria-hidden="true"></span>
+                        <span aria-hidden="true" class="fas fa-money-bill"></span>
                         <strong>Reserve Price:</strong>
                     </td>
                     <td>@Model.Auction.ReservePrice</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span aria-hidden="true" class="fas fa-coins"></span>
+                        <strong>Currency:</strong>
+                    </td>
+                    <td>@Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</td>
                 </tr>
                 <tr>
                     <td>
@@ -186,13 +200,12 @@ else
         @if (CurrentUserId != Model.Auction.CreatedBy && Model.Auction.Status != 7)
         {
             <br />
-
             <button class="btn btn-success shadow-sm" disabled="@(!BuyItNowAvailable)" @onclick="BuyAuction">
                 <div class="row">
                     <div class="col-sm-12">Buy it now</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">$@Model.Auction.BuyItNowPrice</div>
+                    <div class="col-sm-12">@Model.Auction.BuyItNowPrice @Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</div>
                 </div>
             </button>
 
@@ -201,10 +214,9 @@ else
                     <div class="col-sm-12">Place bid</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">Min. $@(Math.Max(Model.Auction.CurrentBidAmount + 1, Model.Auction.StartingBidAmount))</div>
+                    <div class="col-sm-12">Min. @(Math.Max(Model.Auction.CurrentBidAmount + 1, Model.Auction.StartingBidAmount)) @Enum.GetName(typeof(Currencies), Model.Auction.CurrencyId)</div>
                 </div>
             </button>
-
             <br />
         }
 
@@ -221,7 +233,10 @@ else
                             <span class="oi oi-person" aria-hidden="true"></span> Username
                         </th>
                         <th scope="col">
-                            <span class="oi oi-dollar" aria-hidden="true"></span> Amount
+                            <span class="fas fa-money-bill" aria-hidden="true"></span> Amount
+                        </th>
+                        <th scope="col">
+                            <span class="fas fa-coins" aria-hidden="true"></span> Currency
                         </th>
                         <th scope="col">
                             <span class="oi oi-calendar" aria-hidden="true"></span> Date
@@ -234,6 +249,7 @@ else
                         <tr>
                             <td>@bid.CreatedBy</td>
                             <td>@bid.Amount</td>
+                            <td>@Enum.GetName(typeof(Currencies), @bid.CurrencyId)</td>
                             <td>@bid.CreatedUtc</td>
                         </tr>
                     }

@@ -40,6 +40,8 @@ public class AuctionItemDTO
     [Required(ErrorMessage = "This field is required.")]
     public decimal StartingBidAmount { get; set; }
 
+    public int CurrencyId { get; set; }
+
     public decimal CurrentBidAmount { get; set; } = 0;
 
     [Required(ErrorMessage = "This field is required.")]
@@ -67,7 +69,7 @@ public class AuctionItemDTO
     {
     }
 
-    public AuctionItemDTO(int id, Guid publicId, string title = "", string description ="", List<string> images = null, Category category = Category.None, decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default, string? winningBidder = "")
+    public AuctionItemDTO(int id, Guid publicId, int Currency,  string title = "", string description ="", List<string> images = null, Category category = Category.None, decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default, string? winningBidder = "")
     {
         Id = id;
         PublicId = publicId;
@@ -76,6 +78,7 @@ public class AuctionItemDTO
         Images = images;
         Category = category;
         StartingBidAmount = startingBidAmount;
+        CurrencyId = Currency;
         CurrentBidAmount = currentBidAmount;
         BuyItNowPrice = buyItNowPrice;
         ReservePrice = reservePrice;

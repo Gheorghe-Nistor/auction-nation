@@ -15,11 +15,14 @@ public class BidVM
 
     public DateTime CreatedUtc { get; set; }
 
-    public BidVM(string createdBy, decimal amount, DateTime createdUtc)
+    public int CurrencyId { get; set; }
+
+    public BidVM(string createdBy, decimal amount, DateTime createdUtc, int currency)
     {
         CreatedBy = createdBy;
         Amount = amount;
         CreatedUtc = createdUtc;
+        CurrencyId = currency;
     }
    
 

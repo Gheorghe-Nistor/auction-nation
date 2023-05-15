@@ -1,7 +1,10 @@
 ﻿using Blazored.Toast.Services;
 using Cegeka.Auction.Domain.Enums;
+using Cegeka.Auction.WebUI.Shared.AccessControl;
+using Cegeka.Auction.WebUI.Shared.Auction;
 using Cegeka.Auction.WebUI.Shared.Listings;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
@@ -23,6 +26,7 @@ public partial class Index
     public Category[] Categories = (Category[]) Enum.GetValues(typeof(Category));
 
     public PublicStatus[] Statuses = (PublicStatus[])Enum.GetValues(typeof(PublicStatus));
+
 
     protected override async Task OnInitializedAsync()
     {
