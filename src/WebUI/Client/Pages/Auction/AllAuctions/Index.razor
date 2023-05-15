@@ -115,21 +115,20 @@
                         <span class="fas fa-coins" aria-hidden="true"></span>
                         Currency: @Enum.GetName(typeof(Currencies), item.CurrencyId)
                     </p>
-                    @if(item.PublicStatus == Domain.Enums.PublicStatus.Closed){
+                    @if (item.PublicStatus == Domain.Enums.PublicStatus.Closed)
+                    {
                         <p class="card-text">
                             <span class="oi oi-chevron-right" aria-hidden="true"></span>
                             Purchase Method:
                             @if (item.CurrentBidAmount == 0)
                             {
-                                @("Buy it now")
-                                ;
+                                <span class="badge bg-primary">Buy it now</span>
                             }
-                            @if (item.CurrentBidAmount != 0)
+                            else
                             {
-                                @("Bid")
-                                ;
+                                <span class="badge bg-info">Bid</span>
                             }
-                        </p>
+                        </p>   
                     }
                     <div class="flex-grow-1 d-flex flex-column justify-content-end">
                         <div>

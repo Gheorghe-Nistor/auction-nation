@@ -151,6 +151,24 @@ else
                             @(Model.Auction.WinningBidder == null ? "N/A" : @WinningBidderUsername)
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <span class="oi oi-chevron-right" aria-hidden="true"></span>
+                            <strong>Purchase Method</strong>
+                        </td>
+                        <td>
+                            @if (Model.Auction.CurrentBidAmount == 0)
+                            {
+                                @("Buy it now")
+                                ;
+                            }
+                            else
+                            {
+                                @("Bid")
+                                ;
+                            }
+                        </td>
+                    </tr>
                 }
                 <tr>
                     <td>
@@ -179,7 +197,7 @@ else
                         </td>
                         <td>
                             <button class="btn btn-success shadow-sm" disabled="@(Model.Auction.BiddingHistory == null || Model.Auction.BiddingHistory.Count() == 0 ? true: false)" @onclick="ValidateAuction">
-                                Accept Last Bid
+                                Accept last bid
                             </button>
                         </td>
                     </tr>
@@ -187,15 +205,13 @@ else
             </tbody>
         </table>
 
-
-        <h3>Time Left</h3>
-		@if (TimeLeft.Days == 0 && TimeLeft.Hours == 0 && TimeLeft.Minutes == 0 && TimeLeft.Seconds == 0)
+        <br />
+       
+		@if (!(TimeLeft.Days == 0 && TimeLeft.Hours == 0 && TimeLeft.Minutes == 0 && TimeLeft.Seconds == 0) && Model.Auction.Status != 7)
 		{
-			<p style="color: red">Auction is closed!</p>
-		}
-		else
-		{
+            <h3>Time Left</h3>
 			<p>@TimeLeft.Days days, @TimeLeft.Hours hours, @TimeLeft.Minutes minutes, @TimeLeft.Seconds seconds</p>
+            <br />
 		}
 
         @if (CurrentUserId != Model.Auction.CreatedBy && Model.Auction.Status != 7)
@@ -221,20 +237,7 @@ else
             <br />
         }
 
-<style>
-.visible-arrows-carousel .carousel-control-prev,
-.custom-carousel .carousel-control-next {
-    color: black;
-    font-size: 24px;
-    opacity: 1;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: transparent;
-    filter: invert(100%);
-}
-</style>
+        <h3>Bidding History</h3>
 
         @if (BiddingHistory.Count() > 0)
         {
@@ -281,3 +284,17 @@ else
 <BidDialog Title="Bid" Content="Place a higher bid than the current highest to increase your chances of winning! "
            @ref="_bidDialog" PlaceBidEventCallback="@DialogAddForPlaceBid"></BidDialog>
 
+<style>
+    .visible-arrows-carousel .carousel-control-prev,
+    .custom-carousel .carousel-control-next {
+        color: black;
+        font-size: 24px;
+        opacity: 1;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: transparent;
+        filter: invert(100%);
+    }
+</style>

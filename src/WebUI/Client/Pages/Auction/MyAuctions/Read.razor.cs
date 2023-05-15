@@ -161,6 +161,15 @@ namespace Cegeka.Auction.WebUI.Client.Pages.Auction.MyAuctions
 
         public async Task ValidateAuction()
         {
+            var maxBidAmount = Model.Auction.BiddingHistory.Last().Amount;
+
+            if (maxBidAmount != null && Model.Auction.ReservePrice != null && maxBidAmount <= Model.Auction.ReservePrice)
+            {
+                ToastService.ShowError("Unable to accept last bid offer. Amount below reserve price.");
+
+                return;
+            }
+
             ToastService.ShowSuccess("Last bid accepted!");
 
             await AuctionsClient.ValidateAuctionItemAsync(CurrentUserId, Model.Auction.Id);

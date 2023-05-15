@@ -15,6 +15,7 @@
     <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
     </div>
+    <br />
 }
 else if (CreatedAuctions != null && CreatedAuctions.Auctions.Count > 0)
 {
@@ -187,7 +188,6 @@ else
 <br />
 
 <h3>Auctions you won</h3>
-<br />
 
 @if (WonAuctions == null)
 {
@@ -197,6 +197,7 @@ else
 }
 else if (WonAuctions != null && WonAuctions.Auctions.Count > 0)
 {
+    <br />
     <div class="row row-cols-md-4 g-2">
         @foreach (var item in WonAuctions.Auctions)
         {
@@ -261,9 +262,9 @@ else if (WonAuctions != null && WonAuctions.Auctions.Count > 0)
         }
     </div>
 }
-
 else
 {
+    <br />
     <h5 class="text-center">You haven't won any auction items yet. Keep browsing our <a href="/listings">auctions</a> to find something you like!</h5>
 }
 
