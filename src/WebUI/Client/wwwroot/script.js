@@ -76,6 +76,7 @@ function initialize() {
 function addMarker(object) {
     const obj = JSON.parse(object);
     const myLatlng = new google.maps.LatLng(obj.Lat, obj.Lon);
+    
 
     var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
     var icon = 'cegeka-academy-map-marker.png';
@@ -86,6 +87,7 @@ function addMarker(object) {
         title: object.titleMarker,
         icon: icon
     });
+    console.log(marker);
     markers.push(marker)
     const contentString =
         '<div id="content">' +

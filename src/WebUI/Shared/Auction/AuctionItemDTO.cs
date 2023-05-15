@@ -55,7 +55,9 @@ public class AuctionItemDTO
 
     public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
 
+    [Range(-85,85, ErrorMessage = "Latitude can be: -85 to +85")]
     public float Lat { get; set; }
+    [Range(-180, 180, ErrorMessage = "Longitude can be: -180 to +180")]
     public float Lon { get; set; }
 
     public AuctionItemDTO()

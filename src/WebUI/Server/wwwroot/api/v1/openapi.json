@@ -932,11 +932,15 @@
           },
           "lat": {
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "maximum": 85.0,
+            "minimum": -85.0
           },
           "lon": {
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "maximum": 180.0,
+            "minimum": -180.0
           }
         }
       },

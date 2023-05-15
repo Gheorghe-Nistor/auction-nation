@@ -67,6 +67,7 @@
     }
     public void AddMarkers()
     {
+        
         if (Model != null)
         {
             foreach (var auction in Model.Auctions)
@@ -75,6 +76,7 @@
                 if (auction != null && auction?.Lat != null && auction?.Lon != null)
                 {
                     Add(auction);
+                    
                 }
             }
         }
