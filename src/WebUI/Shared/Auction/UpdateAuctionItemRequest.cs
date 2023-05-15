@@ -15,7 +15,7 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public float Lat { get; set; } = 0;
         public float Lon { get; set; } = 0;
 
-        public List<string> Images { get; set; } = new List<string>();
+        public List<string> Images { get; set; }
 
         public Category Category { get; set; }
 
