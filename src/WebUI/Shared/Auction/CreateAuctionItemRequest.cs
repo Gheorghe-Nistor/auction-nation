@@ -13,6 +13,8 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Category Category { get; set; }
+        public float Lat { get; set; } = 0;
+        public float Lon { get; set; } = 0;
 
         public decimal StartingBidAmount { get; set; } = 0;
 
@@ -41,6 +43,9 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
             ReservePrice = newAuctionItem.ReservePrice;
             DeliveryMethod = newAuctionItem.DeliveryMethod;
             Status = newAuctionItem.Status;
+            Lat = newAuctionItem.Lat;
+            Lon = newAuctionItem.Lon;
+
         }
     }
 
