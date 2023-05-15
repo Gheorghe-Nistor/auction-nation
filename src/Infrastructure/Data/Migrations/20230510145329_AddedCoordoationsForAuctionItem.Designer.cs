@@ -4,6 +4,7 @@ using Cegeka.Auction.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cegeka.Auction.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230510145329_AddedCoordoationsForAuctionItem")]
+    partial class AddedCoordoationsForAuctionItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -43,9 +46,6 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("CurrentBidAmount")
                         .HasColumnType("decimal(10,2)");
 
@@ -70,12 +70,6 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<DateTime>("LastModifiedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("Lat")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Lon")
-                        .HasColumnType("real");
-
                     b.Property<Guid>("PublicId")
                         .HasColumnType("uniqueidentifier");
 
@@ -96,8 +90,11 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("WinningBidder")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("lat")
+                        .HasColumnType("real");
+
+                    b.Property<float>("lon")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -115,8 +112,11 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("AuctionItemId")
+                    b.Property<int?>("AuctionItemId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -124,7 +124,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CurrencyId")
+                    b.Property<int>("ItemId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastModifiedBy")
@@ -132,6 +132,12 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("LastModifiedUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PublicId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -265,21 +271,12 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CurrencyId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DisplaySettingId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("LanguageId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -306,9 +303,6 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TimeZoneId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -585,9 +579,7 @@ namespace Cegeka.Auction.Infrastructure.Data.Migrations
                 {
                     b.HasOne("Cegeka.Auction.Domain.Entities.AuctionItem", null)
                         .WithMany("BiddingHistory")
-                        .HasForeignKey("AuctionItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuctionItemId");
                 });
 
             modelBuilder.Entity("Cegeka.Auction.Domain.Entities.TodoItem", b =>

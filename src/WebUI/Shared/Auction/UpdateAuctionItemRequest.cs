@@ -12,7 +12,10 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
 
         public string Description { get; set; } = string.Empty;
 
-        public List<string> Images { get; set; } 
+        public float Lat { get; set; } = 0;
+        public float Lon { get; set; } = 0;
+
+        public List<string> Images { get; set; }
 
         public Category Category { get; set; }
 
@@ -52,6 +55,8 @@ namespace Cegeka.Auction.WebUI.Shared.Auction
             ReservePrice = updatedAuctionItem.ReservePrice;
             DeliveryMethod = updatedAuctionItem.DeliveryMethod;
             Status = updatedAuctionItem.Status;
+            Lat = updatedAuctionItem.Lat;
+            Lon = updatedAuctionItem.Lon;
             BiddingHistory = updatedAuctionItem.BiddingHistory;
         }
     }

@@ -63,13 +63,22 @@ public class AuctionItemDTO
 
     public List<BidDTO> BiddingHistory { get; set; } = new List<BidDTO>();
 
+    [Range(-85,85, ErrorMessage = "Latitude can be: -85 to +85")]
+    public float Lat { get; set; }
+    [Range(-180, 180, ErrorMessage = "Longitude can be: -180 to +180")]
+    public float Lon { get; set; }
+
     public string? WinningBidder { get; set; }
 
     public AuctionItemDTO()
     {
     }
 
-    public AuctionItemDTO(int id, Guid publicId, int Currency,  string title = "", string description ="", List<string> images = null, Category category = Category.None, decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, List<BidDTO> biddingHistory = null, Status status = default, string? winningBidder = "")
+   
+    public AuctionItemDTO(int id, Guid publicId, int Currency,  string title = "", string description ="", List<string> images = null, 
+        Category category = Category.None, decimal startingBidAmount = 0, decimal currentBidAmount = 0, decimal buyItNowPrice = 0, 
+        decimal reservePrice = 0, DateTime? startDate = null, DateTime? endDate = null, DeliveryMethod deliveryMethod = default, 
+        List<BidDTO> biddingHistory = null, Status status = default, float lat=0, float lon=0, string? winningBidder = "")
     {
         Id = id;
         PublicId = publicId;
@@ -87,6 +96,8 @@ public class AuctionItemDTO
         DeliveryMethod = deliveryMethod;
         BiddingHistory = biddingHistory ?? new List<BidDTO>();
         Status = (int) status;
+        Lat = lat;
+        Lon = lon;
         WinningBidder = winningBidder;
     }
 }

@@ -47,6 +47,8 @@ namespace Cegeka.Auction.Application.AuctionItems.Commands
             entity.Status = (Status)request.Item.Status;
             entity.StartDate = request.Item.StartDate;
             entity.EndDate = request.Item.EndDate;
+            entity.Lat = request.Item.Lat;
+            entity.Lon = request.Item.Lon;
 
             await _context.SaveChangesAsync(cancellationToken);
         }

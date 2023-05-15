@@ -1236,6 +1236,18 @@
               "$ref": "#/components/schemas/BidDTO"
             }
           },
+          "lat": {
+            "type": "number",
+            "format": "float",
+            "maximum": 85.0,
+            "minimum": -85.0
+          },
+          "lon": {
+            "type": "number",
+            "format": "float",
+            "maximum": 180.0,
+            "minimum": -180.0
+          },
           "winningBidder": {
             "type": "string",
             "nullable": true

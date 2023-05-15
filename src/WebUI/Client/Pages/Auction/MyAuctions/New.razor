@@ -33,6 +33,22 @@
 				<ValidationMessage class="validation-error" For="@(() => Model.Auction.Description)" />
 			</div>
 		</div>
+        <!-- Locations-->
+        <div class="row">
+            <div class="form-group">
+                <label for="description" class="col-sm-3">Coord lat</label>
+                <InputNumber id="description" class="form-control col-sm-8" rows="5" @bind-Value="@Model.Auction.Lat" />
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.Lat)" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="description" class="col-sm-3">Coord lon</label>
+                <InputNumber id="description" class="form-control col-sm-8" rows="5" @bind-Value="@Model.Auction.Lon" />
+                <ValidationMessage class="validation-error" For="@(() => Model.Auction.Lon)" />
+            </div>
+        </div>
 
 		<!-- Opening and closing date -->
 		<div class="row">
