@@ -1,0 +1,11 @@
+﻿header {
+    text-align: center;
+    margin: 20px;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+}

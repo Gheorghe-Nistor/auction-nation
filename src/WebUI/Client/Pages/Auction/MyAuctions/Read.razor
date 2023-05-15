@@ -12,12 +12,33 @@
 }
 
 <h1 class="mb-4">@Model.Auction.Title</h1>
+@if (Model.Auction.Images.Count == 1)
+{
+    <img src="@Model.Auction.Images[0]" style="height: 600px; width: 800px; object-fit: contain" />
+}
+else
+{
+<Carousel @bind-SelectedSlide="@selectedSlide" Class="visible-arrows-carousel">
+    @for (int i = 0; i < Model.Auction.Images.Count; i++)
+    {
+        if (i < Model.Auction.Images.Count)
+        {
+            var image = Model.Auction.Images[i];
+            if (image != null)
+            {
+                <CarouselSlide Name=@($"{i + 1}")>
+                        <img src="@image" style="height: 600px; width: 800px; object-fit: contain; display: block; margin: 0 auto;" />
+                </CarouselSlide>
+            }
+        }
+    }
+</Carousel>
+}
 
 <div class="row" style="margin-left: -10px;">
     <div class="col-md-8" style="margin-left: 10px;">
-        <div class="col-md-4 mb-4">
-            <img src="@Model.Auction.Images.FirstOrDefault()" class="img-fluid" alt="Auction Item Image" />
-        </div>
+       
+        
 
         <h3>Description</h3>
         @if (Model.Auction.Description.Split(" ").Length <= 170)
@@ -67,23 +88,23 @@
                 </tr>
                 <tr>
                     <td><strong>Start Date:</strong></td>
-                    <td>@Model.Auction.StartDate.ToShortDateString()</td>
+					<td>@Model.Auction.StartDate.ToString("dd/MM/yyyy HH:mm")</td>
                 </tr>
                 <tr>
                     <td><strong>End Date:</strong></td>
-                    <td>@Model.Auction.EndDate.ToShortDateString()</td>
+					<td>@Model.Auction.EndDate.ToString("dd/MM/yyyy HH:mm")</td>
                 </tr>
                 <tr>
                     <td><strong>Delivery Method:</strong></td>
-                    <td>@Model.Auction.DeliveryMethod</td>
+					<td>@Regex.Replace(Model.Auction.DeliveryMethod.ToString(), "(\\B[A-Z])", " $1")</td>
                 </tr>
             </tbody>
         </table>
 
         <h3>Time Left</h3>
-		@if (TimeLeft.Days < 0 || TimeLeft.Hours < 0 || TimeLeft.Minutes < 0 || TimeLeft.Seconds < 0)
+		@if (TimeLeft.Days == 0 && TimeLeft.Hours == 0 && TimeLeft.Minutes == 0 && TimeLeft.Seconds == 0)
 		{
-			<p>Auction is closed!</p>
+			<p style="color: red">Auction is closed!</p>
 		}
 		else
 		{
@@ -104,7 +125,20 @@
 	<a href="/auctions">Take me back</a>
 </div>
 
+<style>
+.visible-arrows-carousel .carousel-control-prev,
+.custom-carousel .carousel-control-next {
+    color: black;
+    font-size: 24px;
+    opacity: 1;
+}
 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: transparent;
+    filter: invert(100%);
+}
+</style>
 
 
 

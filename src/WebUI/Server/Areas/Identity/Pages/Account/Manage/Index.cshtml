@@ -1,0 +1,56 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Username" class="form-control" placeholder="Please choose your username." />
+                <label asp-for="Input.Username" class="form-label"></label>
+            </div>
+            <div class= "form-floating mb-3">
+                <select asp-for="Input.LanguageId" class="form-control" asp-items="@(new SelectList(IndexModel.InputModel.Languages, "Value", "Text"))">
+                    <option value="">Please select your preferred language</option>
+                </select>
+                <label asp-for="Input.LanguageId" class="form-label"></label>
+                <span asp-validation-for="Input.LanguageId" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.TimeZoneId" class="form-control" asp-items="@(new SelectList(IndexModel.InputModel.TimeZones, "Value", "Text"))">
+                    <option value="">Please select your preferred timezone</option>
+                </select>
+                <label asp-for="Input.TimeZoneId" class="form-label"></label>
+                <span asp-validation-for="Input.TimeZoneId" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.CurrencyId" class="form-control" asp-items="@(new SelectList(IndexModel.InputModel.Currencies, "Value", "Text"))">
+                    <option value="">Please select your preferred currency</option>
+                </select>
+                <label asp-for="Input.CurrencyId" class="form-label"></label>
+                <span asp-validation-for="Input.CurrencyId" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="Input.DisplaySettingId" class="form-control" asp-items="@(new SelectList(IndexModel.InputModel.DisplaySettings, "Value", "Text"))">
+                    <option value="">Please select your preferred display setting</option>
+                </select>
+                <label asp-for="Input.DisplaySettingId" class="form-label"></label>
+                <span asp-validation-for="Input.DisplaySettingId" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            <br/>
+        </form>
+        <br />
+    </div>
+    <br />
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

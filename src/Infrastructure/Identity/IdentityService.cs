@@ -5,6 +5,14 @@ using Cegeka.Auction.Application.Common.Services.Identity;
 using Cegeka.Auction.WebUI.Shared.AccessControl;
 using Cegeka.Auction.WebUI.Shared.Authorization;
 using Cegeka.Auction.WebUI.Shared.Common;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using Azure;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+using static System.Collections.Specialized.BitVector32;
+using System.Data;
+using System;
 
 namespace Cegeka.Auction.Infrastructure.Identity;
 
@@ -129,6 +137,10 @@ public class IdentityService : IIdentityService
 
         user.UserName = updatedUser.UserName;
         user.Email = updatedUser.Email;
+        user.LanguageId = updatedUser.LanguageId;
+        user.CurrencyId = updatedUser.CurrencyId;
+        user.TimeZoneId = updatedUser.TimeZoneId;
+        user.DisplaySettingId = updatedUser.DisplaySettingId;
 
         await _userManager.UpdateAsync(user);
 

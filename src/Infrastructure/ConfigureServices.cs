@@ -6,6 +6,9 @@ using Cegeka.Auction.Infrastructure.Data;
 using Cegeka.Auction.Infrastructure.Data.Interceptors;
 using Cegeka.Auction.Infrastructure.Identity;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Cegeka.Auction.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +28,7 @@ public static class ConfigureServices
 
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
 
-        services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+        services.AddDefaultIdentity<ApplicationUser>(options => { options.SignIn.RequireConfirmedAccount = false; options.User.RequireUniqueEmail = true; })
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
@@ -39,9 +42,12 @@ public static class ConfigureServices
                 options.ApiResources.Single().UserClaims.Add("permissions");
             });
 
+
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
         services.AddScoped<IIdentityService, IdentityService>();
+
+        services.AddSingleton<SendGridMailServices>();
 
         return services;
     }
